@@ -7,7 +7,7 @@ import {findNearestNote} from './utils';
 
 export default function App() {
   const [data, setData] = React.useState({tone: '--', frequency: 0});
-  const [chartData, setChartData] = React.useState([]);
+  const [chartData, setChartData] = React.useState([{}]);
   const [isRecording, setIsRecording] = React.useState(false);
   const [counter, setCounter] = React.useState(0);
   const [metaData, setMetaData] = React.useState({});
@@ -39,9 +39,15 @@ export default function App() {
       if (chartData.length > 50) {
         newData = [...chartData];
         newData.shift();
-        nextData = [...newData, {x: data.tone, y: data.frequency.toFixed(3)}];
+        nextData = [
+          ...newData,
+          {time: counter, frequency: data.frequency.toFixed(3)},
+        ];
       } else {
-        nextData = [...chartData, {x: data.tone, y: data.frequency.toFixed(3)}];
+        nextData = [
+          ...chartData,
+          {time: counter, frequency: data.frequency.toFixed(3)},
+        ];
       }
 
       setChartData(nextData);
@@ -62,6 +68,7 @@ export default function App() {
       <Text>{`Closest: ${metaData.nearestNote}`}</Text>
       <Text>{`Accuracy: ${metaData.accuracyPercentage}`}</Text>
       <Text>{`Cents: ${metaData.cents}`}</Text>
+      <VocalPitchChart data={chartData} />
     </View>
   );
 }
