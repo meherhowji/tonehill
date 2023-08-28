@@ -1,4 +1,4 @@
-import {frequencyToNote, notes} from './frequencyToNote';
+import {frequencyToNote, notes, noteToFrequency} from './frequencyToNote';
 
 const findNearestNote = frequency => {
   let nearestNote = null;
@@ -25,6 +25,11 @@ const findNearestNote = frequency => {
 };
 
 function getNotesInKey(musicalKey, scaleIntervals) {
+  // Example usage
+  // const musicalKey = 'D'; // Change this to the desired key
+  // const majorScaleIntervals = [2, 2, 1, 2, 2, 2, 1]; // Major scale intervals
+  // const notesInKey = getNotesInKey(musicalKey, majorScaleIntervals);
+  // console.log(notesInKey);
   const selectedKey = musicalKey.toUpperCase();
 
   if (notes.includes(selectedKey)) {
@@ -48,10 +53,24 @@ function getNotesInKey(musicalKey, scaleIntervals) {
   return notes;
 }
 
-// Example usage
-// const musicalKey = 'D'; // Change this to the desired key
-// const majorScaleIntervals = [2, 2, 1, 2, 2, 2, 1]; // Major scale intervals
-// const notesInKey = getNotesInKey(musicalKey, majorScaleIntervals);
-// console.log(notesInKey);
+function getFrequenciesBetween(noteStart, noteEnd) {
+  const frequencies = [];
 
-export {findNearestNote};
+  // Find the indices of the start and end notes
+  const startIndex = Object.keys(noteToFrequency).indexOf(noteStart);
+  const endIndex = Object.keys(noteToFrequency).indexOf(noteEnd);
+
+  if (startIndex === -1 || endIndex === -1) {
+    throw new Error('Invalid note names provided.');
+  }
+
+  // Extract frequencies between the start and end indices
+  for (let i = startIndex; i <= endIndex; i++) {
+    const note = Object.keys(noteToFrequency)[i];
+    frequencies.push(noteToFrequency[note]);
+  }
+
+  return frequencies;
+}
+
+export {findNearestNote, getNotesInKey, getFrequenciesBetween};
