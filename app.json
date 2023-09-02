@@ -1,4 +1,9 @@
 {
   "name": "tonehill",
-  "displayName": "tonehill"
+  "displayName": "tonehill",
+  "extra": {
+    "eas": {
+      "projectId": "57383470-0214-4669-a2da-196a4f4576b8"
+    }
+  }
 }

@@ -35,7 +35,7 @@ type DynamicObject = {
   };
 };
 
-const CENT_THRESHOLD = 5;
+const CENT_THRESHOLD = 2;
 
 export default function App() {
   const [data, setData] = React.useState({tone: '♭♯', frequency: 0});
@@ -172,7 +172,7 @@ export default function App() {
         perfect: newnote < ct && newnote > ct * -1 ? [newnote] : [],
       };
     }
-    console.log(obj?.C3?.stats, ' <<<<<<<< ');
+    console.log(obj?.C4?.stats, ' <<<<<<<< ');
   }, [metaData]);
 
   function calculateAverage(arr: number[]): number {
