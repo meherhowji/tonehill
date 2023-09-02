@@ -9,7 +9,7 @@ const findNearestNote = frequency => {
   let nearestNote = null;
   let minDifference = Infinity;
   let nearestFrequency = null;
-  const maxAccuracyCents = 50; // 50 cents corresponds to 0 percent accuracy
+  const centMax = 50; // 50 cents corresponds to 0 percent accuracy
 
   for (const [freq, note] of Object.entries(frequencyToNote)) {
     const difference = Math.abs(freq - frequency);
@@ -20,11 +20,20 @@ const findNearestNote = frequency => {
     }
   }
 
-  const cents = (1200 * Math.log2(frequency / nearestFrequency)).toFixed(0);
-  const accuracy =
-    ((1 - Math.abs(cents) / maxAccuracyCents) * 100).toFixed(0) + '%';
+  if (frequency > 0) {
+    const cents = parseInt(
+      (1200 * Math.log2(frequency / nearestFrequency)).toFixed(0),
+      10,
+    );
+    const accuracy = parseInt(
+      ((1 - Math.abs(cents) / centMax) * 100).toFixed(0),
+      10,
+    );
 
-  return {note: nearestNote, accuracy, cents};
+    return {note: nearestNote, accuracy, cents};
+  } else {
+    return {note: null, accuracy: null, cents: null};
+  }
 };
 
 function getNotesInKey(musicalKey, scaleIntervals) {
@@ -32,7 +41,6 @@ function getNotesInKey(musicalKey, scaleIntervals) {
   // const musicalKey = 'D'; // Change this to the desired key
   // const majorScaleIntervals = [2, 2, 1, 2, 2, 2, 1]; // Major scale intervals
   // const notesInKey = getNotesInKey(musicalKey, majorScaleIntervals);
-  // console.log(notesInKey);
   const selectedKey = musicalKey.toUpperCase();
 
   if (notes.includes(selectedKey)) {
@@ -119,14 +127,14 @@ function getNoteId(startNote, endNote) {
 function mapNoteToValue({note, cents}, fixedNote) {
   // Split the input note into its note name and octave
   const [, noteName, octave] = note.match(/([A-Ga-g#b]+)([0-9]+)/) || [];
+  // Calculate the value of the fixedNote
+  const [, fixedNoteName, fixedOctave] =
+    fixedNote.match(/([A-Ga-g#b]+)([0-9]+)/) || [];
 
   if (!noteName || !octave) {
     throw new Error('Invalid note format');
   }
 
-  // Calculate the value of the fixedNote
-  const [, fixedNoteName, fixedOctave] =
-    fixedNote.match(/([A-Ga-g#b]+)([0-9]+)/) || [];
   if (!fixedNoteName || !fixedOctave) {
     throw new Error('Invalid fixedNote format');
   }
@@ -139,7 +147,8 @@ function mapNoteToValue({note, cents}, fixedNote) {
     notes.indexOf(noteName) + parseInt(octave, 10) * notes.length;
 
   // Calculate the relative value from the fixedNote, considering cents
-  const relativeValue = noteValue - fixedNoteValue + cents / 100;
+  const relativeValue =
+    noteValue > 0 ? noteValue - fixedNoteValue + cents / 100 : 0;
 
   return relativeValue;
 }
