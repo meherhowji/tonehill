@@ -1,11 +1,13 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {useRef, useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {PitchDetector} from 'react-native-pitch-detector';
-import LineChart from './chart';
-import {findNearestNote, mapNoteToValue, calculateAverage} from './utils';
-import {MetaObject, DynamicObject, DataArray, PitchDataObject} from './types';
-import {DEFAULT_DATA, DEFAULT_META, DEFAULT_CHART_DATA, CENT_THRESHOLD} from './constants';
+import LineChart from './chart/wave';
+import {findNearestNote, mapNoteToValue, calculateAverage} from './utils/utils';
+import {MetaObject, DynamicObject, DataArray, PitchDataObject} from './types/types';
+import {DEFAULT_DATA, DEFAULT_META, DEFAULT_CHART_DATA, CENT_THRESHOLD} from './utils/constants';
+import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
+import LinearGradient from 'react-native-linear-gradient';
+
 import {styles} from './styles';
 
 export default function App() {
@@ -33,9 +35,9 @@ export default function App() {
       let newData, nextData;
       let meta = findNearestNote(data.frequency);
       if (meta.note !== null) {
-        let _data = mapNoteToValue(meta, 'C2');
+        let _data = mapNoteToValue(meta, 'C2', true);
 
-        if (chartData.length > 50) {
+        if (chartData.length > 25) {
           newData = [...chartData];
           newData.shift();
           nextData = [...newData, {time: counter.current, hz: _data}];
@@ -116,19 +118,26 @@ export default function App() {
         perfect: newnote < ct && newnote > ct * -1 ? [newnote] : [],
       };
     }
-    console.log(obj?.C4?.stats, ' <<<<<<<< ');
   }, [metaData]);
 
   return (
-    <View style={styles.container}>
-      <LineChart data={chartData} />
-      <Text style={styles.tone}>{data?.tone}</Text>
-      <Text style={styles.meta}>{`Note: ${metaData.note} | Cents: ${metaData.cents}`}</Text>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={reset}>
-          <Text style={styles.label}>Start Over</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.safeContainer}>
+        <View style={styles.container}>
+          <LinearGradient colors={['rgb(32,38,45)', 'rgb(41,48,58)', 'rgb(32,38,45)']} style={styles.gradient}>
+            <View style={styles.toneContainer}>
+              <Text style={styles.tone}>{data?.tone}</Text>
+            </View>
+            <LineChart data={chartData} />
+            <Text style={styles.meta}>{`Note: ${metaData.note} | Cents: ${metaData.cents}`}</Text>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.button} onPress={reset}>
+                <Text style={styles.label}>Start Over</Text>
+              </TouchableOpacity>
+            </View>
+          </LinearGradient>
+        </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }

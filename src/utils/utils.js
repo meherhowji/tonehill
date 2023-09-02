@@ -1,4 +1,5 @@
 import {frequencyToNote, notes} from './frequencyToNote';
+import {CENT_THRESHOLD} from './constants';
 
 // used in app.tsx
 const findNearestNote = frequency => {
@@ -26,16 +27,10 @@ const findNearestNote = frequency => {
   // Check if the input frequency is positive
   if (frequency > 0) {
     // Calculate the deviation in cents from the nearest note
-    const cents = parseInt(
-      (1200 * Math.log2(frequency / nearestFrequency)).toFixed(0),
-      10,
-    );
+    const cents = parseInt((1200 * Math.log2(frequency / nearestFrequency)).toFixed(0), 10);
 
     // Calculate the accuracy as a percentage based on the deviation in cents
-    const accuracy = parseInt(
-      ((1 - Math.abs(cents) / centMax) * 100).toFixed(0),
-      10,
-    );
+    const accuracy = parseInt(((1 - Math.abs(cents) / centMax) * 100).toFixed(0), 10);
 
     // Return an object with the nearest note, accuracy, and cents
     return {note: nearestNote, accuracy, cents};
@@ -76,12 +71,15 @@ function getNotes(startNote, endNote) {
 }
 
 // used in app.tsx
-function mapNoteToValue({note, cents}, fixedNote) {
+function mapNoteToValue({note, cents}, fixedNote, resetToZero) {
+  if (resetToZero) {
+    let adjustedCents = cents >= CENT_THRESHOLD * -1 && cents <= CENT_THRESHOLD ? 0 : cents;
+    return adjustedCents;
+  }
   // Split the input note into its note name and octave
   const [, noteName, octave] = note.match(/([A-Ga-g#b]+)([0-9]+)/) || [];
   // Calculate the value of the fixedNote
-  const [, fixedNoteName, fixedOctave] =
-    fixedNote.match(/([A-Ga-g#b]+)([0-9]+)/) || [];
+  const [, fixedNoteName, fixedOctave] = fixedNote.match(/([A-Ga-g#b]+)([0-9]+)/) || [];
 
   if (!noteName || !octave) {
     throw new Error('Invalid note format');
@@ -91,16 +89,13 @@ function mapNoteToValue({note, cents}, fixedNote) {
     throw new Error('Invalid fixedNote format');
   }
 
-  const fixedNoteValue =
-    notes.indexOf(fixedNoteName) + parseInt(fixedOctave, 10) * notes.length;
+  const fixedNoteValue = notes.indexOf(fixedNoteName) + parseInt(fixedOctave, 10) * notes.length;
 
   // Calculate the value of the input note
-  const noteValue =
-    notes.indexOf(noteName) + parseInt(octave, 10) * notes.length;
+  const noteValue = notes.indexOf(noteName) + parseInt(octave, 10) * notes.length;
 
   // Calculate the relative value from the fixedNote, considering cents
-  const relativeValue =
-    noteValue > 0 ? noteValue - fixedNoteValue + cents / 100 : 0;
+  const relativeValue = noteValue > 0 ? noteValue - fixedNoteValue + cents / 100 : 0;
 
   return relativeValue;
 }

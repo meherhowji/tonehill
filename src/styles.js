@@ -1,12 +1,35 @@
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
+  safeContainer: {
+    flex: 1,
+    backgroundColor: 'rgb(32,38,45)',
+  },
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'blue',
+  },
+  gradient: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  toneContainer: {
+    width: '100%',
+    marginTop: 60,
+    marginBottom: 30,
+  },
   tone: {
-    marginBottom: 10,
+    color: '#fff',
     fontSize: 150,
     fontWeight: 'bold',
-    opacity: 0.6,
     fontFamily: 'Righteous',
+    textAlign: 'center',
+    // backgroundColor: 'red',
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -26,11 +49,6 @@ export const styles = StyleSheet.create({
   },
   frequency: {
     fontSize: 20,
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   meta: {
     marginTop: 5,

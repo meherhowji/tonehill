@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Dimensions} from 'react-native';
 import {VictoryChart, VictoryLine, VictoryAxis} from 'victory-native';
-import {getNotes} from './utils';
+import {getNotes} from '../utils/utils';
 
 const FrequencyTimeChart = ({data}) => {
   const range = getNotes('C2', 'C4');
