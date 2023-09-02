@@ -1,19 +1,19 @@
 /* eslint-disable react-native/no-inline-styles */
-import * as React from 'react';
+import {useRef, useState, useEffect, useMemo} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import {PitchDetector} from 'react-native-pitch-detector';
 import LineChart from './chart';
 import {findNearestNote, mapNoteToValue, calculateAverage} from './utils';
-import {MetaShape, DynamicObject, DataArray, PitchDataObject} from './types';
+import {MetaObject, DynamicObject, DataArray, PitchDataObject} from './types';
 import {DEFAULT_DATA, DEFAULT_META, DEFAULT_CHART_DATA, CENT_THRESHOLD} from './constants';
 
 export default function App() {
-  const counter = React.useRef<number>(0);
-  const avg = React.useRef<DynamicObject>({});
-  const [data, setData] = React.useState<PitchDataObject>(DEFAULT_DATA);
-  const [chartData, setChartData] = React.useState<DataArray>(DEFAULT_CHART_DATA);
-  const [isRecording, setIsRecording] = React.useState<boolean>(false);
-  const [metaData, setMetaData] = React.useState<MetaShape>(DEFAULT_META);
+  const counter = useRef<number>(0);
+  const avg = useRef<DynamicObject>({});
+  const [data, setData] = useState<PitchDataObject>(DEFAULT_DATA);
+  const [chartData, setChartData] = useState<DataArray>(DEFAULT_CHART_DATA);
+  const [isRecording, setIsRecording] = useState<boolean>(false);
+  const [metaData, setMetaData] = useState<MetaObject>(DEFAULT_META);
 
   const start = async () => {
     await PitchDetector.start();
@@ -32,14 +32,14 @@ export default function App() {
     avg.current = {};
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     PitchDetector.addListener(setData);
     return () => {
       PitchDetector.removeListener();
     };
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (typeof data.frequency === 'number') {
       let newData, nextData;
       let meta = findNearestNote(data.frequency);
@@ -61,7 +61,7 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const note = metaData.note;
     const newnote = metaData.cents;
     const obj = avg.current;

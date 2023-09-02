@@ -3,7 +3,7 @@ interface DataPoint {
   hz: number;
 }
 
-export interface MetaShape {
+export interface MetaObject {
   note: string | null;
   cents: number | null;
   accuracy: number | null;
