@@ -2,38 +2,9 @@
 import * as React from 'react';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import {PitchDetector} from 'react-native-pitch-detector';
-// import VocalPitchChart from './VocalPitchChart';
 import LineChart from './chart';
-import {findNearestNote, mapNoteToValue} from './utils';
-
-interface DataPoint {
-  time: number;
-  hz: number;
-}
-
-type DataArray = DataPoint[];
-
-interface metaShape {
-  note: string | null;
-  cents: number | null;
-  accuracy: number | null;
-}
-
-type DynamicObject = {
-  [key: string]: {
-    flat: any[];
-    sharp: any[];
-    perfect: any[];
-    stats?: {
-      averageFlat: number;
-      averageSharp: number;
-      averagePerfect: number;
-      percentageFlat: number;
-      percentageSharp: number;
-      percentagePerfect: number;
-    };
-  };
-};
+import {findNearestNote, mapNoteToValue, calculateAverage} from './utils';
+import {MetaShape, DynamicObject, DataArray} from './types';
 
 const CENT_THRESHOLD = 2;
 
@@ -43,8 +14,8 @@ export default function App() {
     {time: 0, hz: 0},
   ]);
   const [isRecording, setIsRecording] = React.useState(false);
-  const [counter, setCounter] = React.useState(0);
-  const [metaData, setMetaData] = React.useState<metaShape>({
+  const counter = React.useRef(0);
+  const [metaData, setMetaData] = React.useState<MetaShape>({
     note: null,
     accuracy: null,
     cents: null,
@@ -85,12 +56,12 @@ export default function App() {
         if (chartData.length > 50) {
           newData = [...chartData];
           newData.shift();
-          nextData = [...newData, {time: counter, hz: _data}];
+          nextData = [...newData, {time: counter.current, hz: _data}];
         } else {
-          nextData = [...chartData, {time: counter, hz: _data}];
+          nextData = [...chartData, {time: counter.current, hz: _data}];
         }
         setChartData(nextData);
-        setCounter(counter + 1);
+        counter.current = counter.current + 1;
         setMetaData(meta);
       }
     }
@@ -174,14 +145,6 @@ export default function App() {
     }
     console.log(obj?.C4?.stats, ' <<<<<<<< ');
   }, [metaData]);
-
-  function calculateAverage(arr: number[]): number {
-    if (arr.length === 0) {
-      return 0; // Handle the case when there are no elements in the array.
-    }
-    const sum = arr.reduce((acc, num) => acc + num, 0);
-    return Math.round(sum / arr.length);
-  }
 
   return (
     <View style={styles.container}>

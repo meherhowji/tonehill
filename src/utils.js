@@ -105,4 +105,12 @@ function mapNoteToValue({note, cents}, fixedNote) {
   return relativeValue;
 }
 
-export {findNearestNote, getNotes, mapNoteToValue};
+function calculateAverage(arr) {
+  if (arr.length === 0) {
+    return 0; // Handle the case when there are no elements in the array.
+  }
+  const sum = arr.reduce((acc, num) => acc + num, 0);
+  return Math.round(sum / arr.length);
+}
+
+export {findNearestNote, getNotes, mapNoteToValue, calculateAverage};
