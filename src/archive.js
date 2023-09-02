@@ -45,3 +45,15 @@
 
 //   return frequencies;
 // }
+
+// const start = async () => {
+// await PitchDetector.start();
+// const status = await PitchDetector.isRecording();
+// setIsRecording(status);
+// };
+
+// const stop = async () => {
+// await PitchDetector.stop();
+// const status = await PitchDetector.isRecording();
+// setIsRecording(status);
+// };

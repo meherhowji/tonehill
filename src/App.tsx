@@ -13,20 +13,7 @@ export default function App() {
   const avg = useRef<DynamicObject>({});
   const [data, setData] = useState<PitchDataObject>(DEFAULT_DATA);
   const [chartData, setChartData] = useState<DataArray>(DEFAULT_CHART_DATA);
-  const [isRecording, setIsRecording] = useState<boolean>(false);
   const [metaData, setMetaData] = useState<MetaObject>(DEFAULT_META);
-
-  const start = async () => {
-    await PitchDetector.start();
-    const status = await PitchDetector.isRecording();
-    setIsRecording(status);
-  };
-
-  const stop = async () => {
-    await PitchDetector.stop();
-    const status = await PitchDetector.isRecording();
-    setIsRecording(status);
-  };
 
   const reset = () => {
     setChartData([]);
@@ -35,6 +22,7 @@ export default function App() {
 
   useEffect(() => {
     PitchDetector.addListener(setData);
+    PitchDetector.start();
     return () => {
       PitchDetector.removeListener();
     };
@@ -135,14 +123,10 @@ export default function App() {
     <View style={styles.container}>
       <LineChart data={chartData} />
       <Text style={styles.tone}>{data?.tone}</Text>
-      <Text style={styles.frequency}>{data?.frequency?.toFixed(2)}hz</Text>
       <Text style={styles.meta}>{`Note: ${metaData.note} | Cents: ${metaData.cents}`}</Text>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={isRecording ? stop : start}>
-          <Text style={styles.label}>{isRecording ? 'Stop' : 'Start'}</Text>
-        </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={reset}>
-          <Text style={styles.label}>Reset</Text>
+          <Text style={styles.label}>Start Over</Text>
         </TouchableOpacity>
       </View>
     </View>

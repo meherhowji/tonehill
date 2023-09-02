@@ -3,9 +3,10 @@ import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
   tone: {
     marginBottom: 10,
-    fontSize: 72,
+    fontSize: 150,
     fontWeight: 'bold',
     opacity: 0.6,
+    fontFamily: 'Righteous',
   },
   buttonContainer: {
     flexDirection: 'row',
