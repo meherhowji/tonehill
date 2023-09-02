@@ -1,11 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
-import {useRef, useState, useEffect, useMemo} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import React, {useRef, useState, useEffect} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {PitchDetector} from 'react-native-pitch-detector';
 import LineChart from './chart';
 import {findNearestNote, mapNoteToValue, calculateAverage} from './utils';
 import {MetaObject, DynamicObject, DataArray, PitchDataObject} from './types';
 import {DEFAULT_DATA, DEFAULT_META, DEFAULT_CHART_DATA, CENT_THRESHOLD} from './constants';
+import {styles} from './styles';
 
 export default function App() {
   const counter = useRef<number>(0);
@@ -147,40 +148,3 @@ export default function App() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  tone: {
-    marginBottom: 10,
-    fontSize: 72,
-    fontWeight: 'bold',
-    opacity: 0.6,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  button: {
-    padding: 10,
-    borderRadius: 5,
-    margin: 10,
-    marginBottom: 30,
-    backgroundColor: '#555',
-  },
-  label: {
-    color: 'white',
-    fontSize: 16,
-    textAlign: 'center',
-  },
-  frequency: {
-    fontSize: 20,
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  meta: {
-    marginTop: 5,
-    marginBottom: 10,
-  },
-});
