@@ -6,12 +6,25 @@ import {PitchDetector} from 'react-native-pitch-detector';
 import LineChart from './chart';
 import {findNearestNote, mapNoteToValue} from './utils';
 
+interface DataPoint {
+  time: number;
+  hz: number;
+}
+
+type DataArray = DataPoint[];
+
+interface metaShape {
+  note: string | null;
+  cents: number | null;
+  accuracy: number | null;
+}
+
 type DynamicObject = {
   [key: string]: {
     flat: any[];
     sharp: any[];
     perfect: any[];
-    stats: {
+    stats?: {
       averageFlat: number;
       averageSharp: number;
       averagePerfect: number;
@@ -22,12 +35,16 @@ type DynamicObject = {
   };
 };
 
+const CENT_THRESHOLD = 5;
+
 export default function App() {
   const [data, setData] = React.useState({tone: '♭♯', frequency: 0});
-  const [chartData, setChartData] = React.useState([{time: 0, hz: 0}]);
+  const [chartData, setChartData] = React.useState<DataArray>([
+    {time: 0, hz: 0},
+  ]);
   const [isRecording, setIsRecording] = React.useState(false);
   const [counter, setCounter] = React.useState(0);
-  const [metaData, setMetaData] = React.useState({
+  const [metaData, setMetaData] = React.useState<metaShape>({
     note: null,
     accuracy: null,
     cents: null,
@@ -48,6 +65,7 @@ export default function App() {
 
   const reset = () => {
     setChartData([]);
+    avg.current = {};
   };
 
   React.useEffect(() => {
@@ -76,20 +94,25 @@ export default function App() {
         setMetaData(meta);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   React.useEffect(() => {
     const note = metaData.note;
     const newnote = metaData.cents;
     const obj = avg.current;
+    const ct = CENT_THRESHOLD;
+
     if (note && obj[note] && newnote) {
-      if (newnote < 0) {
+      if (newnote < ct * -1) {
         obj[note].flat.push(newnote);
-      } else if (newnote > 0) {
+      } else if (newnote > ct) {
         obj[note].sharp.push(newnote);
-      } else if (newnote === 0) {
+      } else {
         obj[note].perfect.push(newnote);
       }
+
+      // Calculate the average values for flat, sharp, and perfect arrays
       const flatArray = obj[note]?.flat || [];
       const sharpArray = obj[note]?.sharp || [];
       const perfectArray = obj[note]?.perfect || [];
@@ -101,44 +124,68 @@ export default function App() {
       // Calculate the percentages relative to the total length of notes
       const totalNotesLength =
         flatArray.length + sharpArray.length + perfectArray.length;
-      const percentageFlat = (flatArray.length / totalNotesLength) * 100;
-      const percentageSharp = (sharpArray.length / totalNotesLength) * 100;
-      const percentagePerfect = (perfectArray.length / totalNotesLength) * 100;
+      const rawPercentageFlat = (flatArray.length / totalNotesLength) * 100;
+      const rawPercentageSharp = (sharpArray.length / totalNotesLength) * 100;
+      const rawPercentagePerfect =
+        (perfectArray.length / totalNotesLength) * 100;
+
+      // Calculate rounded percentages
+      const roundedPercentageFlat = Math.round(rawPercentageFlat);
+      const roundedPercentageSharp = Math.round(rawPercentageSharp);
+      const roundedPercentagePerfect = Math.round(rawPercentagePerfect);
+
+      // Adjust one of the rounded percentages to ensure the total is exactly 100%
+      const totalRoundedPercentage =
+        roundedPercentageFlat +
+        roundedPercentageSharp +
+        roundedPercentagePerfect;
+      const adjustment = 100 - totalRoundedPercentage;
+      const adjustedPercentages = [
+        roundedPercentageFlat,
+        roundedPercentageSharp,
+        roundedPercentagePerfect,
+      ];
+
+      // Apply the adjustment to the first non-zero percentage
+      for (let i = 0; i < adjustedPercentages.length; i++) {
+        if (adjustedPercentages[i] !== 0) {
+          adjustedPercentages[i] += adjustment;
+          break;
+        }
+      }
 
       obj[note] = {
-        flat: flatArray,
-        sharp: sharpArray,
-        perfect: perfectArray,
+        ...obj[note],
         stats: {
           averageFlat,
           averageSharp,
           averagePerfect,
-          percentageFlat,
-          percentageSharp,
-          percentagePerfect,
+          percentageFlat: adjustedPercentages[0],
+          percentageSharp: adjustedPercentages[1],
+          percentagePerfect: adjustedPercentages[2],
         },
       };
     } else if (newnote && note) {
       obj[note] = {
-        flat: newnote < 0 ? [newnote] : [],
-        sharp: newnote > 0 ? [newnote] : [],
-        perfect: newnote === 0 ? [newnote] : [],
+        flat: newnote < ct * -1 ? [newnote] : [],
+        sharp: newnote > ct ? [newnote] : [],
+        perfect: newnote < ct && newnote > ct * -1 ? [newnote] : [],
       };
     }
-    console.log(obj, ' <<<<<<<< ');
+    console.log(obj?.C3?.stats, ' <<<<<<<< ');
   }, [metaData]);
 
-  function calculateAverage(arr) {
+  function calculateAverage(arr: number[]): number {
     if (arr.length === 0) {
       return 0; // Handle the case when there are no elements in the array.
     }
     const sum = arr.reduce((acc, num) => acc + num, 0);
-    return parseInt((sum / arr.length).toFixed(0), 10);
+    return Math.round(sum / arr.length);
   }
 
   return (
     <View style={styles.container}>
-      <LineChart data={chartData} width={300} height={200} />
+      <LineChart data={chartData} />
       <Text style={styles.tone}>{data?.tone}</Text>
       <Text style={styles.frequency}>{data?.frequency?.toFixed(2)}hz</Text>
       <Text
