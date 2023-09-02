@@ -7,20 +7,19 @@ import {findNearestNote, mapNoteToValue, calculateAverage} from './utils';
 import {MetaShape, DynamicObject, DataArray} from './types';
 
 const CENT_THRESHOLD = 2;
+const DEFAULT_CHART_DATA = [{time: 0, hz: 0}];
 
 export default function App() {
-  const [data, setData] = React.useState({tone: '♭♯', frequency: 0});
-  const [chartData, setChartData] = React.useState<DataArray>([
-    {time: 0, hz: 0},
-  ]);
-  const [isRecording, setIsRecording] = React.useState(false);
   const counter = React.useRef(0);
+  const avg = React.useRef<DynamicObject>({});
+  const [data, setData] = React.useState({tone: '♭♯', frequency: 0});
+  const [chartData, setChartData] = React.useState<DataArray>(DEFAULT_CHART_DATA);
+  const [isRecording, setIsRecording] = React.useState(false);
   const [metaData, setMetaData] = React.useState<MetaShape>({
     note: null,
     accuracy: null,
     cents: null,
   });
-  const avg = React.useRef<DynamicObject>({});
 
   const start = async () => {
     await PitchDetector.start();
@@ -93,12 +92,10 @@ export default function App() {
       const averagePerfect = calculateAverage(perfectArray);
 
       // Calculate the percentages relative to the total length of notes
-      const totalNotesLength =
-        flatArray.length + sharpArray.length + perfectArray.length;
+      const totalNotesLength = flatArray.length + sharpArray.length + perfectArray.length;
       const rawPercentageFlat = (flatArray.length / totalNotesLength) * 100;
       const rawPercentageSharp = (sharpArray.length / totalNotesLength) * 100;
-      const rawPercentagePerfect =
-        (perfectArray.length / totalNotesLength) * 100;
+      const rawPercentagePerfect = (perfectArray.length / totalNotesLength) * 100;
 
       // Calculate rounded percentages
       const roundedPercentageFlat = Math.round(rawPercentageFlat);
@@ -106,16 +103,9 @@ export default function App() {
       const roundedPercentagePerfect = Math.round(rawPercentagePerfect);
 
       // Adjust one of the rounded percentages to ensure the total is exactly 100%
-      const totalRoundedPercentage =
-        roundedPercentageFlat +
-        roundedPercentageSharp +
-        roundedPercentagePerfect;
+      const totalRoundedPercentage = roundedPercentageFlat + roundedPercentageSharp + roundedPercentagePerfect;
       const adjustment = 100 - totalRoundedPercentage;
-      const adjustedPercentages = [
-        roundedPercentageFlat,
-        roundedPercentageSharp,
-        roundedPercentagePerfect,
-      ];
+      const adjustedPercentages = [roundedPercentageFlat, roundedPercentageSharp, roundedPercentagePerfect];
 
       // Apply the adjustment to the first non-zero percentage
       for (let i = 0; i < adjustedPercentages.length; i++) {
@@ -151,14 +141,9 @@ export default function App() {
       <LineChart data={chartData} />
       <Text style={styles.tone}>{data?.tone}</Text>
       <Text style={styles.frequency}>{data?.frequency?.toFixed(2)}hz</Text>
-      <Text
-        style={
-          styles.meta
-        }>{`Note: ${metaData.note} | Cents: ${metaData.cents}`}</Text>
+      <Text style={styles.meta}>{`Note: ${metaData.note} | Cents: ${metaData.cents}`}</Text>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={isRecording ? stop : start}>
+        <TouchableOpacity style={styles.button} onPress={isRecording ? stop : start}>
           <Text style={styles.label}>{isRecording ? 'Stop' : 'Start'}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={reset}>
