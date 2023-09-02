@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Dimensions, StyleSheet} from 'react-native';
 import {VictoryChart, VictoryLine, VictoryAxis, VictoryLabel} from 'victory-native';
 import {Defs, LinearGradient, Stop} from 'react-native-svg';
+import {calculateGridStyle} from '../utils/utils';
 
 const LineChart = ({data}) => {
   const screenWidth = Dimensions.get('window').width;
@@ -11,24 +12,15 @@ const LineChart = ({data}) => {
       <VictoryChart width={screenWidth} height={screenHeight} padding={{top: 0, bottom: 0, left: 0, right: 0}}>
         <VictoryAxis
           dependentAxis
-          tickValues={[-60, -50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50, 60]}
+          tickValues={[-50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50]}
           tickLabelComponent={<VictoryLabel dy={-10} textAnchor="start" />}
           orientation="right"
           style={{
             axis: {stroke: '#756f6a', opacity: 0},
+
             grid: {
-              stroke: ({tick}) => (tick === 0 ? '#fff' : '#eee'),
-              strokeWidth: ({tick}) =>
-                tick === 0
-                  ? 4
-                  : tick === 10 || tick === -10
-                  ? 3
-                  : tick === 20 || tick === -20
-                  ? 2
-                  : tick === 30 || tick === -30
-                  ? 1
-                  : 0.5,
-              opacity: 0.04,
+              stroke: ({tick}) => calculateGridStyle(tick, true),
+              strokeWidth: ({tick}) => calculateGridStyle(tick, false),
             },
             tickLabels: {fontSize: 10, padding: -20, opacity: 0},
           }}
@@ -79,5 +71,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'blue',
   },
 });
+
+// Usage in VictoryAxis style:
 
 export default LineChart;

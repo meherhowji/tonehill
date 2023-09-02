@@ -51,6 +51,7 @@ export const styles = StyleSheet.create({
     fontSize: 20,
   },
   meta: {
+    color: 'white',
     marginTop: 5,
     marginBottom: 10,
   },

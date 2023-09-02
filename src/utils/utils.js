@@ -108,4 +108,29 @@ function calculateAverage(arr) {
   return Math.round(sum / arr.length);
 }
 
-export {findNearestNote, getNotes, mapNoteToValue, calculateAverage};
+const calculateGridStyle = (tick, isStroke) => {
+  let opacity, strokeWidth;
+
+  switch (Math.abs(tick)) {
+    case 0:
+      opacity = 0.1;
+      strokeWidth = 3;
+      break;
+    case 10:
+      opacity = 0.08;
+      strokeWidth = 2;
+      break;
+    case 20:
+    case 30:
+      opacity = 0.05;
+      strokeWidth = 1;
+      break;
+    default:
+      opacity = 0.05;
+      strokeWidth = 0.8;
+  }
+
+  return isStroke ? `rgba(255, 255, 255, ${opacity})` : strokeWidth;
+};
+
+export {findNearestNote, getNotes, mapNoteToValue, calculateAverage, calculateGridStyle};

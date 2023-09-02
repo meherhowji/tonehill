@@ -130,9 +130,10 @@ export default function App() {
             </View>
             <LineChart data={chartData} />
             <Text style={styles.meta}>{`Note: ${metaData.note} | Cents: ${metaData.cents}`}</Text>
+            {/* <Text style={styles.meta}>{`Average Flat: ${avg.current[]}`}</Text> */}
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.button} onPress={reset}>
-                <Text style={styles.label}>Start Over</Text>
+                <Text style={styles.label}>Start New Session</Text>
               </TouchableOpacity>
             </View>
           </LinearGradient>
