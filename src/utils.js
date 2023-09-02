@@ -1,4 +1,9 @@
-import {frequencyToNote, notes, noteToFrequency} from './frequencyToNote';
+import {
+  frequencyToNote,
+  notes,
+  noteToFrequency,
+  noteToId,
+} from './frequencyToNote';
 
 const findNearestNote = frequency => {
   let nearestNote = null;
@@ -16,12 +21,10 @@ const findNearestNote = frequency => {
   }
 
   const cents = (1200 * Math.log2(frequency / nearestFrequency)).toFixed(0);
-  const accuracyPercentage = (
-    (1 - Math.abs(cents) / maxAccuracyCents) *
-    100
-  ).toFixed(2);
+  const accuracy =
+    ((1 - Math.abs(cents) / maxAccuracyCents) * 100).toFixed(0) + '%';
 
-  return {nearestNote, accuracyPercentage, cents};
+  return {note: nearestNote, accuracy, cents};
 };
 
 function getNotesInKey(musicalKey, scaleIntervals) {
@@ -73,4 +76,79 @@ function getFrequenciesBetween(noteStart, noteEnd) {
   return frequencies;
 }
 
-export {findNearestNote, getNotesInKey, getFrequenciesBetween};
+function getNotes(startNote, endNote) {
+  const startNoteIndex = notes.indexOf(startNote.slice(0, -1));
+  const endNoteIndex = notes.indexOf(endNote.slice(0, -1));
+  const startOctave = parseInt(startNote.slice(-1), 10);
+  const endOctave = parseInt(endNote.slice(-1), 10);
+  const _notes = [];
+
+  for (let octave = startOctave; octave <= endOctave; octave++) {
+    const startIndex = octave === startOctave ? startNoteIndex : 0;
+    const endIndex = octave === endOctave ? endNoteIndex : notes.length - 1;
+
+    for (let i = startIndex; i <= endIndex; i++) {
+      const note = `${notes[i]}${octave}`;
+      _notes.push(note);
+    }
+  }
+
+  return _notes;
+}
+
+function getNoteId(startNote, endNote) {
+  const startValue = noteToId[startNote];
+  const endValue = noteToId[endNote];
+
+  if (startValue === undefined || endValue === undefined) {
+    throw new Error('Invalid note names');
+  }
+
+  if (startValue > endValue) {
+    throw new Error('Start note should be lower than or equal to end note');
+  }
+
+  const values = [];
+  for (let value = startValue; value <= endValue; value++) {
+    values.push(value);
+  }
+
+  return values;
+}
+
+function mapNoteToValue({note, cents}, fixedNote) {
+  // Split the input note into its note name and octave
+  const [, noteName, octave] = note.match(/([A-Ga-g#b]+)([0-9]+)/) || [];
+
+  if (!noteName || !octave) {
+    throw new Error('Invalid note format');
+  }
+
+  // Calculate the value of the fixedNote
+  const [, fixedNoteName, fixedOctave] =
+    fixedNote.match(/([A-Ga-g#b]+)([0-9]+)/) || [];
+  if (!fixedNoteName || !fixedOctave) {
+    throw new Error('Invalid fixedNote format');
+  }
+
+  const fixedNoteValue =
+    notes.indexOf(fixedNoteName) + parseInt(fixedOctave, 10) * notes.length;
+
+  // Calculate the value of the input note
+  const noteValue =
+    notes.indexOf(noteName) + parseInt(octave, 10) * notes.length;
+
+  // Calculate the relative value from the fixedNote, considering cents
+  const relativeValue = noteValue - fixedNoteValue + cents / 100;
+
+  return relativeValue;
+}
+
+export {
+  findNearestNote,
+  getNotesInKey,
+  getFrequenciesBetween,
+  getNotes,
+  getNoteId,
+  mapNoteToValue,
+};

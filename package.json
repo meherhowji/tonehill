@@ -11,6 +11,7 @@
     "postinstall": "patch-package && react-native setup-ios-permissions"
   },
   "dependencies": {
+    "d3-shape": "^3.2.0",
     "patch-package": "^8.0.0",
     "react": "18.2.0",
     "react-native": "0.72.4",
