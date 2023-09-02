@@ -4,22 +4,16 @@ import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import {PitchDetector} from 'react-native-pitch-detector';
 import LineChart from './chart';
 import {findNearestNote, mapNoteToValue, calculateAverage} from './utils';
-import {MetaShape, DynamicObject, DataArray} from './types';
-
-const CENT_THRESHOLD = 2;
-const DEFAULT_CHART_DATA = [{time: 0, hz: 0}];
+import {MetaShape, DynamicObject, DataArray, PitchDataObject} from './types';
+import {DEFAULT_DATA, DEFAULT_META, DEFAULT_CHART_DATA, CENT_THRESHOLD} from './constants';
 
 export default function App() {
-  const counter = React.useRef(0);
+  const counter = React.useRef<number>(0);
   const avg = React.useRef<DynamicObject>({});
-  const [data, setData] = React.useState({tone: '♭♯', frequency: 0});
+  const [data, setData] = React.useState<PitchDataObject>(DEFAULT_DATA);
   const [chartData, setChartData] = React.useState<DataArray>(DEFAULT_CHART_DATA);
-  const [isRecording, setIsRecording] = React.useState(false);
-  const [metaData, setMetaData] = React.useState<MetaShape>({
-    note: null,
-    accuracy: null,
-    cents: null,
-  });
+  const [isRecording, setIsRecording] = React.useState<boolean>(false);
+  const [metaData, setMetaData] = React.useState<MetaShape>(DEFAULT_META);
 
   const start = async () => {
     await PitchDetector.start();

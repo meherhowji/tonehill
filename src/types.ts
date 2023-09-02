@@ -25,4 +25,9 @@ export type DynamicObject = {
   };
 };
 
+export type PitchDataObject = {
+  tone: string;
+  frequency: number;
+};
+
 export type DataArray = DataPoint[];
