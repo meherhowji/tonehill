@@ -5,23 +5,18 @@ import {getNotes} from './utils';
 
 const FrequencyTimeChart = ({data}) => {
   const range = getNotes('C2', 'C4');
-  const numRange = Array.from({length: range.length}, (_, index) => index);
   const screenWidth = Dimensions.get('window').width;
-  const displayNone = {display: 'none'};
-
-  const chartWidth = screenWidth;
-  const chartHeight = 500;
 
   return (
     <View style={styles.chartContainer}>
       <VictoryChart
-        width={chartWidth}
-        height={chartHeight}
+        width={screenWidth}
+        height={500}
         minDomain={{y: 0}}
         maxDomain={{y: 24}}>
         <VictoryAxis
           dependentAxis
-          tickValues={numRange}
+          tickValues={range.map((_, index) => index)}
           tickFormat={v => range[v]}
           orientation="right"
           style={{
@@ -32,8 +27,8 @@ const FrequencyTimeChart = ({data}) => {
         />
         <VictoryAxis
           style={{
-            axis: displayNone,
-            tickLabels: displayNone,
+            axis: {display: 'none'},
+            tickLabels: {display: 'none'},
           }}
         />
         <VictoryLine data={data} x="time" y="hz" interpolation="natural" />

@@ -1,129 +1,81 @@
-import {
-  frequencyToNote,
-  notes,
-  noteToFrequency,
-  noteToId,
-} from './frequencyToNote';
+import {frequencyToNote, notes} from './frequencyToNote';
 
+// used in app.tsx
 const findNearestNote = frequency => {
+  // Initialize variables to store the nearest note, frequency, and minimum difference
   let nearestNote = null;
   let minDifference = Infinity;
   let nearestFrequency = null;
-  const centMax = 50; // 50 cents corresponds to 0 percent accuracy
+  // Define the maximum deviation in cents that corresponds to 0 percent accuracy
+  const centMax = 50;
 
+  // Iterate through the frequencyToNote object using entries
   for (const [freq, note] of Object.entries(frequencyToNote)) {
+    // Calculate the absolute difference between the current frequency and the target frequency
     const difference = Math.abs(freq - frequency);
+
+    // Check if the current difference is smaller than the minimum difference
     if (difference < minDifference) {
+      // Update the nearestNote, nearestFrequency, and minDifference variables
       minDifference = difference;
       nearestNote = note;
       nearestFrequency = freq;
     }
   }
 
+  // Check if the input frequency is positive
   if (frequency > 0) {
+    // Calculate the deviation in cents from the nearest note
     const cents = parseInt(
       (1200 * Math.log2(frequency / nearestFrequency)).toFixed(0),
       10,
     );
+
+    // Calculate the accuracy as a percentage based on the deviation in cents
     const accuracy = parseInt(
       ((1 - Math.abs(cents) / centMax) * 100).toFixed(0),
       10,
     );
 
+    // Return an object with the nearest note, accuracy, and cents
     return {note: nearestNote, accuracy, cents};
   } else {
+    // Return an object with null values if the input frequency is not positive
     return {note: null, accuracy: null, cents: null};
   }
 };
 
-function getNotesInKey(musicalKey, scaleIntervals) {
-  // Example usage
-  // const musicalKey = 'D'; // Change this to the desired key
-  // const majorScaleIntervals = [2, 2, 1, 2, 2, 2, 1]; // Major scale intervals
-  // const notesInKey = getNotesInKey(musicalKey, majorScaleIntervals);
-  const selectedKey = musicalKey.toUpperCase();
-
-  if (notes.includes(selectedKey)) {
-    const keyIndex = notes.indexOf(selectedKey);
-
-    const notesInKey = [selectedKey];
-    let currentNoteIndex = keyIndex;
-
-    for (const interval of scaleIntervals) {
-      currentNoteIndex += interval;
-      if (currentNoteIndex >= notes.length) {
-        currentNoteIndex -= notes.length;
-      }
-      notesInKey.push(notes[currentNoteIndex]);
-    }
-
-    return notesInKey;
-  }
-
-  // If the provided key is not valid, return the default diatonic notes
-  return notes;
-}
-
-function getFrequenciesBetween(noteStart, noteEnd) {
-  const frequencies = [];
-
-  // Find the indices of the start and end notes
-  const startIndex = Object.keys(noteToFrequency).indexOf(noteStart);
-  const endIndex = Object.keys(noteToFrequency).indexOf(noteEnd);
-
-  if (startIndex === -1 || endIndex === -1) {
-    throw new Error('Invalid note names provided.');
-  }
-
-  // Extract frequencies between the start and end indices
-  for (let i = startIndex; i <= endIndex; i++) {
-    const note = Object.keys(noteToFrequency)[i];
-    frequencies.push(noteToFrequency[note]);
-  }
-
-  return frequencies;
-}
-
+// used in chart.js
 function getNotes(startNote, endNote) {
+  // Get the index of the start and end notes' base names (without octave)
   const startNoteIndex = notes.indexOf(startNote.slice(0, -1));
   const endNoteIndex = notes.indexOf(endNote.slice(0, -1));
+
+  // Extract the octaves from the start and end notes
   const startOctave = parseInt(startNote.slice(-1), 10);
   const endOctave = parseInt(endNote.slice(-1), 10);
+
+  // Create an array to store the generated notes
   const _notes = [];
 
+  // Iterate through octaves from start to end
   for (let octave = startOctave; octave <= endOctave; octave++) {
+    // Calculate the starting and ending index for the current octave
     const startIndex = octave === startOctave ? startNoteIndex : 0;
     const endIndex = octave === endOctave ? endNoteIndex : notes.length - 1;
 
+    // Generate notes for the current octave and add them to the _notes array
     for (let i = startIndex; i <= endIndex; i++) {
       const note = `${notes[i]}${octave}`;
       _notes.push(note);
     }
   }
 
+  // Return the array of generated notes
   return _notes;
 }
 
-function getNoteId(startNote, endNote) {
-  const startValue = noteToId[startNote];
-  const endValue = noteToId[endNote];
-
-  if (startValue === undefined || endValue === undefined) {
-    throw new Error('Invalid note names');
-  }
-
-  if (startValue > endValue) {
-    throw new Error('Start note should be lower than or equal to end note');
-  }
-
-  const values = [];
-  for (let value = startValue; value <= endValue; value++) {
-    values.push(value);
-  }
-
-  return values;
-}
-
+// used in app.tsx
 function mapNoteToValue({note, cents}, fixedNote) {
   // Split the input note into its note name and octave
   const [, noteName, octave] = note.match(/([A-Ga-g#b]+)([0-9]+)/) || [];
@@ -153,11 +105,4 @@ function mapNoteToValue({note, cents}, fixedNote) {
   return relativeValue;
 }
 
-export {
-  findNearestNote,
-  getNotesInKey,
-  getFrequenciesBetween,
-  getNotes,
-  getNoteId,
-  mapNoteToValue,
-};
+export {findNearestNote, getNotes, mapNoteToValue};
