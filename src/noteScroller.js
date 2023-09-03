@@ -1,10 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useState, memo} from 'react';
 import {View, Text, ScrollView, StyleSheet, TouchableHighlight} from 'react-native';
 import {notes} from './utils/frequencyToNote';
 import LinearGradient from 'react-native-linear-gradient';
 
-const MusicalNotePicker = ({onNoteSelect}) => {
+export function MusicalNotePicker({onNoteSelect}) {
   const [selectedNote, setSelectedNote] = useState('C#');
   const [selectedOctave, setSelectedOctave] = useState(3);
 
@@ -22,7 +22,7 @@ const MusicalNotePicker = ({onNoteSelect}) => {
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
         {notes.map((note, index) => (
           <View key={index} style={[styles.noteItem, {opacity: selectedNote === note ? 1 : 0.4}]}>
-            <LinearGradient colors={selectedNote === note ? ['#6fefab', '#4ea4f0'] : ['#fff0']} style={styles.gradient}>
+            <LinearGradient colors={selectedNote === note ? ['#68defb', '#d76aff'] : ['#fff0']} style={styles.gradient}>
               <TouchableHighlight style={styles.cell} underlayColor={'#fff0'} onPress={() => handleNoteSelect(note)}>
                 <Text style={[styles.noteText, {opacity: selectedNote === note ? 1 : 0.4}]}>{note}</Text>
               </TouchableHighlight>
@@ -41,11 +41,11 @@ const MusicalNotePicker = ({onNoteSelect}) => {
       </ScrollView>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
-    height: 110,
+    height: 90,
   },
   scrollContainer: {
     paddingHorizontal: 10,
@@ -76,4 +76,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MusicalNotePicker;
+export const MemoisedNotePicker = memo(MusicalNotePicker);

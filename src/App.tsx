@@ -9,6 +9,7 @@ import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import {StatsBar} from './StatsBar';
 import {ToneDisplay} from './ToneDisplay';
+import {PitchGraph} from './chart/pitchGraph';
 import {styles} from './styles';
 
 export default function App() {
@@ -122,10 +123,6 @@ export default function App() {
       setStats(obj);
     }
   }, [metaData]);
-
-  useEffect(() => {
-    // console.log(stats, 'LLLLL');
-  }, [stats]);
 
   return (
     <SafeAreaProvider>

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
-import MusicalNotePicker from './noteScroller';
+import {MemoisedNotePicker} from './noteScroller';
+// import {MusicalNotePicker} from './noteScroller';
 
 function StatsBar({stats}) {
   const [toggleFlat, setToggleFlat] = useState(true);
@@ -9,22 +10,22 @@ function StatsBar({stats}) {
   const [selectedNote, setSelectedNote] = useState('C');
   const data = stats;
 
-  useEffect(() => {
-    console.log(selectedNote, '$$$$');
-    console.log(data, ' ________ ');
-    console.log(data[selectedNote]?.stats, '()()');
-  }, [selectedNote]);
-
   return (
     <View style={styles.container} width={Dimensions.get('window').width}>
       <View style={[styles.row, styles.firstRow]}>
+        <MemoisedNotePicker onNoteSelect={setSelectedNote} />
+      </View>
+      <View style={[styles.row, styles.lastRow]}>
         <View style={styles.cell}>
           <TouchableOpacity style={styles.cell} onPress={() => setToggleFlat(!toggleFlat)}>
             <Text style={styles.textLabel}>Flat</Text>
             {toggleFlat ? (
               <Text style={styles.textValue}>{`${data[selectedNote]?.stats?.averageFlat || 0}`}</Text>
             ) : (
-              <Text style={styles.textValue}>{`${data[selectedNote]?.stats?.percentageFlat || 0}%`}</Text>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={styles.textValue}>{`${data[selectedNote]?.stats?.percentageFlat || 0}`}</Text>
+                <Text style={styles.percentSymbol}>%</Text>
+              </View>
             )}
           </TouchableOpacity>
         </View>
@@ -34,7 +35,10 @@ function StatsBar({stats}) {
             {togglePerfect ? (
               <Text style={styles.textValue}>{`${data[selectedNote]?.stats?.averagePerfect || 0}`}</Text>
             ) : (
-              <Text style={styles.textValue}>{`${data[selectedNote]?.stats?.percentagePerfect || 0}%`}</Text>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={styles.textValue}>{`${data[selectedNote]?.stats?.percentagePerfect || 0}`}</Text>
+                <Text style={styles.percentSymbol}>%</Text>
+              </View>
             )}
           </TouchableOpacity>
         </View>
@@ -44,13 +48,13 @@ function StatsBar({stats}) {
             {toggleSharp ? (
               <Text style={styles.textValue}>{`${data[selectedNote]?.stats?.averageSharp || 0}`}</Text>
             ) : (
-              <Text style={styles.textValue}>{`${data[selectedNote]?.stats?.percentageSharp || 0}%`}</Text>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={styles.textValue}>{`${data[selectedNote]?.stats?.percentageSharp || 0}`}</Text>
+                <Text style={styles.percentSymbol}>%</Text>
+              </View>
             )}
           </TouchableOpacity>
         </View>
-      </View>
-      <View style={[styles.row, styles.lastRow]}>
-        <MusicalNotePicker onNoteSelect={setSelectedNote} />
       </View>
     </View>
   );
@@ -73,7 +77,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   lastRow: {
-    marginTop: 30,
+    marginTop: 35,
   },
   cell: {
     flexDirection: 'column',
@@ -86,8 +90,15 @@ const styles = StyleSheet.create({
   },
   textValue: {
     color: 'white',
-    fontSize: 64,
-    fontFamily: 'Righteous',
+    fontSize: 48,
+    fontFamily: 'Inter-Bold',
+  },
+  percentSymbol: {
+    color: 'white',
+    fontSize: 20,
+    fontFamily: 'Inter-Bold',
+    verticalAlign: 'middle',
+    alignSelf: 'center',
   },
 });
 
