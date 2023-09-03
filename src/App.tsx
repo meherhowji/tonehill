@@ -1,5 +1,5 @@
 import React, {useRef, useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View} from 'react-native';
 import {PitchDetector} from 'react-native-pitch-detector';
 import LineChart from './chart/wave';
 import {findNearestNote, mapNoteToValue, calculateAverage} from './utils/utils';
@@ -13,19 +13,19 @@ import {styles} from './styles';
 
 export default function App() {
   const counter = useRef<number>(0);
-  const avg = useRef<DynamicObject>({});
+  const [stats, setStats] = useState<DynamicObject>({});
   const [data, setData] = useState<PitchDataObject>(DEFAULT_DATA);
   const [chartData, setChartData] = useState<DataArray>(DEFAULT_CHART_DATA);
   const [metaData, setMetaData] = useState<MetaObject>(DEFAULT_META);
 
-  const reset = () => {
-    setChartData([]);
-    avg.current = {};
-  };
+  // const reset = () => {
+  //   setChartData([]);
+  //   avg.current = {};
+  // };
 
   useEffect(() => {
     PitchDetector.addListener(setData);
-    // PitchDetector.start();
+    PitchDetector.start();
     return () => {
       PitchDetector.removeListener();
     };
@@ -56,7 +56,7 @@ export default function App() {
   useEffect(() => {
     const note = metaData.note;
     const newnote = metaData.cents;
-    const obj = avg.current;
+    const obj = {...stats};
     const ct = CENT_THRESHOLD;
 
     if (note && obj[note] && newnote) {
@@ -102,7 +102,7 @@ export default function App() {
       }
 
       obj[note] = {
-        ...obj[note],
+        ...stats[note],
         stats: {
           averageFlat,
           averageSharp,
@@ -112,14 +112,20 @@ export default function App() {
           percentagePerfect: adjustedPercentages[2],
         },
       };
+      setStats(obj);
     } else if (newnote && note) {
       obj[note] = {
         flat: newnote < ct * -1 ? [newnote] : [],
         sharp: newnote > ct ? [newnote] : [],
         perfect: newnote < ct && newnote > ct * -1 ? [newnote] : [],
       };
+      setStats(obj);
     }
   }, [metaData]);
+
+  useEffect(() => {
+    // console.log(stats, 'LLLLL');
+  }, [stats]);
 
   return (
     <SafeAreaProvider>
@@ -128,10 +134,7 @@ export default function App() {
           <LinearGradient colors={['rgb(32,38,45)', 'rgb(41,48,58)', 'rgb(32,38,45)']} style={styles.gradient}>
             <ToneDisplay tone={data?.tone} />
             <LineChart data={chartData} />
-            <StatsBar stats={avg?.current['C#3']?.stats || {}} />
-            {/* <NotesList /> */}
-            {/* <Text style={styles.meta}>{`Note: ${metaData.note} | Cents: ${metaData.cents}`}</Text> */}
-            {/* <Text style={styles.meta}>{`Average Flat: ${avg.current[]}`}</Text> */}
+            <StatsBar stats={stats} />
             {/* <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.button} onPress={reset}>
                 <Text style={styles.label}>Start New Session</Text>
