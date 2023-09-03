@@ -17,7 +17,6 @@ const LineChart = ({data}) => {
           orientation="right"
           style={{
             axis: {stroke: '#756f6a', opacity: 0},
-
             grid: {
               stroke: ({tick}) => calculateGridStyle(tick, true),
               strokeWidth: ({tick}) => calculateGridStyle(tick, false),
@@ -40,19 +39,11 @@ const LineChart = ({data}) => {
         <VictoryLine
           interpolation="natural"
           style={{
-            // data: {stroke: '#FD7272', strokeWidth: 5, strokeLinecap: 'round', opacity: 0.8},
             data: {
               stroke: 'url(#gradient)',
               strokeWidth: 5,
               strokeLinecap: 'round',
               opacity: 1,
-              shadowColor: '#fff',
-              shadowOffset: {
-                width: 10,
-                height: 10,
-              },
-              shadowOpacity: 1,
-              shadowRadius: 110,
             },
           }}
           data={data}
@@ -68,10 +59,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
-    // backgroundColor: 'blue',
+    // backgroundColor: 'cyan',
   },
 });
-
-// Usage in VictoryAxis style:
 
 export default LineChart;

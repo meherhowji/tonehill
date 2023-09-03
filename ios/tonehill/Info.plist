@@ -56,6 +56,17 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Righteous-Regular.ttf</string>
+		<string>BakbakOne-Regular.ttf</string>
+		<string>Inter-Bold.ttf</string>
+		<string>Inter-VariableFont_slnt,wght.ttf</string>
+		<string>Inter-Black.ttf</string>
+		<string>Inter-ExtraBold.ttf</string>
+		<string>Inter-ExtraLight.ttf</string>
+		<string>Inter-Light.ttf</string>
+		<string>Inter-Medium.ttf</string>
+		<string>Inter-Regular.ttf</string>
+		<string>Inter-SemiBold.ttf</string>
+		<string>Inter-Thin.ttf</string>
 	</array>
 </dict>
 </plist>

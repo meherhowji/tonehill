@@ -2,12 +2,68 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "assets/fonts/BakbakOne-Regular.ttf",
+      "sha1": "e7d3d32f7058aa37df132df235f8e336d964f667"
+    },
+    {
+      "path": "assets/fonts/Bakbak_One.zip",
+      "sha1": "cc7f5d9ab399e0d49a1a0b23e024afaaf9a47767"
+    },
+    {
+      "path": "assets/fonts/Inter-Bold.ttf",
+      "sha1": "48747b7a60086f97af0d373febcbd1f1bee87f17"
+    },
+    {
+      "path": "assets/fonts/OFL copy.txt",
+      "sha1": "cd82e308b077f5b4dcd8e0f76fe4be967f8e15fb"
+    },
+    {
       "path": "assets/fonts/OFL.txt",
       "sha1": "dda073e2c3bdf3a96831681673ad14013a4a6a88"
     },
     {
       "path": "assets/fonts/Righteous-Regular.ttf",
       "sha1": "3129e2b47e224dec082c4169b396b1fa27a95749"
+    },
+    {
+      "path": "assets/fonts/inter/Inter-VariableFont_slnt,wght.ttf",
+      "sha1": "44b415f3b0ac1da7f3044ba6bcc542a649d4a447"
+    },
+    {
+      "path": "assets/fonts/inter/README.txt",
+      "sha1": "7f8751ad30252050976f5618eb8bd93bc0f09e62"
+    },
+    {
+      "path": "assets/fonts/inter/static/Inter-Black.ttf",
+      "sha1": "283fa65b96dc1f2d71c6504afb9610447bdcdf1b"
+    },
+    {
+      "path": "assets/fonts/inter/static/Inter-ExtraBold.ttf",
+      "sha1": "bff772be6bca9895c6fdcd57e5d5be9a47f2e058"
+    },
+    {
+      "path": "assets/fonts/inter/static/Inter-ExtraLight.ttf",
+      "sha1": "421072aef8610cb0f79661b494442a4b9363b43f"
+    },
+    {
+      "path": "assets/fonts/inter/static/Inter-Light.ttf",
+      "sha1": "dd9ec1ae67dd85143bacf7a3cb37e9f0ac979843"
+    },
+    {
+      "path": "assets/fonts/inter/static/Inter-Medium.ttf",
+      "sha1": "a418a8ba73bbcfa8c131c426ab836d78457afa9b"
+    },
+    {
+      "path": "assets/fonts/inter/static/Inter-Regular.ttf",
+      "sha1": "7237d9cf55f177702066a28a4dde1e4c7e8ab576"
+    },
+    {
+      "path": "assets/fonts/inter/static/Inter-SemiBold.ttf",
+      "sha1": "431007da316de60d85174aeec9b8389b5c73e7d6"
+    },
+    {
+      "path": "assets/fonts/inter/static/Inter-Thin.ttf",
+      "sha1": "297919d59c9ba4fa17251cdb9f06c26ca906e593"
     }
   ]
 }

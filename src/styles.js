@@ -8,28 +8,12 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: 'blue',
   },
   gradient: {
     flex: 1,
     width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  toneContainer: {
-    width: '100%',
-    marginTop: 60,
-    marginBottom: 30,
-  },
-  tone: {
-    color: '#fff',
-    fontSize: 150,
-    fontWeight: 'bold',
-    fontFamily: 'Righteous',
-    textAlign: 'center',
-    // backgroundColor: 'red',
+    justifyContent: 'space-between',
   },
   buttonContainer: {
     flexDirection: 'row',

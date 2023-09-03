@@ -7,7 +7,8 @@ import {MetaObject, DynamicObject, DataArray, PitchDataObject} from './types/typ
 import {DEFAULT_DATA, DEFAULT_META, DEFAULT_CHART_DATA, CENT_THRESHOLD} from './utils/constants';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
-
+import {StatsBar} from './StatsBar';
+import {ToneDisplay} from './ToneDisplay';
 import {styles} from './styles';
 
 export default function App() {
@@ -24,7 +25,7 @@ export default function App() {
 
   useEffect(() => {
     PitchDetector.addListener(setData);
-    PitchDetector.start();
+    // PitchDetector.start();
     return () => {
       PitchDetector.removeListener();
     };
@@ -125,17 +126,17 @@ export default function App() {
       <SafeAreaView style={styles.safeContainer}>
         <View style={styles.container}>
           <LinearGradient colors={['rgb(32,38,45)', 'rgb(41,48,58)', 'rgb(32,38,45)']} style={styles.gradient}>
-            <View style={styles.toneContainer}>
-              <Text style={styles.tone}>{data?.tone}</Text>
-            </View>
+            <ToneDisplay tone={data?.tone} />
             <LineChart data={chartData} />
-            <Text style={styles.meta}>{`Note: ${metaData.note} | Cents: ${metaData.cents}`}</Text>
+            <StatsBar stats={avg?.current['C#3']?.stats || {}} />
+            {/* <NotesList /> */}
+            {/* <Text style={styles.meta}>{`Note: ${metaData.note} | Cents: ${metaData.cents}`}</Text> */}
             {/* <Text style={styles.meta}>{`Average Flat: ${avg.current[]}`}</Text> */}
-            <View style={styles.buttonContainer}>
+            {/* <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.button} onPress={reset}>
                 <Text style={styles.label}>Start New Session</Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
           </LinearGradient>
         </View>
       </SafeAreaView>
