@@ -4,7 +4,7 @@ import {findNearestNote, mapNoteToValue, calculateAverage} from '../utils/utils'
 import {MetaObject, DynamicObject, DataArray, PitchDataObject} from '../types/types';
 import {DEFAULT_DATA, DEFAULT_META, DEFAULT_CHART_DATA, CENT_THRESHOLD} from '../utils/constants';
 import {View} from 'react-native';
-import LineChart from '../components/chart/wave';
+import LineChart from '../components/wave';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import {StatsBar} from '../components/StatsBar';
@@ -121,6 +121,7 @@ const HomeScreen: React.FC = () => {
       };
       setStats(obj);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metaData]);
 
   return (

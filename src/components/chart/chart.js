@@ -9,11 +9,7 @@ const FrequencyTimeChart = ({data}) => {
 
   return (
     <View style={styles.chartContainer}>
-      <VictoryChart
-        width={screenWidth}
-        height={500}
-        minDomain={{y: 0}}
-        maxDomain={{y: 24}}>
+      <VictoryChart width={screenWidth} height={500} minDomain={{y: 0}} maxDomain={{y: 24}}>
         <VictoryAxis
           dependentAxis
           tickValues={range.map((_, index) => index)}
