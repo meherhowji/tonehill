@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
-import {MemoisedNotePicker} from './noteScroller';
+import {MemoisedNotePicker} from '../noteScroller';
 // import {MusicalNotePicker} from './noteScroller';
 
 function StatsBar({stats}) {
