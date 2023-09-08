@@ -7,7 +7,7 @@ const WelcomeScreen: React.FC = ({navigation}) => {
   const {width, height} = Dimensions.get('window');
 
   const goToHomeScreen = () => {
-    navigation.navigate('Home'); // Navigate to the 'Details' screen
+    navigation.navigate('Main'); // Navigate to the 'Details' screen
   };
 
   const setSliderPage = (event: any) => {
