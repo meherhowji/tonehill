@@ -1,24 +1,16 @@
 {
-  "name": "tonehill",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
-    "lint": "eslint .",
-    "start": "react-native start",
-    "test": "jest",
-    "postinstall": "patch-package && react-native setup-ios-permissions",
-    "update-assets": "npx react-native-asset"
-  },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
     "d3-shape": "^3.2.0",
+    "mobx": "^6.10.2",
+    "mobx-react": "^9.0.1",
     "patch-package": "^8.0.0",
+    "ramda": "^0.29.0",
     "react": "18.2.0",
     "react-native": "0.72.4",
+    "react-native-dropdown-picker": "^5.4.6",
     "react-native-linear-gradient": "^2.8.2",
     "react-native-permissions": "^3.8.4",
     "react-native-pitch-detector": "^0.1.5",
@@ -29,6 +21,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-decorators": "^7.22.15",
+    "@babel/plugin-syntax-decorators": "^7.22.10",
     "@babel/preset-env": "^7.20.0",
     "@babel/runtime": "^7.20.0",
     "@react-native/eslint-config": "^0.72.2",
@@ -47,7 +42,19 @@
   "engines": {
     "node": ">=16"
   },
+  "name": "tonehill",
+  "private": true,
   "reactNativePermissionsIOS": [
     "Microphone"
-  ]
+  ],
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "lint": "eslint .",
+    "postinstall": "patch-package && react-native setup-ios-permissions",
+    "start": "react-native start",
+    "test": "jest",
+    "update-assets": "npx react-native-asset"
+  },
+  "version": "0.0.1"
 }

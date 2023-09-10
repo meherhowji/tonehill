@@ -247,5 +247,12 @@ const noteToFrequency = {
 };
 
 const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const sharpToFlatMapping = {
+  'C#': 'Db',
+  'D#': 'Eb',
+  'F#': 'Gb',
+  'G#': 'Ab',
+  'A#': 'Bb',
+};
 
-export {frequencyToNote, notes, noteToFrequency};
+export {frequencyToNote, notes, noteToFrequency, sharpToFlatMapping};

@@ -6,7 +6,7 @@ const WelcomeScreen: React.FC = ({navigation}) => {
   const [sliderState, setSliderState] = useState({currentPage: 0});
   const {width, height} = Dimensions.get('window');
 
-  const goToHomeScreen = () => {
+  const goToPracticeScreen = () => {
     navigation.navigate('Main'); // Navigate to the 'Details' screen
   };
 
@@ -78,7 +78,7 @@ const WelcomeScreen: React.FC = ({navigation}) => {
           ))}
         </View>
         <View style={styles.skipSection}>
-          <TouchableOpacity style={styles.skipBtn} onPress={goToHomeScreen}>
+          <TouchableOpacity style={styles.skipBtn} onPress={goToPracticeScreen}>
             <Text style={styles.skipBtnTxt}>Skip</Text>
           </TouchableOpacity>
         </View>

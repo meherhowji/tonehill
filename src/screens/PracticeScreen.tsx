@@ -8,10 +8,10 @@ import LineChart from '../components/wave';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import {StatsBar} from '../components/StatsBar';
-import {ToneDisplay} from '../components/ToneDisplay';
+import ToneDisplay from '../components/ToneDisplay';
 import {styles} from '../styles/styles';
 
-const HomeScreen: React.FC = () => {
+const PracticeScreen: React.FC = () => {
   const counter = useRef<number>(0);
   const [stats, setStats] = useState<DynamicObject>({});
   const [data, setData] = useState<PitchDataObject>(DEFAULT_DATA);
@@ -32,25 +32,24 @@ const HomeScreen: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (typeof data.frequency === 'number') {
-      let newData, nextData;
-      let meta = findNearestNote(data.frequency);
-      if (meta.note !== null) {
-        let _data = mapNoteToValue(meta, 'C2', true);
-
-        if (chartData.length > 25) {
-          newData = [...chartData];
-          newData.shift();
-          nextData = [...newData, {time: counter.current, hz: _data}];
-        } else {
-          nextData = [...chartData, {time: counter.current, hz: _data}];
-        }
-        setChartData(nextData);
-        counter.current = counter.current + 1;
-        setMetaData(meta);
-      }
+    if (typeof data.frequency !== 'number' || !data.tone) {
+      return;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    const meta = findNearestNote(data.frequency);
+    const _data = mapNoteToValue(meta, 'C2', true);
+
+    setChartData(prevChartData => {
+      const updatedChartData = [...prevChartData];
+      if (updatedChartData.length > 25) {
+        updatedChartData.shift();
+      }
+      updatedChartData.push({time: counter.current, hz: _data});
+      return updatedChartData;
+    });
+
+    setMetaData(meta);
+    counter.current = counter.current + 1;
   }, [data]);
 
   useEffect(() => {
@@ -129,7 +128,8 @@ const HomeScreen: React.FC = () => {
       <SafeAreaView style={styles.safeContainer}>
         <View style={styles.container}>
           <LinearGradient colors={['rgb(32,38,45)', 'rgb(41,48,58)', 'rgb(32,38,45)']} style={styles.gradient}>
-            <ToneDisplay tone={data?.tone} />
+            <ToneDisplay audioData={data} />
+            {/* {console.log(data, 'test')} */}
             <LineChart data={chartData} />
             <StatsBar stats={stats} />
             {/* <View style={styles.buttonContainer}>
@@ -144,4 +144,4 @@ const HomeScreen: React.FC = () => {
   );
 };
 
-export default HomeScreen;
+export default PracticeScreen;
