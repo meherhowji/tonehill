@@ -6,14 +6,15 @@ import equals from 'ramda/es/equals';
 import {observer} from 'mobx-react-lite';
 import {useRootStore} from '../stores/RootStoreProvider';
 
+const flatAccidentalStyle = {
+  transform: [{rotate: '180deg'}, {scaleX: -1}, {skewY: '10deg'}],
+  top: -1,
+  fontSize: 30,
+};
+
 const ToneDisplay = observer(({audioData}) => {
   const {commonStore} = useRootStore();
   const [data, setData] = useState({tone: '', accidentals: '', frequency: '', octave: ''});
-  const flatAccidentalStyle = {
-    transform: [{rotate: '180deg'}, {scaleX: -1}, {skewY: '10deg'}],
-    top: -1,
-    fontSize: 30,
-  };
 
   useEffect(() => {
     if (audioData) {
@@ -42,8 +43,6 @@ const ToneDisplay = observer(({audioData}) => {
           </Text>
           <Text style={styles.octave}>{data.octave}</Text>
         </View>
-        {/* <Button onPress={() => commonStore.setFlatAccidental()} title="Learn More" />
-        <Button onPress={() => commonStore.setSharpAccidental()} title="Learn More" /> */}
       </View>
     </View>
   );
