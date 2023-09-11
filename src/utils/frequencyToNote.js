@@ -253,6 +253,12 @@ const sharpToFlatMapping = {
   'F#': 'Gb',
   'G#': 'Ab',
   'A#': 'Bb',
+  B: 'B',
+  C: 'C',
+  D: 'D',
+  E: 'E',
+  F: 'F',
+  G: 'G',
 };
 
 export {frequencyToNote, notes, noteToFrequency, sharpToFlatMapping};

@@ -10,6 +10,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {StatsBar} from '../components/StatsBar';
 import ToneDisplay from '../components/ToneDisplay';
 import {styles} from '../styles/styles';
+import RecordButton from '../components/RecordButton';
 
 const PracticeScreen: React.FC = () => {
   const counter = useRef<number>(0);
@@ -17,15 +18,22 @@ const PracticeScreen: React.FC = () => {
   const [data, setData] = useState<PitchDataObject>(DEFAULT_DATA);
   const [chartData, setChartData] = useState<DataArray>(DEFAULT_CHART_DATA);
   const [metaData, setMetaData] = useState<MetaObject>(DEFAULT_META);
+  const [isRecording, setIsRecording] = useState(false);
 
-  // const reset = () => {
-  //   setChartData([]);
-  //   avg.current = {};
-  // };
+  const onRecord = async (isStart: boolean) => {
+    if (isStart) {
+      await PitchDetector.start();
+    } else {
+      await PitchDetector.stop();
+      // setChartData([]);
+      // avg.current = {};
+    }
+    const status = await PitchDetector.isRecording();
+    setIsRecording(status);
+  };
 
   useEffect(() => {
     PitchDetector.addListener(setData);
-    PitchDetector.start();
     return () => {
       PitchDetector.removeListener();
     };
@@ -127,16 +135,12 @@ const PracticeScreen: React.FC = () => {
     <SafeAreaProvider>
       <SafeAreaView style={styles.safeContainer}>
         <View style={styles.container}>
-          <LinearGradient colors={['rgb(32,38,45)', 'rgb(41,48,58)', 'rgb(32,38,45)']} style={styles.gradient}>
+          <LinearGradient colors={['rgb(2,8,15)', 'rgb(11,18,28)', 'rgb(2,8,15)']} style={styles.gradient}>
             <ToneDisplay audioData={data} />
             {/* {console.log(data, 'test')} */}
             <LineChart data={chartData} />
-            <StatsBar stats={stats} />
-            {/* <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.button} onPress={reset}>
-                <Text style={styles.label}>Start New Session</Text>
-              </TouchableOpacity>
-            </View> */}
+            <RecordButton startRecording={onRecord} isRecording={isRecording} />
+            {/* <StatsBar stats={stats} /> */}
           </LinearGradient>
         </View>
       </SafeAreaView>

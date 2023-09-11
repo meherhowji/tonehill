@@ -12,6 +12,7 @@ const flatAccidentalStyle = {
   fontSize: 30,
 };
 
+// needs note, accidental, octave, frequency
 const ToneDisplay = observer(({audioData}) => {
   const {commonStore} = useRootStore();
   const [data, setData] = useState({tone: '', accidentals: '', frequency: '', octave: ''});
