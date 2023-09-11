@@ -11,12 +11,14 @@
     "react": "18.2.0",
     "react-native": "0.72.4",
     "react-native-dropdown-picker": "^5.4.6",
+    "react-native-grid-overlay": "^0.1.1",
     "react-native-linear-gradient": "^2.8.2",
     "react-native-permissions": "^3.8.4",
     "react-native-pitch-detector": "^0.1.5",
     "react-native-safe-area-context": "^4.7.2",
     "react-native-screens": "^3.25.0",
     "react-native-svg": "^13.13.0",
+    "react-native-vector-icons": "^10.0.0",
     "victory-native": "^36.6.11"
   },
   "devDependencies": {
@@ -30,6 +32,7 @@
     "@react-native/metro-config": "^0.72.11",
     "@tsconfig/react-native": "^3.0.0",
     "@types/react": "^18.0.24",
+    "@types/react-native-vector-icons": "^6.4.14",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^29.2.1",
     "eslint": "^8.19.0",
@@ -54,7 +57,8 @@
     "postinstall": "patch-package && react-native setup-ios-permissions",
     "start": "react-native start",
     "test": "jest",
-    "update-assets": "npx react-native-asset"
+    "update-assets": "npx react-native-asset",
+    "pod": "npx pod-install"
   },
   "version": "0.0.1"
 }

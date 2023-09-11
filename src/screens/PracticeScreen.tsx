@@ -7,7 +7,8 @@ import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {View} from 'react-native';
 import LineChart from '../components/wave';
 import LinearGradient from 'react-native-linear-gradient';
-import {StatsBar} from '../components/StatsBar';
+// import {StatsBar} from '../components/StatsBar';
+import {UserKey} from '../components/UserKey';
 import ToneDisplay from '../components/ToneDisplay';
 import {styles} from '../styles/styles';
 import RecordButton from '../components/RecordButton';
@@ -137,9 +138,18 @@ const PracticeScreen: React.FC = () => {
         <View style={styles.container}>
           <LinearGradient colors={['rgb(2,8,15)', 'rgb(11,18,28)', 'rgb(2,8,15)']} style={styles.gradient}>
             <ToneDisplay audioData={data} />
-            {/* {console.log(data, 'test')} */}
             <LineChart data={chartData} />
-            <RecordButton startRecording={onRecord} isRecording={isRecording} />
+            <View
+              style={{
+                flex: 0.5,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                // backgroundColor: 'white',
+                alignItems: 'start',
+              }}>
+              <UserKey />
+              <RecordButton startRecording={onRecord} isRecording={isRecording} />
+            </View>
             {/* <StatsBar stats={stats} /> */}
           </LinearGradient>
         </View>

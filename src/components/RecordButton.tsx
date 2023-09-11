@@ -25,9 +25,8 @@ const RecordButton: React.FC<RecordButtonProps> = ({isRecording, startRecording}
 const styles = StyleSheet.create({
   recordBox: {
     padding: 15,
-    paddingTop: 10,
-    paddingBottom: 10,
-    alignSelf: 'flex-end',
+    // alignSelf: 'flex-end',
+    // backgroundColor: 'magenta',
   },
   button: {
     // display: 'inline-flex',
@@ -53,6 +52,7 @@ const styles = StyleSheet.create({
     fontFamily: 'RobotoMono-Medium',
     color: 'rgb(238,122,67)',
     textTransform: 'uppercase',
+    fontSize: 16,
   },
   recordTextLive: {color: 'rgb(27,1,1)'},
 });

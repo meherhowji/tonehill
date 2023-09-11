@@ -1,16 +1,59 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {PracticeScreen, StatsScreen, RecordingsScreen, SettingsScreen} from './';
+// https://github.com/oblador/react-native-vector-icons/issues/1074#issuecomment-534053163
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 
 const Tab = createBottomTabNavigator();
 
+const Icon = ({name, focused}) => <FontAwesome6 name={name} size={20} color={focused ? 'white' : 'gray'} />;
+
 function MainScreen() {
   return (
-    <Tab.Navigator screenOptions={{headerShown: false}} initialRouteName="Practice">
-      <Tab.Screen name="Practice" component={PracticeScreen} />
-      <Tab.Screen name="Stats" component={StatsScreen} />
-      <Tab.Screen name="Recordings" component={RecordingsScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          paddingHorizontal: 5,
+          paddingTop: 0,
+          backgroundColor: 'rgb(2,8,15)',
+          borderTopWidth: 0,
+        },
+        tabBarLabelStyle: {
+          fontSize: 14,
+          fontFamily: 'Inter-Medium',
+        },
+        tabBarActiveTintColor: 'white',
+      }}
+      initialRouteName="Practice">
+      <Tab.Screen
+        name="Practice"
+        component={PracticeScreen}
+        options={{
+          tabBarIcon: ({focused}) => <Icon name={'music'} focused={focused} />,
+        }}
+      />
+      <Tab.Screen
+        name="Stats"
+        component={StatsScreen}
+        options={{
+          tabBarIcon: ({focused}) => <Icon name={'chart-simple'} focused={focused} />,
+        }}
+      />
+      <Tab.Screen
+        name="Recordings"
+        component={RecordingsScreen}
+        options={{
+          tabBarIcon: ({focused}) => <Icon name="microphone" focused={focused} />,
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          tabBarIcon: ({focused}) => <Icon name="sliders" focused={focused} />,
+        }}
+      />
     </Tab.Navigator>
   );
 }
