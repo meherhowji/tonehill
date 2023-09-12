@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, Button} from 'react-native';
-import head from 'ramda/es/head';
-import last from 'ramda/es/last';
+import {Text, View, StyleSheet} from 'react-native';
 import equals from 'ramda/es/equals';
 import {observer} from 'mobx-react-lite';
 import {useRootStore} from '../stores/RootStoreProvider';
@@ -36,17 +34,23 @@ const ToneDisplay = observer(({audioData}) => {
 
   return (
     <View style={styles.toneContainer}>
-      <View style={styles.toneText}>
-        <Text style={styles.tone} includeFontPadding>
-          {data.note}
-        </Text>
-        <View style={styles.toneMeta}>
-          <Text style={[styles.accidentals, equals(data.accidental, 'p') && flatAccidentalStyle]}>
-            {data.accidental}
+      {data.note ? (
+        <View style={styles.toneText}>
+          <Text style={styles.tone} includeFontPadding>
+            {data.note}
           </Text>
-          <Text style={styles.octave}>{data.octave}</Text>
+          <View style={styles.toneMeta}>
+            <Text style={[styles.accidentals, equals(data.accidental, 'p') && flatAccidentalStyle]}>
+              {data.accidental}
+            </Text>
+            <Text style={styles.octave}>{data.octave}</Text>
+          </View>
         </View>
-      </View>
+      ) : (
+        <View style={styles.toneTextFallback}>
+          <Text style={styles.toneFallback}>-</Text>
+        </View>
+      )}
     </View>
   );
 });
@@ -66,6 +70,15 @@ const styles = StyleSheet.create({
     height: 90,
     width: 105,
     overflow: 'hidden',
+  },
+  toneTextFallback: {
+    position: 'relative',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  toneFallback: {
+    fontSize: 120,
+    color: 'rgba(255,255,255, 0.8)',
   },
   tone: {
     position: 'absolute',
