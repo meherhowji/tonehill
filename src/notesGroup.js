@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import {notes} from './utils/frequencyToNote';
+import {notes} from './utils/mappings';
 
 const MusicalNoteRadioGroup = ({selectedNote, onSelectNote = () => {}}) => {
   const rows = Math.ceil(notes.length / 2); // Calculate the number of rows

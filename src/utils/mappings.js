@@ -248,11 +248,12 @@ const noteToFrequency = {
 
 const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 const sharpToFlatMapping = {
+  'A#': 'Bb',
   'C#': 'Db',
   'D#': 'Eb',
   'F#': 'Gb',
   'G#': 'Ab',
-  'A#': 'Bb',
+  A: 'A',
   B: 'B',
   C: 'C',
   D: 'D',

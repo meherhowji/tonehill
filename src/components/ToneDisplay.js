@@ -5,6 +5,9 @@ import last from 'ramda/es/last';
 import equals from 'ramda/es/equals';
 import {observer} from 'mobx-react-lite';
 import {useRootStore} from '../stores/RootStoreProvider';
+import {FLAT} from '../utils/constants';
+import {isValidNumber, parseNote} from '../utils/utils';
+import {sharpToFlatMapping} from '../utils/mappings';
 
 const flatAccidentalStyle = {
   transform: [{rotate: '180deg'}, {scaleX: -1}, {skewY: '10deg'}],
@@ -15,20 +18,19 @@ const flatAccidentalStyle = {
 // needs note, accidental, octave, frequency
 const ToneDisplay = observer(({audioData}) => {
   const {commonStore} = useRootStore();
-  const [data, setData] = useState({tone: '', accidentals: '', frequency: '', octave: ''});
+  const [data, setData] = useState({note: '', accidental: '', frequency: '', octave: ''});
 
   useEffect(() => {
-    if (audioData) {
-      let note = head(audioData?.tone);
-      // const getMappedNote = propOr(note, note, sharpToFlatMapping);
-      // if (accidental === '#' && sharpToFlatMapping[note]) {
-      //   note = getMappedNote(note);
-      // }
-      setData({
-        tone: note,
-        accidentals: audioData?.tone?.length > 1 ? last(audioData?.tone) : '',
-        octave: '1',
-      });
+    if (audioData?.note) {
+      let {note, accidental, octave} = parseNote(audioData.note);
+
+      if (commonStore.accidental === FLAT) {
+        const mappedNote = sharpToFlatMapping[note + accidental];
+        const mappedParsedNote = parseNote(mappedNote);
+        ({note, accidental} = mappedParsedNote);
+      }
+
+      setData({note, accidental, octave: isValidNumber(octave) ? octave : ''});
     }
   }, [audioData]);
 
@@ -36,11 +38,11 @@ const ToneDisplay = observer(({audioData}) => {
     <View style={styles.toneContainer}>
       <View style={styles.toneText}>
         <Text style={styles.tone} includeFontPadding>
-          {data.tone}
+          {data.note}
         </Text>
         <View style={styles.toneMeta}>
-          <Text style={[styles.accidentals, equals(commonStore.accidental, 'p') && flatAccidentalStyle]}>
-            {commonStore.accidental}
+          <Text style={[styles.accidentals, equals(data.accidental, 'p') && flatAccidentalStyle]}>
+            {data.accidental}
           </Text>
           <Text style={styles.octave}>{data.octave}</Text>
         </View>

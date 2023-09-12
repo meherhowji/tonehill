@@ -9,6 +9,7 @@ import LineChart from '../components/wave';
 import LinearGradient from 'react-native-linear-gradient';
 // import {StatsBar} from '../components/StatsBar';
 import {UserKey} from '../components/UserKey';
+import {UserScale} from '../components/UserScale';
 import ToneDisplay from '../components/ToneDisplay';
 import {styles} from '../styles/styles';
 import RecordButton from '../components/RecordButton';
@@ -26,8 +27,6 @@ const PracticeScreen: React.FC = () => {
       await PitchDetector.start();
     } else {
       await PitchDetector.stop();
-      // setChartData([]);
-      // avg.current = {};
     }
     const status = await PitchDetector.isRecording();
     setIsRecording(status);
@@ -46,14 +45,10 @@ const PracticeScreen: React.FC = () => {
     }
 
     const meta = findNearestNote(data.frequency);
-    const _data = mapNoteToValue(meta, 'C2', true);
-
     setChartData(prevChartData => {
-      const updatedChartData = [...prevChartData];
-      if (updatedChartData.length > 25) {
-        updatedChartData.shift();
-      }
-      updatedChartData.push({time: counter.current, hz: _data});
+      let updatedChartData = [...prevChartData];
+      updatedChartData.length > 25 && updatedChartData.shift();
+      updatedChartData.push({time: counter.current, hz: mapNoteToValue(meta, 'C2', true)});
       return updatedChartData;
     });
 
@@ -137,7 +132,7 @@ const PracticeScreen: React.FC = () => {
       <SafeAreaView style={styles.safeContainer}>
         <View style={styles.container}>
           <LinearGradient colors={['rgb(2,8,15)', 'rgb(11,18,28)', 'rgb(2,8,15)']} style={styles.gradient}>
-            <ToneDisplay audioData={data} />
+            <ToneDisplay audioData={metaData} />
             <LineChart data={chartData} />
             <View
               style={{
@@ -148,6 +143,7 @@ const PracticeScreen: React.FC = () => {
                 alignItems: 'start',
               }}>
               <UserKey />
+              <UserScale />
               <RecordButton startRecording={onRecord} isRecording={isRecording} />
             </View>
             {/* <StatsBar stats={stats} /> */}

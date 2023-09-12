@@ -4,18 +4,19 @@ import {View, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {notes} from '../utils/mappings';
 
-export function UserKey() {
+export function UserScale() {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('C#');
-  const [items, setItems] = useState([]);
-
-  useEffect(() => {
-    const notesList = notes.map(v => ({
-      label: v,
-      value: v,
-    }));
-    setItems(notesList);
-  }, []);
+  const [value, setValue] = useState('major');
+  const [items, setItems] = useState([
+    {
+      label: 'Major',
+      value: 'major',
+    },
+    {
+      label: 'Minor',
+      value: 'minor',
+    },
+  ]);
 
   return (
     // need to move this to commonStore
@@ -24,7 +25,7 @@ export function UserKey() {
         <DropDownPicker
           multiple={false}
           open={open}
-          value={`Key: ${value}`}
+          value={`Scale: ${value}`}
           items={items}
           setOpen={setOpen}
           setValue={setValue}
@@ -32,9 +33,9 @@ export function UserKey() {
           showArrowIcon={false}
           listMode={'SCROLLVIEW'}
           dropDownDirection={'TOP'}
-          placeholder={`Key: ${value}`}
+          placeholder={`Scale: ${value}`}
           containerStyle={{
-            width: 77,
+            width: 116,
           }}
           listItemContainer={{
             height: 40,

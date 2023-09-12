@@ -20,7 +20,7 @@ function MainScreen() {
           borderTopWidth: 0,
         },
         tabBarLabelStyle: {
-          fontSize: 14,
+          fontSize: 13,
           fontFamily: 'Inter-Medium',
         },
         tabBarActiveTintColor: 'white',

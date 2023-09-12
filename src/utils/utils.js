@@ -1,5 +1,9 @@
-import {frequencyToNote, notes} from './frequencyToNote';
+import {frequencyToNote, notes} from './mappings';
 import {CENT_THRESHOLD} from './constants';
+import both from 'ramda/es/both';
+import complement from 'ramda/es/complement';
+import equals from 'ramda/es/equals';
+import is from 'ramda/es/is';
 
 // used in app.tsx
 const findNearestNote = frequency => {
@@ -133,4 +137,23 @@ const calculateGridStyle = (tick, isStroke) => {
   return isStroke ? `rgba(255, 255, 255, ${opacity})` : strokeWidth;
 };
 
-export {findNearestNote, getNotes, mapNoteToValue, calculateAverage, calculateGridStyle};
+function parseNote(note) {
+  const noteRegex = /^([A-Ga-g])([b#]?)(\d*)$/;
+  const match = note.match(noteRegex);
+
+  if (!match) {
+    throw new Error('Invalid note format');
+  }
+
+  const [, noteName, accidental, octave] = match;
+
+  return {
+    note: noteName.toUpperCase(),
+    accidental: accidental === 'b' ? 'p' : accidental || '',
+    octave: octave ? parseInt(octave, 10) : '',
+  };
+}
+
+const isValidNumber = both(is(Number), complement(equals(NaN)));
+
+export {findNearestNote, getNotes, mapNoteToValue, calculateAverage, calculateGridStyle, isValidNumber, parseNote};

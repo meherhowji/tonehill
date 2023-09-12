@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, memo} from 'react';
 import {View, Text, ScrollView, StyleSheet, TouchableHighlight} from 'react-native';
-import {notes} from './utils/frequencyToNote';
+import {notes} from './utils/mappings';
 import LinearGradient from 'react-native-linear-gradient';
 
 export function MusicalNotePicker({onNoteSelect}) {

@@ -3,7 +3,7 @@ import {makeObservable, observable, action, computed} from 'mobx';
 export class CommonStore {
   note = '';
   accidental = '#';
-  userKey = 'C#';
+  userKey = '';
 
   constructor() {
     makeObservable(this, {
@@ -23,7 +23,7 @@ export class CommonStore {
   }
 
   setFlatAccidental() {
-    this.accidental = 'p';
+    this.accidental = 'b';
   }
 
   setSharpAccidental() {
