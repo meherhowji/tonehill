@@ -38,6 +38,7 @@ export function UserKey() {
           }}
           listItemContainer={{
             height: 40,
+            // justifyContent: 'center'
           }}
           placeholderStyle={{
             padding: 0,

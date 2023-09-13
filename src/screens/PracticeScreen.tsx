@@ -131,7 +131,7 @@ const PracticeScreen: React.FC = () => {
     <SafeAreaProvider>
       <SafeAreaView style={styles.safeContainer}>
         <View style={styles.container}>
-          <LinearGradient colors={['rgb(2,8,15)', 'rgb(11,18,28)', 'rgb(2,8,15)']} style={styles.gradient}>
+            <LinearGradient colors={['rgb(2,8,15)', 'rgb(11,18,28)', 'rgb(2,8,15)']} style={styles.gradient}>
             <ToneDisplay audioData={metaData} />
             <LineChart data={chartData} />
             <View

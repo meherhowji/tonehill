@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useState} from 'react';
 import {View, Text, SectionList, StyleSheet, TouchableOpacity} from 'react-native';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {useRootStore} from '../stores/RootStoreProvider';
@@ -6,6 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import {observer} from 'mobx-react-lite';
 import {SHARP, FLAT} from '../utils/constants';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 const DATA = [
   {
@@ -32,6 +34,15 @@ const DATA = [
 
 const SettingsScreen = observer(() => {
   const {commonStore} = useRootStore();
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    {label: '±10 cents', value: '10'},
+    {label: '±7 cents', value: '7'},
+    {label: '±5 cents', value: '5'},
+    {label: '±2 cents', value: '2'},
+    {label: '±1 cent', value: '1'},
+  ]);
 
   return (
     <SafeAreaProvider>
@@ -39,10 +50,25 @@ const SettingsScreen = observer(() => {
         <LinearGradient colors={['rgb(2,8,15)', 'rgb(11,18,28)', 'rgb(2,8,15)']} style={styles.gradient}>
           <View style={styles.settingContainer}>
             <SectionList
-              sections={DATA}
-              style={styles.settingList}
+              ListHeaderComponent={() => (
+                <Text
+                  style={{
+                    fontSize: 45,
+                    color: 'white',
+                    fontFamily: 'Inter-Bold',
+                  }}>
+                  Settings
+                </Text>
+              )}
+              CellRendererComponent={({children, index, style, ...props}) => {
+                return (
+                  // static value doesn't work, somehow using the dynamic index makes it work
+                  <View style={[style, {zIndex: -1 * index}]} index={index} {...props}>
+                    {children}
+                  </View>
+                );
+              }}
               keyExtractor={(item, index) => item + index}
-              stickySectionHeadersEnabled={false}
               renderItem={({item, index, section}) => {
                 // add rounded borders on top and bottom
                 const firstItemStyle = index === 0 && styles.firstItem;
@@ -65,15 +91,53 @@ const SettingsScreen = observer(() => {
                             }}
                           />
                         )}
-                        {item === 'Octave' && <Text style={styles.settingValue}>Show</Text>}
-                        {item === 'Cents' && <Text style={styles.settingValue}>Show</Text>}
-                        {item === 'Frequency' && <Text style={styles.settingValue}>Hide</Text>}
+
+                        {item === 'In-Tune Range' && (
+                          <DropDownPicker
+                            open={open}
+                            value={value}
+                            items={items}
+                            multiple={false}
+                            setOpen={setOpen}
+                            setValue={setValue}
+                            setItems={setItems}
+                            showArrowIcon={false}
+                            placeholder={'± 10 cents'}
+                            itemSeparator={true}
+                            showTickIcon={false}
+                            containerStyle={{
+                              height: 40,
+                            }}
+                            placeholderStyle={{
+                              padding: 0,
+                            }}
+                            style={{
+                              backgroundColor: 'rgb(38,38,38)',
+                              minHeight: 35,
+                            }}
+                            dropDownContainerStyle={{
+                              backgroundColor: 'rgb(30,30,30)',
+                            }}
+                            textStyle={{
+                              color: 'white',
+                              fontSize: 16,
+                              fontFamily: 'Inter-Regular',
+                              padding: 0,
+                              textAlign: 'center',
+                            }}
+                          />
+                        )}
+                        {/* {item === 'Cents' && <Text style={styles.settingValue}>Show</Text>}
+                        {item === 'Frequency' && <Text style={styles.settingValue}>Hide</Text>} */}
                       </View>
                     </View>
                   </TouchableOpacity>
                 );
               }}
               renderSectionHeader={({section: {title}}) => <Text style={styles.header}>{title}</Text>}
+              stickySectionHeadersEnabled={false}
+              sections={DATA}
+              style={styles.settingList}
             />
           </View>
         </LinearGradient>
