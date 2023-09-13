@@ -3,7 +3,6 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {PracticeScreen, StatsScreen, RecordingsScreen, SettingsScreen} from './';
 // https://github.com/oblador/react-native-vector-icons/issues/1074#issuecomment-534053163
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import LinearGradient from 'react-native-linear-gradient';
 
 const Tab = createBottomTabNavigator();
 

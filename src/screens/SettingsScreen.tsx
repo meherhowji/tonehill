@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
-import {View, Text, SectionList, StyleSheet} from 'react-native';
+import React from 'react';
+import {View, Text, SectionList, StyleSheet, TouchableOpacity} from 'react-native';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {useRootStore} from '../stores/RootStoreProvider';
 import LinearGradient from 'react-native-linear-gradient';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
+import {observer} from 'mobx-react-lite';
+import {SHARP, FLAT} from '../utils/constants';
 
 const DATA = [
   {
@@ -16,26 +18,25 @@ const DATA = [
   },
   {
     title: 'Stats',
-    data: ['Delete Last Session', 'Delete All Sessions'],
+    data: ['Delete Stats', 'Delete All Stats'],
   },
   {
-    title: 'About',
-    data: ['FAQ', 'Contact', 'Leave a Review'],
+    title: 'About App',
+    data: ['Share with Friends', 'Leave a Review', 'Contact', 'FAQ', 'Reset Settings'],
+  },
+  {
+    title: 'Account',
+    data: ['Log Out', 'Delete Data', 'Delete Account'],
   },
 ];
 
-const SettingsScreen = () => {
+const SettingsScreen = observer(() => {
   const {commonStore} = useRootStore();
-  const [selectedIndex, setSelectedIndex] = useState(0);
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.safeContainer}>
         <LinearGradient colors={['rgb(2,8,15)', 'rgb(11,18,28)', 'rgb(2,8,15)']} style={styles.gradient}>
-          {/* <View>
-            <Button onPress={() => commonStore.setFlatAccidental()} title="Use Flats" />
-            <Button onPress={() => commonStore.setSharpAccidental()} title="Use Sharps" />
-          </View> */}
           <View style={styles.settingContainer}>
             <SectionList
               sections={DATA}
@@ -47,24 +48,29 @@ const SettingsScreen = () => {
                 const firstItemStyle = index === 0 && styles.firstItem;
                 const lastItemStyle = index === section.data.length - 1 && styles.lastItem;
                 return (
-                  <View style={[styles.item, firstItemStyle, lastItemStyle]}>
-                    <View>
-                      <Text style={styles.itemTitle}>{item}</Text>
+                  <TouchableOpacity>
+                    <View style={[styles.item, firstItemStyle, lastItemStyle]}>
+                      <View>
+                        <Text style={styles.itemTitle}>{item}</Text>
+                      </View>
+                      <View style={styles.control}>
+                        {item === 'Accidental' && (
+                          <SegmentedControl
+                            style={styles.segmentedControl}
+                            values={[SHARP, FLAT]}
+                            selectedIndex={commonStore.accidental === SHARP ? 0 : 1}
+                            onChange={event => {
+                              let _selectedIndex = event.nativeEvent.selectedSegmentIndex;
+                              _selectedIndex === 1 ? commonStore.setFlatAccidental() : commonStore.setSharpAccidental();
+                            }}
+                          />
+                        )}
+                        {item === 'Octave' && <Text style={styles.settingValue}>Show</Text>}
+                        {item === 'Cents' && <Text style={styles.settingValue}>Show</Text>}
+                        {item === 'Frequency' && <Text style={styles.settingValue}>Hide</Text>}
+                      </View>
                     </View>
-                    <View style={styles.control}>
-                      {item === 'Accidental' && (
-                        <SegmentedControl
-                          style={styles.segmentedControl}
-                          values={['#', 'b']}
-                          selectedIndex={selectedIndex}
-                          onChange={event => {
-                            setSelectedIndex(event.nativeEvent.selectedSegmentIndex);
-                          }}
-                        />
-                      )}
-                      {item === 'Octave' && <Text style={styles.settingValue}>Show</Text>}
-                    </View>
-                  </View>
+                  </TouchableOpacity>
                 );
               }}
               renderSectionHeader={({section: {title}}) => <Text style={styles.header}>{title}</Text>}
@@ -74,7 +80,7 @@ const SettingsScreen = () => {
       </SafeAreaView>
     </SafeAreaProvider>
   );
-};
+});
 
 const styles = StyleSheet.create({
   safeContainer: {
@@ -99,7 +105,7 @@ const styles = StyleSheet.create({
   },
   item: {
     backgroundColor: 'rgb(38,38,38)',
-    padding: 12,
+    height: 50,
     paddingLeft: 18,
     paddingRight: 18,
     borderBottomWidth: 1,
