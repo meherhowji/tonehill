@@ -154,6 +154,57 @@ function parseNote(note) {
   };
 }
 
+function generateScale(key, scaleFormula) {
+  // Define the possible note names
+  const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+
+  // Find the index of the key in the noteNames array
+  const keyIndex = noteNames.indexOf(key);
+
+  if (keyIndex === -1) {
+    return 'Invalid key';
+  }
+
+  // Initialize the scale with the key
+  const majorScale = [key];
+
+  // Generate the major scale notes
+  let currentIndex = keyIndex;
+
+  for (const step of scaleFormula) {
+    if (step === 'W') {
+      currentIndex = (currentIndex + 2) % 12;
+    } else {
+      currentIndex = (currentIndex + 1) % 12;
+    }
+    majorScale.push(noteNames[currentIndex]);
+  }
+}
+
+function noteToSolfege(note, scale, solfege) {
+  // Find the index of the note within the scale
+  const noteIndex = scale.indexOf(note);
+
+  if (noteIndex === -1) {
+    return 'Note not found in the scale';
+  }
+
+  // Calculate the solfege index based on the note index within the scale
+  const solfegeIndex = (noteIndex + 7) % 7;
+
+  return solfege[solfegeIndex];
+}
+
 const isValidNumber = both(is(Number), complement(equals(NaN)));
 
-export {findNearestNote, getNotes, mapNoteToValue, calculateAverage, calculateGridStyle, isValidNumber, parseNote};
+export {
+  findNearestNote,
+  getNotes,
+  mapNoteToValue,
+  calculateAverage,
+  calculateGridStyle,
+  isValidNumber,
+  parseNote,
+  generateScale,
+  noteToSolfege,
+};

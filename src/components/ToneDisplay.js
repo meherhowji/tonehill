@@ -7,13 +7,7 @@ import {FLAT} from '../utils/constants';
 import {isValidNumber, parseNote} from '../utils/utils';
 import {sharpToFlatMapping} from '../utils/mappings';
 
-const flatAccidentalStyle = {
-  transform: [{rotate: '180deg'}, {scaleX: -1}, {skewY: '10deg'}],
-  top: -1,
-  fontSize: 30,
-};
-
-// needs note, accidental, octave, frequency
+// audioData is metaData containing note, accuracy and cent
 const ToneDisplay = observer(({audioData}) => {
   const {commonStore} = useRootStore();
   const [data, setData] = useState({note: '', accidental: '', frequency: '', octave: ''});
@@ -30,6 +24,7 @@ const ToneDisplay = observer(({audioData}) => {
 
       setData({note, accidental, octave: isValidNumber(octave) ? octave : ''});
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [audioData]);
 
   return (
@@ -40,7 +35,7 @@ const ToneDisplay = observer(({audioData}) => {
             {data.note}
           </Text>
           <View style={styles.toneMeta}>
-            <Text style={[styles.accidentals, equals(data.accidental, 'p') && flatAccidentalStyle]}>
+            <Text style={[styles.accidentals, equals(data.accidental, 'p') && styles.flatAccidentalStyle]}>
               {data.accidental}
             </Text>
             <Text style={styles.octave}>{data.octave}</Text>
@@ -109,6 +104,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     top: -10,
+  },
+  flatAccidentalStyle: {
+    transform: [{rotate: '180deg'}, {scaleX: -1}, {skewY: '10deg'}],
+    top: -1,
+    fontSize: 30,
   },
   octave: {
     position: 'absolute',

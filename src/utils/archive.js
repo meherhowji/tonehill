@@ -1,26 +1,3 @@
-// function getNotesInKey(musicalKey, scaleIntervals) {
-//   // Example usage
-//   // const musicalKey = 'D'; // Change this to the desired key
-//   // const majorScaleIntervals = [2, 2, 1, 2, 2, 2, 1]; // Major scale intervals
-//   // const notesInKey = getNotesInKey(musicalKey, majorScaleIntervals);
-//   const selectedKey = musicalKey.toUpperCase();
-
-//   if (notes.includes(selectedKey)) {
-//     const keyIndex = notes.indexOf(selectedKey);
-
-//     const notesInKey = [selectedKey];
-//     let currentNoteIndex = keyIndex;
-
-//     for (const interval of scaleIntervals) {
-//       currentNoteIndex += interval;
-//       if (currentNoteIndex >= notes.length) {
-//         currentNoteIndex -= notes.length;
-//       }
-//       notesInKey.push(notes[currentNoteIndex]);
-//     }
-
-//     return notesInKey;
-//   }
 
 //   // If the provided key is not valid, return the default diatonic notes
 //   return notes;
