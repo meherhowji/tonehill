@@ -1,14 +1,15 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {View, Text, SectionList, StyleSheet} from 'react-native';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
-import {observer} from 'mobx-react-lite';
 import {settingsData, settingsConfig} from '../components/settings/settingsData';
 
-const SettingsScreen = observer(() => {
+const SettingsScreen = () => {
   const renderItemComponent = (item: string) => {
     const component = settingsConfig.find(config => config.name === item);
     return component ? component.component : null;
   };
+
+  const Header = useCallback(() => <Text style={css.settingHeader}>Settings</Text>, []);
   return (
     <SafeAreaProvider>
       <SafeAreaView style={css.safeContainer}>
@@ -18,7 +19,7 @@ const SettingsScreen = observer(() => {
           renderSectionHeader={({section: {title}}) => <Text style={css.header}>{title}</Text>}
           stickySectionHeadersEnabled={false}
           sections={settingsData}
-          ListHeaderComponent={() => <Text style={css.settingHeader}>Settings</Text>}
+          ListHeaderComponent={Header}
           CellRendererComponent={({children, index, style, ...props}) => {
             return (
               <View style={[style, {zIndex: -1 * index}]} index={index} {...props}>
@@ -41,7 +42,7 @@ const SettingsScreen = observer(() => {
       </SafeAreaView>
     </SafeAreaProvider>
   );
-});
+};
 
 const css = StyleSheet.create({
   safeContainer: {

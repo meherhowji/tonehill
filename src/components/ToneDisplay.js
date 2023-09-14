@@ -38,7 +38,7 @@ const ToneDisplay = observer(({audioData}) => {
             <Text style={[styles.accidentals, equals(data.accidental, 'p') && styles.flatAccidentalStyle]}>
               {data.accidental}
             </Text>
-            <Text style={styles.octave}>{data.octave}</Text>
+            {commonStore.showOctave && <Text style={styles.octave}>{data.octave}</Text>}
           </View>
         </View>
       ) : (

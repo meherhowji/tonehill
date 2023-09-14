@@ -1,26 +1,26 @@
+import React from 'react';
 import {InTuneRangeDropdown, AccidentalSwitch, CentsDropdown, FrequencyDropdown, OctaveDropdown} from './';
 
 const settingsData = [
   {
     title: 'Display',
-    data: ['Accidental', 'Octave', 'Cents', 'Frequency'],
+    data: ['Accidental', 'Octave', 'Cents'],
   },
   {
     title: 'Tuner',
     data: ['In-Tune Range'],
-    // data: ['In-Tune Range', 'Mic Sensitivity'],
   },
   {
     title: 'Stats',
-    data: ['Delete Stats', 'Delete All Stats'],
+    data: ['Delete Stats'],
   },
   {
-    title: 'About App',
-    data: ['Share with Friends', 'Leave a Review', 'Contact', 'FAQ'],
+    title: 'App',
+    data: ['How to Use & FAQs', 'Share with Friends', 'Leave a Review', 'About'],
   },
   {
     title: 'Account',
-    data: ['Log Out', 'Delete Data', 'Reset Settings', 'Delete Account'],
+    data: ['Log Out', 'Reset Settings'],
   },
 ];
 

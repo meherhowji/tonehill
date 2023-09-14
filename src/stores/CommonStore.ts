@@ -1,40 +1,33 @@
-import {makeObservable, observable, action, computed} from 'mobx';
+import {makeAutoObservable} from 'mobx';
 
 export class CommonStore {
-  note = '';
   accidental = '#';
-  userKey = '';
+  showOctave = true;
+  showCents = true;
+  showFrequency = false;
+  inTuneRange = 10;
 
   constructor() {
-    makeObservable(this, {
-      note: observable,
-      accidental: observable,
-      userKey: observable,
-      updateNote: action,
-      setFlatAccidental: action,
-      setSharpAccidental: action,
-      setUserKey: action,
-      tone: computed,
-    });
+    makeAutoObservable(this);
   }
 
-  updateNote(n: string) {
-    this.note = n;
+  toggleAccidental() {
+    this.accidental = this.accidental === '#' ? 'b' : '#';
   }
 
-  setFlatAccidental() {
-    this.accidental = 'b';
+  toggleOctave() {
+    this.showOctave = !this.showOctave;
   }
 
-  setSharpAccidental() {
-    this.accidental = '#';
+  toggleCents() {
+    this.showCents = !this.showCents;
   }
 
-  setUserKey(newKey: string) {
-    this.userKey = newKey;
+  toggleFrequency() {
+    this.showFrequency = !this.showFrequency;
   }
 
-  get tone() {
-    return 0;
+  setInTuneRange(v: number) {
+    this.inTuneRange = v;
   }
 }

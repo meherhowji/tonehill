@@ -1,19 +1,25 @@
 import React, {useState} from 'react';
 import {StyleSheet, TouchableOpacity, Text} from 'react-native';
+import {useRootStore} from '../../stores/RootStoreProvider';
+import {observer} from 'mobx-react-lite';
 
-function OctaveDropdown() {
-  const [value, setValue] = useState('Show');
+const FrequencyDropdown = observer(() => {
+  const {commonStore} = useRootStore();
   const [isDisabled, setIsDisabled] = useState(true);
 
+  const [value, setValue] = useState('Show');
+
+  const update = () => {
+    setValue(prev => (prev === 'Show' ? 'Hide' : 'Show'));
+    commonStore.toggleFrequency();
+  };
+
   return (
-    <TouchableOpacity
-      style={[styles.container, isDisabled && styles.disabled]}
-      onPress={() => setValue(prev => (prev === 'Show' ? 'Hide' : 'Show'))}
-      disabled={isDisabled}>
+    <TouchableOpacity style={[styles.container, isDisabled && styles.disabled]} onPress={update} disabled={isDisabled}>
       <Text style={styles.text}>{value}</Text>
     </TouchableOpacity>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -35,4 +41,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OctaveDropdown;
+export default FrequencyDropdown;
