@@ -6,14 +6,14 @@ import {generateScale} from '../utils/utils';
 import {useRootStore} from '../stores/RootStoreProvider';
 import {observer} from 'mobx-react-lite';
 
-const MusicalNotePicker = observer(({onNoteSelect}) => {
+const MusicalNotePicker = observer(({stats}) => {
   const {commonStore} = useRootStore();
 
   return (
     <View style={styles.container}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
         {generateScale(commonStore.userKey, commonStore.userScale).map((note, index) => (
-          <View key={index} style={[styles.noteItem]}>
+          <View key={index} style={[styles.noteItem, {backgroundColor: 1 ? '' : ''}]}>
             {/* <LinearGradient colors={selectedNote === note ? ['#68defb', '#d76aff'] : ['#fff0']} style={styles.gradient}> */}
             <TouchableOpacity style={styles.cell} underlayColor={'#fff0'}>
               <Text style={[styles.noteText, {opacity: 0.4}]}>{note}</Text>
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     height: 90,
   },
   scrollContainer: {
-    paddingHorizontal: 10,
+    // flex: 1,
   },
   gradient: {
     flex: 1,
@@ -41,8 +41,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   noteItem: {
-    width: 40,
-    height: 40,
+    width: 36,
+    height: 36,
     borderRadius: 20,
     marginHorizontal: 5,
   },

@@ -4,14 +4,12 @@ import {findNearestNote, mapNoteToValue, calculateAverage} from '../utils/utils'
 import {MetaObject, DynamicObject, DataArray, PitchDataObject} from '../types/types';
 import {DEFAULT_DATA, DEFAULT_META, DEFAULT_CHART_DATA} from '../utils/constants';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
-import {View} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import LineChart from '../components/wave';
 import LinearGradient from 'react-native-linear-gradient';
-// import {StatsBar} from '../components/StatsBar';
 import {UserKey} from '../components/UserKey';
 import {UserScale} from '../components/UserScale';
 import ToneDisplay from '../components/ToneDisplay';
-import {styles} from '../styles/styles';
 import RecordButton from '../components/RecordButton';
 import {observer} from 'mobx-react-lite';
 import {useRootStore} from '../stores/RootStoreProvider';
@@ -59,6 +57,7 @@ const PracticeScreen: React.FC = observer(() => {
 
     setMetaData(meta);
     counter.current = counter.current + 1;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   useEffect(() => {
@@ -138,24 +137,65 @@ const PracticeScreen: React.FC = observer(() => {
           <LinearGradient colors={['rgb(2,8,15)', 'rgb(11,18,28)', 'rgb(2,8,15)']} style={styles.gradient}>
             <ToneDisplay audioData={metaData} />
             <LineChart data={chartData} />
-            <View
-              style={{
-                flex: 0.5,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                // backgroundColor: 'white',
-                alignItems: 'start',
-              }}>
+            <View style={styles.userKeyScale}>
               <UserKey />
               <UserScale />
               <RecordButton startRecording={onRecord} isRecording={isRecording} />
             </View>
-            <StatsBar stats={stats} />
+            <StatsBar />
           </LinearGradient>
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
   );
+});
+
+const styles = StyleSheet.create({
+  safeContainer: {
+    flex: 1,
+    backgroundColor: 'rgb(2,8,15)',
+  },
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'blue',
+  },
+  gradient: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'space-between',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  button: {
+    padding: 10,
+    borderRadius: 5,
+    margin: 10,
+    marginBottom: 30,
+    backgroundColor: '#555',
+  },
+  label: {
+    color: 'white',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  frequency: {
+    fontSize: 20,
+  },
+  meta: {
+    color: 'white',
+    marginTop: 5,
+    marginBottom: 10,
+  },
+  userKeyScale: {
+    flex: 0.5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    // backgroundColor: 'white',
+  },
 });
 
 export default PracticeScreen;

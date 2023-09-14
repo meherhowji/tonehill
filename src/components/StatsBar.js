@@ -1,19 +1,17 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {View, StyleSheet, Dimensions} from 'react-native';
 import {MemoisedNotePicker} from './noteScroller';
-// import {MusicalNotePicker} from './noteScroller';
 
-function StatsBar({stats}) {
+function StatsBar() {
   // const [toggleFlat, setToggleFlat] = useState(true);
   // const [togglePerfect, setTogglePerfect] = useState(true);
   // const [toggleSharp, setToggleSharp] = useState(true);
-  const [selectedNote, setSelectedNote] = useState('C');
-  const data = stats;
+  // const [selectedNote, setSelectedNote] = useState('C');
 
   return (
     <View style={styles.container} width={Dimensions.get('window').width}>
       <View style={[styles.row, styles.firstRow]}>
-        <MemoisedNotePicker onNoteSelect={setSelectedNote} />
+        <MemoisedNotePicker />
       </View>
     </View>
   );
