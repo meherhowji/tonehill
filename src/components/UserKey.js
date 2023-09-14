@@ -3,8 +3,11 @@ import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {notes} from '../utils/mappings';
+import {useRootStore} from '../stores/RootStoreProvider';
+import {observer} from 'mobx-react-lite';
 
-export function UserKey() {
+const UserKey = observer(() => {
+  const {commonStore} = useRootStore();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('C#');
   const [items, setItems] = useState([]);
@@ -25,6 +28,7 @@ export function UserKey() {
           multiple={false}
           open={open}
           value={`Key: ${value}`}
+          onSelectItem={v => commonStore.setUserKey(v?.value)}
           items={items}
           setOpen={setOpen}
           setValue={setValue}
@@ -71,7 +75,7 @@ export function UserKey() {
       </View>
     </TouchableWithoutFeedback>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -80,3 +84,5 @@ const styles = StyleSheet.create({
     padding: 15,
   },
 });
+
+export {UserKey};

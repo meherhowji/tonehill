@@ -2,9 +2,11 @@
 import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import {notes} from '../utils/mappings';
+import {observer} from 'mobx-react-lite';
+import {useRootStore} from '../stores/RootStoreProvider';
 
-export function UserScale() {
+const UserScale = observer(() => {
+  const {commonStore} = useRootStore();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('major');
   const [items, setItems] = useState([
@@ -19,19 +21,18 @@ export function UserScale() {
   ]);
 
   return (
-    // need to move this to commonStore
     <TouchableWithoutFeedback onPress={() => setOpen(false)}>
       <View style={styles.container}>
         <DropDownPicker
           multiple={false}
           open={open}
           value={`Scale: ${value}`}
+          onSelectItem={v => commonStore.setUserScale(v.value)}
           items={items}
           setOpen={setOpen}
           setValue={setValue}
           setItems={setItems}
           showArrowIcon={false}
-          listMode={'SCROLLVIEW'}
           dropDownDirection={'TOP'}
           placeholder={`Scale: ${value}`}
           containerStyle={{
@@ -71,7 +72,7 @@ export function UserScale() {
       </View>
     </TouchableWithoutFeedback>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -80,3 +81,5 @@ const styles = StyleSheet.create({
     padding: 15,
   },
 });
+
+export {UserScale};

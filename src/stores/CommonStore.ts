@@ -1,11 +1,14 @@
 import {makeAutoObservable} from 'mobx';
+import {SCALES} from '../utils/constants';
 
 export class CommonStore {
-  accidental = '#';
-  showOctave = true;
-  showCents = true;
-  showFrequency = false;
-  inTuneRange = 5;
+  accidental: string = '#';
+  showOctave: boolean = true;
+  showCents: boolean = true;
+  showFrequency: boolean = false;
+  inTuneRange: number = 5;
+  userKey: string = 'C#';
+  userScale: string[] = SCALES.MAJOR;
 
   constructor() {
     makeAutoObservable(this);
@@ -27,7 +30,15 @@ export class CommonStore {
     this.showFrequency = !this.showFrequency;
   }
 
-  setInTuneRange(v: number) {
-    this.inTuneRange = v;
+  setInTuneRange(cent: number) {
+    this.inTuneRange = cent;
+  }
+
+  setUserKey(key: string) {
+    this.userKey = key;
+  }
+
+  setUserScale(scale: string) {
+    this.userScale = SCALES[scale.toUpperCase()] || SCALES.MAJOR;
   }
 }

@@ -165,7 +165,7 @@ function generateScale(key, scaleFormula) {
   }
 
   // Initialize the scale with the key
-  const majorScale = [key];
+  const noteList = [key];
 
   // Generate the major scale notes
   let currentIndex = keyIndex;
@@ -176,8 +176,10 @@ function generateScale(key, scaleFormula) {
     } else {
       currentIndex = (currentIndex + 1) % 12;
     }
-    majorScale.push(noteNames[currentIndex]);
+    noteList.push(noteNames[currentIndex]);
   }
+
+  return noteList;
 }
 
 function noteToSolfege(note, scale, solfege) {

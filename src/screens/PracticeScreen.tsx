@@ -15,6 +15,7 @@ import {styles} from '../styles/styles';
 import RecordButton from '../components/RecordButton';
 import {observer} from 'mobx-react-lite';
 import {useRootStore} from '../stores/RootStoreProvider';
+import {StatsBar} from '../components/StatsBar';
 
 const PracticeScreen: React.FC = observer(() => {
   const {commonStore} = useRootStore();
@@ -149,7 +150,7 @@ const PracticeScreen: React.FC = observer(() => {
               <UserScale />
               <RecordButton startRecording={onRecord} isRecording={isRecording} />
             </View>
-            {/* <StatsBar stats={stats} /> */}
+            <StatsBar stats={stats} />
           </LinearGradient>
         </View>
       </SafeAreaView>
