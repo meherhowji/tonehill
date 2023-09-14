@@ -5,7 +5,7 @@ export class CommonStore {
   showOctave = true;
   showCents = true;
   showFrequency = false;
-  inTuneRange = 10;
+  inTuneRange = 5;
 
   constructor() {
     makeAutoObservable(this);

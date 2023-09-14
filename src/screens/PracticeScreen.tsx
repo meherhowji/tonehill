@@ -2,7 +2,7 @@ import React, {useRef, useState, useEffect} from 'react';
 import {PitchDetector} from 'react-native-pitch-detector';
 import {findNearestNote, mapNoteToValue, calculateAverage} from '../utils/utils';
 import {MetaObject, DynamicObject, DataArray, PitchDataObject} from '../types/types';
-import {DEFAULT_DATA, DEFAULT_META, DEFAULT_CHART_DATA, CENT_THRESHOLD} from '../utils/constants';
+import {DEFAULT_DATA, DEFAULT_META, DEFAULT_CHART_DATA} from '../utils/constants';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {View} from 'react-native';
 import LineChart from '../components/wave';
@@ -13,14 +13,18 @@ import {UserScale} from '../components/UserScale';
 import ToneDisplay from '../components/ToneDisplay';
 import {styles} from '../styles/styles';
 import RecordButton from '../components/RecordButton';
+import {observer} from 'mobx-react-lite';
+import {useRootStore} from '../stores/RootStoreProvider';
 
-const PracticeScreen: React.FC = () => {
+const PracticeScreen: React.FC = observer(() => {
+  const {commonStore} = useRootStore();
   const counter = useRef<number>(0);
   const [stats, setStats] = useState<DynamicObject>({});
   const [data, setData] = useState<PitchDataObject>(DEFAULT_DATA);
   const [chartData, setChartData] = useState<DataArray>(DEFAULT_CHART_DATA);
   const [metaData, setMetaData] = useState<MetaObject>(DEFAULT_META);
   const [isRecording, setIsRecording] = useState(false);
+  const inTuneRange = commonStore.inTuneRange;
 
   const onRecord = async (isStart: boolean) => {
     if (isStart) {
@@ -48,7 +52,7 @@ const PracticeScreen: React.FC = () => {
     setChartData(prevChartData => {
       let updatedChartData = [...prevChartData];
       updatedChartData.length > 25 && updatedChartData.shift();
-      updatedChartData.push({time: counter.current, hz: mapNoteToValue(meta, 'C2', true)});
+      updatedChartData.push({time: counter.current, hz: mapNoteToValue(meta, 'C2', true, inTuneRange)});
       return updatedChartData;
     });
 
@@ -60,12 +64,11 @@ const PracticeScreen: React.FC = () => {
     const note = metaData.note;
     const newnote = metaData.cents;
     const obj = {...stats};
-    const ct = CENT_THRESHOLD;
 
     if (note && obj[note] && newnote) {
-      if (newnote < ct * -1) {
+      if (newnote < inTuneRange * -1) {
         obj[note].flat.push(newnote);
-      } else if (newnote > ct) {
+      } else if (newnote > inTuneRange) {
         obj[note].sharp.push(newnote);
       } else {
         obj[note].perfect.push(newnote);
@@ -118,9 +121,9 @@ const PracticeScreen: React.FC = () => {
       setStats(obj);
     } else if (newnote && note) {
       obj[note] = {
-        flat: newnote < ct * -1 ? [newnote] : [],
-        sharp: newnote > ct ? [newnote] : [],
-        perfect: newnote < ct && newnote > ct * -1 ? [newnote] : [],
+        flat: newnote < inTuneRange * -1 ? [newnote] : [],
+        sharp: newnote > inTuneRange ? [newnote] : [],
+        perfect: newnote < inTuneRange && newnote > inTuneRange * -1 ? [newnote] : [],
       };
       setStats(obj);
     }
@@ -131,7 +134,7 @@ const PracticeScreen: React.FC = () => {
     <SafeAreaProvider>
       <SafeAreaView style={styles.safeContainer}>
         <View style={styles.container}>
-            <LinearGradient colors={['rgb(2,8,15)', 'rgb(11,18,28)', 'rgb(2,8,15)']} style={styles.gradient}>
+          <LinearGradient colors={['rgb(2,8,15)', 'rgb(11,18,28)', 'rgb(2,8,15)']} style={styles.gradient}>
             <ToneDisplay audioData={metaData} />
             <LineChart data={chartData} />
             <View
@@ -152,6 +155,6 @@ const PracticeScreen: React.FC = () => {
       </SafeAreaView>
     </SafeAreaProvider>
   );
-};
+});
 
 export default PracticeScreen;

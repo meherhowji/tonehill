@@ -1,10 +1,13 @@
 import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
+import {observer} from 'mobx-react-lite';
+import {useRootStore} from '../../stores/RootStoreProvider';
 
 function InTuneRangeDropdown() {
+  const {commonStore} = useRootStore();
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(10);
+  const [value, setValue] = useState(5);
   const [items, setItems] = useState([
     {label: '±10 cents', value: 10},
     {label: '±7 cents', value: 7},
@@ -27,6 +30,7 @@ function InTuneRangeDropdown() {
       defaultValue={value}
       itemSeparator={true}
       showTickIcon={false}
+      onChangeValue={v => commonStore.setInTuneRange(v)}
       containerStyle={styles.container}
       placeholderStyle={styles.placeholder}
       style={styles.dropdown}
@@ -65,4 +69,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default InTuneRangeDropdown;
+export default observer(InTuneRangeDropdown);

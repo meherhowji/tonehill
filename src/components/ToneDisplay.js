@@ -15,7 +15,6 @@ const ToneDisplay = observer(({audioData}) => {
   useEffect(() => {
     if (audioData?.note) {
       let {note, accidental, octave} = parseNote(audioData.note);
-
       if (commonStore.accidental === FLAT) {
         const mappedNote = sharpToFlatMapping[note + accidental];
         const mappedParsedNote = parseNote(mappedNote);

@@ -1,5 +1,4 @@
 import {frequencyToNote, notes} from './mappings';
-import {CENT_THRESHOLD} from './constants';
 import both from 'ramda/es/both';
 import complement from 'ramda/es/complement';
 import equals from 'ramda/es/equals';
@@ -75,9 +74,9 @@ function getNotes(startNote, endNote) {
 }
 
 // used in app.tsx
-function mapNoteToValue({note, cents}, fixedNote, resetToZero) {
+function mapNoteToValue({note, cents}, fixedNote, resetToZero, inTuneRange) {
   if (resetToZero) {
-    let adjustedCents = cents >= CENT_THRESHOLD * -1 && cents <= CENT_THRESHOLD ? 0 : cents;
+    let adjustedCents = cents >= inTuneRange * -1 && cents <= inTuneRange ? 0 : cents;
     return adjustedCents;
   }
   // Split the input note into its note name and octave
