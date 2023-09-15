@@ -11,6 +11,23 @@ const NoteScore = observer(({stats}) => {
     <View style={styles.container}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
         <View style={styles.row}>
+          <TouchableOpacity style={styles.tally} underlayColor={'#fff0'}>
+            <Text style={styles.tallyText}>
+              {`In Tune: ${statsStore.data?.perfect[selectedNote + 3]?.percentage?.toFixed(0) || '-'}%`}{' '}
+            </Text>
+            <Text style={styles.tallyText}>
+              {`Cents: ${statsStore.data?.perfect[selectedNote + 3]?.percentage?.toFixed(0) || '-'}%`}{' '}
+            </Text>
+            {/* <Text style={styles.tallyText}>
+              {`Flat: ${statsStore.data?.flats[selectedNote + 3]?.percentage || '-'}`}{' '}
+            </Text>
+            <Text style={styles.tallyText}>
+              {`Sharp: ${statsStore.data?.sharps[selectedNote + 3]?.percentage || '-'}`}{' '}
+            </Text> */}
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.row}>
           {generateScale(commonStore.userKey, commonStore.userScale).map((note, index) => (
             <View
               key={index}
@@ -24,19 +41,6 @@ const NoteScore = observer(({stats}) => {
               </TouchableOpacity>
             </View>
           ))}
-        </View>
-        <View style={styles.row}>
-          <TouchableOpacity style={styles.tally} underlayColor={'#fff0'}>
-            <Text style={styles.tallyText}>
-              {`In Tune: ${statsStore.data?.perfect[selectedNote + 3]?.percentage?.toFixed(0) || '-'}%`}{' '}
-            </Text>
-            {/* <Text style={styles.tallyText}>
-              {`Flat: ${statsStore.data?.flats[selectedNote + 3]?.percentage || '-'}`}{' '}
-            </Text>
-            <Text style={styles.tallyText}>
-              {`Sharp: ${statsStore.data?.sharps[selectedNote + 3]?.percentage || '-'}`}{' '}
-            </Text> */}
-          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>
@@ -58,6 +62,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   tally: {
+    flex: 1,
     margin: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',

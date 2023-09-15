@@ -77,14 +77,18 @@ const PracticeScreen: React.FC = observer(() => {
       <SafeAreaView style={styles.safeContainer}>
         <View style={styles.container}>
           {/* <LinearGradient colors={['rgb(2,8,15)', 'rgb(11,18,28)', 'rgb(2,8,15)']} style={styles.gradient}> */}
-            <ToneDisplay audioData={metaData} />
-            <LineChart data={chartData} />
-            <View style={styles.userKeyScale}>
+          <ToneDisplay audioData={metaData} />
+          <LineChart data={chartData} />
+          <View style={styles.userKeyScale}>
+            <View style={styles.userControls}>
               <UserKey />
               <UserScale />
+            </View>
+            <View>
               <RecordButton startRecording={onRecord} isRecording={isRecording} />
             </View>
-            <StatsBar />
+          </View>
+          {/* <StatsBar /> */}
           {/* </LinearGradient> */}
         </View>
       </SafeAreaView>
@@ -95,12 +99,12 @@ const PracticeScreen: React.FC = observer(() => {
 const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    backgroundColor: 'rgb(2,8,15)',
+    backgroundColor: 'rgb(0,0,0)',
   },
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#000',
+    backgroundColor: '#010101',
   },
   gradient: {
     flex: 1,
@@ -132,11 +136,15 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   userKeyScale: {
-    flex: 0.5,
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    // backgroundColor: 'white',
+    // backgroundColor: 'gray',
+  },
+  userControls: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
   },
 });
 

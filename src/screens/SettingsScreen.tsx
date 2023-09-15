@@ -47,7 +47,7 @@ const SettingsScreen = () => {
 const css = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    backgroundColor: 'rgb(2,8,15)',
+    backgroundColor: 'rgb(0,0,0))',
   },
   settingList: {
     padding: 20,

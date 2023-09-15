@@ -15,7 +15,7 @@ const RecordButton: React.FC<RecordButtonProps> = ({isRecording, startRecording}
       <TouchableOpacity style={[styles.button, isRecording && styles.buttonLive]} onPress={goLive}>
         <Text style={[styles.recordDot, isRecording && styles.recordDotLive]}>●</Text>
         <Text style={[styles.recordText, isRecording && styles.recordTextLive]}>
-          {isRecording ? 'ON' : 'OFF'}
+          {isRecording ? 'RECORDING' : 'RECORD'}
         </Text>
       </TouchableOpacity>
     </View>

@@ -39,10 +39,10 @@ const ToneDisplay = observer(({audioData}) => {
             </Text>
             {commonStore.showOctave && <Text style={styles.octave}>{data.octave}</Text>}
           </View>
-          <View style={styles.cents}>
+          {/* <View style={styles.cents}>
             <Text style={styles.centsValue}>{9}</Text>
             <Text style={styles.centsLabel}>¢</Text>
-          </View>
+          </View> */}
         </View>
       ) : (
         <View style={styles.toneTextFallback}>
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   toneText: {
     position: 'relative',
     // backgroundColor: 'green',
-    height: 130,
+    height: 90,
     width: 105,
     overflow: 'hidden',
   },

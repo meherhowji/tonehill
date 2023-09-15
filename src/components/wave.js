@@ -11,9 +11,9 @@ const LineChart = observer(({data}) => {
   return (
     <View style={styles.container}>
       <VictoryChart
-        width={Dimensions.get('window').width}
-        height={Dimensions.get('window').height * 0.25}
-        padding={{top: 0, bottom: 0, left: 0, right: 0}}>
+        width={Dimensions.get('window').width - 20}
+        height={Dimensions.get('window').height * 0.2}
+        padding={{top: 0, bottom: 0, left: 20, right: 0}}>
         <VictoryAxis
           dependentAxis
           tickValues={[-50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50]}
@@ -25,7 +25,7 @@ const LineChart = observer(({data}) => {
               stroke: ({tick}) => calculateGridStyle(tick, true),
               strokeWidth: ({tick}) => calculateGridStyle(tick, false),
             },
-            tickLabels: {fontSize: 8, padding: -15, opacity: commonStore.showAxisLabel ? 1 : 0},
+            tickLabels: {fontSize: 8, padding: 15, opacity: commonStore.showAxisLabel ? 1 : 0},
           }}
         />
         <GradientLine />
@@ -35,9 +35,8 @@ const LineChart = observer(({data}) => {
             axis: {stroke: '#756f6a', opacity: 0},
             data: {
               stroke: 'url(#gradient)',
-              strokeWidth: 5,
+              strokeWidth: 4,
               strokeLinecap: 'round',
-              opacity: 1,
             },
           }}
           data={data}
@@ -63,7 +62,9 @@ const GradientLine = React.memo(() => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+    // backgroundColor: 'gray',
   },
   hide: {
     stroke: '#fff0',

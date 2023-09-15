@@ -16,7 +16,7 @@ function MainScreen() {
         tabBarStyle: {
           paddingHorizontal: 5,
           paddingTop: 0,
-          backgroundColor: 'rgb(2,8,15)',
+          backgroundColor: 'rgb(0,0,0)',
           borderTopWidth: 0,
         },
         tabBarLabelStyle: {

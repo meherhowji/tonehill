@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     // backgroundColor: 'cyan',
     padding: 15,
+    paddingLeft: 0,
   },
 });
 
