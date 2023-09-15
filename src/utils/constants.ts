@@ -20,7 +20,7 @@ const SOLFEGE: {WESTERN: string[]; INDIAN: string[]} = {
   INDIAN: ['Sa', 'Re', 'Ga', 'Ma', 'Pa', 'Dha', 'Ni'],
 };
 
-const NOTE_SCORE_PALETTE: string[] = [
+const NOTE_SCORE_PALETTE_FULL: string[] = [
   '#FF7230',
   '#FF752F',
   '#FF8B29',
@@ -34,6 +34,8 @@ const NOTE_SCORE_PALETTE: string[] = [
   '#D0FF00',
   '#B5FF00',
 ];
+
+const NOTE_SCORE_PALETTE: string[] = ['#FF7230', '#FF9F22', '#FFD900', '#E6FF00'];
 
 export {
   SOLFEGE,

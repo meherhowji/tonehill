@@ -1,17 +1,12 @@
 import React from 'react';
 import {View, StyleSheet, Dimensions} from 'react-native';
-import {MemoisedNotePicker} from './noteScroller';
+import {MemoisedNoteScore} from './NoteScore';
 
 function StatsBar() {
-  // const [toggleFlat, setToggleFlat] = useState(true);
-  // const [togglePerfect, setTogglePerfect] = useState(true);
-  // const [toggleSharp, setToggleSharp] = useState(true);
-  // const [selectedNote, setSelectedNote] = useState('C');
-
   return (
     <View style={styles.container} width={Dimensions.get('window').width}>
       <View style={[styles.row, styles.firstRow]}>
-        <MemoisedNotePicker />
+        <MemoisedNoteScore />
       </View>
     </View>
   );

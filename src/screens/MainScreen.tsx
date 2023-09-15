@@ -38,6 +38,13 @@ function MainScreen() {
         component={StatsScreen}
         options={{
           tabBarIcon: ({focused}) => <Icon name={'chart-simple'} focused={focused} />,
+          tabBarLabelStyle: {opacity: 0.5},
+          tabBarIconStyle: {opacity: 0.5},
+        }}
+        listeners={{
+          tabPress: e => {
+            e.preventDefault();
+          },
         }}
       />
       <Tab.Screen
@@ -45,6 +52,13 @@ function MainScreen() {
         component={RecordingsScreen}
         options={{
           tabBarIcon: ({focused}) => <Icon name="microphone" focused={focused} />,
+          tabBarLabelStyle: {opacity: 0.5},
+          tabBarIconStyle: {opacity: 0.5},
+        }}
+        listeners={{
+          tabPress: e => {
+            e.preventDefault();
+          },
         }}
       />
       <Tab.Screen

@@ -104,14 +104,6 @@ function mapNoteToValue({note, cents}, fixedNote, resetToZero, inTuneRange) {
   return relativeValue;
 }
 
-function calculateAverage(arr) {
-  if (arr.length === 0) {
-    return 0; // Handle the case when there are no elements in the array.
-  }
-  const sum = arr.reduce((acc, num) => acc + num, 0);
-  return Math.round(sum / arr.length);
-}
-
 const calculateGridStyle = (tick, isStroke) => {
   let opacity, strokeWidth;
 
@@ -121,7 +113,7 @@ const calculateGridStyle = (tick, isStroke) => {
       strokeWidth = 3;
       break;
     case 10:
-      opacity = 0.08;
+      opacity = 0.1;
       strokeWidth = 2;
       break;
     case 20:
@@ -214,7 +206,6 @@ export {
   getNoteMeta,
   getNotes,
   mapNoteToValue,
-  calculateAverage,
   calculateGridStyle,
   isValidNumber,
   parseNote,

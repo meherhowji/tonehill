@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Dimensions, StyleSheet} from 'react-native';
-import {VictoryChart, VictoryLine, VictoryAxis, VictoryLabel} from 'victory-native';
+import {VictoryChart, VictoryLine, VictoryAxis, VictoryLabel, LineSegment} from 'victory-native';
 import {Defs, LinearGradient, Stop} from 'react-native-svg';
 import {calculateGridStyle} from '../utils/utils';
 
@@ -14,6 +14,7 @@ const LineChart = ({data}) => {
         <VictoryAxis
           dependentAxis
           tickValues={[-50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50]}
+          axisComponent={<LineSegment type={'axis'} style={styles.hide} />}
           tickLabelComponent={<VictoryLabel dy={-10} textAnchor="start" />}
           orientation="right"
           style={{
@@ -21,10 +22,10 @@ const LineChart = ({data}) => {
               stroke: ({tick}) => calculateGridStyle(tick, true),
               strokeWidth: ({tick}) => calculateGridStyle(tick, false),
             },
-            tickLabels: {fontSize: 10, padding: -20, opacity: 0},
+            tickLabels: {fontSize: 8, padding: -15, opacity: 0},
           }}
         />
-        <MemoGradientLine />
+        <GradientLine />
         <VictoryLine
           interpolation="natural"
           style={{
@@ -45,23 +46,24 @@ const LineChart = ({data}) => {
   );
 };
 
-const GradientLine = () => {
+const GradientLine = React.memo(() => {
   return (
     <Defs>
       <LinearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
         <Stop offset="0%" stopColor="#ff1178" stopOpacity="1" />
-        <Stop offset="75%" stopColor="#8318f6" stopOpacity="1" />
+        <Stop offset="50%" stopColor="#8318f6" stopOpacity="1" />
       </LinearGradient>
     </Defs>
   );
-};
-
-const MemoGradientLine = React.memo(GradientLine);
+});
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
+  },
+  hide: {
+    stroke: '#fff0',
   },
 });
 

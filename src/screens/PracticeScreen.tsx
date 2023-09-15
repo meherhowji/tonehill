@@ -1,7 +1,7 @@
 import React, {useRef, useState, useEffect, useCallback} from 'react';
 import {PitchDetector} from 'react-native-pitch-detector';
-import {getNoteMeta, mapNoteToValue, calculateAverage} from '../utils/utils';
-import {MetaObject, DynamicObject, DataArray, PitchDataObject} from '../types/types';
+import {getNoteMeta, mapNoteToValue} from '../utils/utils';
+import {MetaObject, DataArray, PitchDataObject} from '../types/types';
 import {DEFAULT_DATA, DEFAULT_META, DEFAULT_CHART_DATA} from '../utils/constants';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {View, StyleSheet} from 'react-native';
@@ -19,7 +19,6 @@ import {StatsBar} from '../components/StatsBar';
 const PracticeScreen: React.FC = observer(() => {
   const {commonStore, statsStore} = useRootStore();
   const counter = useRef<number>(0);
-  const [stats, setStats] = useState<DynamicObject>({});
   const [data, setData] = useState<PitchDataObject>(DEFAULT_DATA);
   const [chartData, setChartData] = useState<DataArray>(DEFAULT_CHART_DATA);
   const [metaData, setMetaData] = useState<MetaObject>(DEFAULT_META);
@@ -77,7 +76,7 @@ const PracticeScreen: React.FC = observer(() => {
     <SafeAreaProvider>
       <SafeAreaView style={styles.safeContainer}>
         <View style={styles.container}>
-          <LinearGradient colors={['rgb(2,8,15)', 'rgb(11,18,28)', 'rgb(2,8,15)']} style={styles.gradient}>
+          {/* <LinearGradient colors={['rgb(2,8,15)', 'rgb(11,18,28)', 'rgb(2,8,15)']} style={styles.gradient}> */}
             <ToneDisplay audioData={metaData} />
             <LineChart data={chartData} />
             <View style={styles.userKeyScale}>
@@ -86,7 +85,7 @@ const PracticeScreen: React.FC = observer(() => {
               <RecordButton startRecording={onRecord} isRecording={isRecording} />
             </View>
             <StatsBar />
-          </LinearGradient>
+          {/* </LinearGradient> */}
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -101,7 +100,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'blue',
+    backgroundColor: '#000',
   },
   gradient: {
     flex: 1,
