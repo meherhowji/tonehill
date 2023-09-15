@@ -5,7 +5,7 @@ import equals from 'ramda/es/equals';
 import is from 'ramda/es/is';
 
 // used in app.tsx
-const findNearestNote = frequency => {
+const getNoteMeta = frequency => {
   // Initialize variables to store the nearest note, frequency, and minimum difference
   let nearestNote = null;
   let minDifference = Infinity;
@@ -199,7 +199,7 @@ function noteToSolfege(note, scale, solfege) {
 const isValidNumber = both(is(Number), complement(equals(NaN)));
 
 export {
-  findNearestNote,
+  getNoteMeta,
   getNotes,
   mapNoteToValue,
   calculateAverage,

@@ -1,4 +1,17 @@
 {
+  "name": "tonehill",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "postinstall": "patch-package && react-native setup-ios-permissions",
+    "ios": "react-native run-ios",
+    "lint": "eslint .",
+    "pod": "npx pod-install",
+    "start": "react-native start",
+    "test": "jest",
+    "update-assets": "npx react-native-asset"
+  },
   "dependencies": {
     "@react-native-segmented-control/segmented-control": "^2.4.2",
     "@react-navigation/bottom-tabs": "^6.5.8",
@@ -32,12 +45,13 @@
     "@react-native/eslint-config": "^0.72.2",
     "@react-native/metro-config": "^0.72.11",
     "@tsconfig/react-native": "^3.0.0",
+    "@types/jest": "^29.5.4",
     "@types/react": "^18.0.24",
     "@types/react-native-vector-icons": "^6.4.14",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^29.2.1",
     "eslint": "^8.19.0",
-    "jest": "^29.2.1",
+    "jest": "^29.7.0",
     "metro-react-native-babel-preset": "0.76.8",
     "prettier": "^2.4.1",
     "react-test-renderer": "18.2.0",
@@ -46,20 +60,7 @@
   "engines": {
     "node": ">=16"
   },
-  "name": "tonehill",
-  "private": true,
   "reactNativePermissionsIOS": [
     "Microphone"
-  ],
-  "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
-    "lint": "eslint .",
-    "postinstall": "patch-package && react-native setup-ios-permissions",
-    "start": "react-native start",
-    "test": "jest",
-    "update-assets": "npx react-native-asset",
-    "pod": "npx pod-install"
-  },
-  "version": "0.0.1"
+  ]
 }

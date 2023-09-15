@@ -8,16 +8,16 @@ const DEFAULT_META: {note: string | null; accuracy: number | null; cents: number
   accuracy: null,
   cents: null,
 };
-const DEFAULT_DATA: {tone: string; frequency: number} = {tone: '-', frequency: 0};
+const DEFAULT_DATA: {tone: string; frequency: number} = {tone: '', frequency: 0};
 
 const SCALES: Record<string, string[]> = {
   MAJOR: ['W', 'W', 'H', 'W', 'W', 'W', 'H'],
   MINOR: ['W', 'H', 'W', 'W', 'H', 'W', 'W'],
 };
 
-const SOLFEGE: {western: string[]; indian: string[]} = {
-  western: ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Ti'],
-  indian: ['Sa', 'Re', 'Ga', 'Ma', 'Pa', 'Dha', 'Ni'],
+const SOLFEGE: {WESTERN: string[]; INDIAN: string[]} = {
+  WESTERN: ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Ti'],
+  INDIAN: ['Sa', 'Re', 'Ga', 'Ma', 'Pa', 'Dha', 'Ni'],
 };
 
 const NOTE_SCORE_PALETTE: string[] = [

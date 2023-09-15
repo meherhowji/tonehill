@@ -11,9 +11,9 @@ export interface MetaObject {
 
 export type DynamicObject = {
   [key: string]: {
-    flat: any[];
-    sharp: any[];
-    perfect: any[];
+    flat: number[];
+    sharp: number[];
+    perfect: number[];
     stats?: {
       averageFlat: number;
       averageSharp: number;

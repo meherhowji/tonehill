@@ -1,10 +1,11 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, {useRef, useState, useEffect, useCallback} from 'react';
 import {PitchDetector} from 'react-native-pitch-detector';
-import {findNearestNote, mapNoteToValue, calculateAverage} from '../utils/utils';
+import {getNoteMeta, mapNoteToValue, calculateAverage} from '../utils/utils';
 import {MetaObject, DynamicObject, DataArray, PitchDataObject} from '../types/types';
 import {DEFAULT_DATA, DEFAULT_META, DEFAULT_CHART_DATA} from '../utils/constants';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {View, StyleSheet} from 'react-native';
+import negate from 'ramda/rs/negate';
 import LineChart from '../components/wave';
 import LinearGradient from 'react-native-linear-gradient';
 import {UserKey} from '../components/UserKey';
@@ -16,7 +17,7 @@ import {useRootStore} from '../stores/RootStoreProvider';
 import {StatsBar} from '../components/StatsBar';
 
 const PracticeScreen: React.FC = observer(() => {
-  const {commonStore} = useRootStore();
+  const {commonStore, statsStore} = useRootStore();
   const counter = useRef<number>(0);
   const [stats, setStats] = useState<DynamicObject>({});
   const [data, setData] = useState<PitchDataObject>(DEFAULT_DATA);
@@ -25,7 +26,7 @@ const PracticeScreen: React.FC = observer(() => {
   const [isRecording, setIsRecording] = useState(false);
   const inTuneRange = commonStore.inTuneRange;
 
-  const onRecord = async (isStart: boolean) => {
+  const onRecord = useCallback(async (isStart: boolean) => {
     if (isStart) {
       await PitchDetector.start();
     } else {
@@ -33,7 +34,7 @@ const PracticeScreen: React.FC = observer(() => {
     }
     const status = await PitchDetector.isRecording();
     setIsRecording(status);
-  };
+  }, []);
 
   useEffect(() => {
     PitchDetector.addListener(setData);
@@ -43,91 +44,33 @@ const PracticeScreen: React.FC = observer(() => {
   }, []);
 
   useEffect(() => {
-    if (typeof data.frequency !== 'number' || !data.tone) {
+    if (!data.frequency && !data.tone) {
       return;
     }
 
-    const meta = findNearestNote(data.frequency);
+    // TODO: frequency > 67.60563659667969, how can we memoize
+    const meta = getNoteMeta(data.frequency);
     setChartData(prevChartData => {
       let updatedChartData = [...prevChartData];
+      // TODO: how can we make the chart animation of data shifting/adding with ease
       updatedChartData.length > 25 && updatedChartData.shift();
       updatedChartData.push({time: counter.current, hz: mapNoteToValue(meta, 'C2', true, inTuneRange)});
       return updatedChartData;
     });
 
     setMetaData(meta);
+    // TODO: how can we use time here instead of counter inc
     counter.current = counter.current + 1;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   useEffect(() => {
-    const note = metaData.note;
-    const newnote = metaData.cents;
-    const obj = {...stats};
+    const {note, cents} = metaData;
 
-    if (note && obj[note] && newnote) {
-      if (newnote < inTuneRange * -1) {
-        obj[note].flat.push(newnote);
-      } else if (newnote > inTuneRange) {
-        obj[note].sharp.push(newnote);
-      } else {
-        obj[note].perfect.push(newnote);
-      }
-
-      // Calculate the average values for flat, sharp, and perfect arrays
-      const flatArray = obj[note]?.flat || [];
-      const sharpArray = obj[note]?.sharp || [];
-      const perfectArray = obj[note]?.perfect || [];
-
-      const averageFlat = calculateAverage(flatArray);
-      const averageSharp = calculateAverage(sharpArray);
-      const averagePerfect = calculateAverage(perfectArray);
-
-      // Calculate the percentages relative to the total length of notes
-      const totalNotesLength = flatArray.length + sharpArray.length + perfectArray.length;
-      const rawPercentageFlat = (flatArray.length / totalNotesLength) * 100;
-      const rawPercentageSharp = (sharpArray.length / totalNotesLength) * 100;
-      const rawPercentagePerfect = (perfectArray.length / totalNotesLength) * 100;
-
-      // Calculate rounded percentages
-      const roundedPercentageFlat = Math.round(rawPercentageFlat);
-      const roundedPercentageSharp = Math.round(rawPercentageSharp);
-      const roundedPercentagePerfect = Math.round(rawPercentagePerfect);
-
-      // Adjust one of the rounded percentages to ensure the total is exactly 100%
-      const totalRoundedPercentage = roundedPercentageFlat + roundedPercentageSharp + roundedPercentagePerfect;
-      const adjustment = 100 - totalRoundedPercentage;
-      const adjustedPercentages = [roundedPercentageFlat, roundedPercentageSharp, roundedPercentagePerfect];
-
-      // Apply the adjustment to the first non-zero percentage
-      for (let i = 0; i < adjustedPercentages.length; i++) {
-        if (adjustedPercentages[i] !== 0) {
-          adjustedPercentages[i] += adjustment;
-          break;
-        }
-      }
-
-      obj[note] = {
-        ...stats[note],
-        stats: {
-          averageFlat,
-          averageSharp,
-          averagePerfect,
-          percentageFlat: adjustedPercentages[0],
-          percentageSharp: adjustedPercentages[1],
-          percentagePerfect: adjustedPercentages[2],
-        },
-      };
-      setStats(obj);
-    } else if (newnote && note) {
-      obj[note] = {
-        flat: newnote < inTuneRange * -1 ? [newnote] : [],
-        sharp: newnote > inTuneRange ? [newnote] : [],
-        perfect: newnote < inTuneRange && newnote > inTuneRange * -1 ? [newnote] : [],
-      };
-      setStats(obj);
+    if (note && cents) {
+      const type = cents < negate(inTuneRange) ? 'flats' : cents > inTuneRange ? 'sharps' : 'perfect';
+      statsStore.addValue(note, type, cents);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metaData]);
 
   return (
