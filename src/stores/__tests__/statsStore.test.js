@@ -17,7 +17,7 @@ test('Adding values and calculating percentages', () => {
   statsStore.addValue('perfect', 'E', 3);
 
   // Calculate the running averages and percentages
-  const data = statsStore.runningAveragesAndPercentages;
+  const data = statsStore.data;
 
   // Test the percentages for specific notes and types
   expect(data.flats.C.percentage).toBe(100);
@@ -45,7 +45,7 @@ test('Adding values and calculating percentages', () => {
   statsStore.addValue('flats', 'E', 4);
 
   // Calculate the running averages and percentages again
-  const newData = statsStore.runningAveragesAndPercentages;
+  const newData = statsStore.data;
 
   // Test the updated percentages for specific notes and types
   expect(newData.flats.C.percentage).toBe(40);
@@ -62,6 +62,6 @@ test('Adding values and calculating percentages', () => {
 });
 
 test('Negative test case: Note to not exist when no values added', () => {
-  const data = statsStore.runningAveragesAndPercentages;
+  const data = statsStore.data;
   expect(data.flats.C).toBe(undefined);
 });

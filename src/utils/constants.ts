@@ -21,17 +21,18 @@ const SOLFEGE: {WESTERN: string[]; INDIAN: string[]} = {
 };
 
 const NOTE_SCORE_PALETTE: string[] = [
-  'rgb(151,29,43)',
-  'rgb(198,64,50)',
-  'rgb(227,117,79)',
-  'rgb(241,177,110)',
-  'rgb(249,225,150)',
-  'rgb(255,255,198)',
-  'rgb(221,238,151)',
-  'rgb(177,216,120)',
-  'rgb(123,187,109)',
-  'rgb(71,150,87)',
-  'rgb(43,102,60)',
+  '#FF7230',
+  '#FF752F',
+  '#FF8B29',
+  '#FF9F22',
+  '#FFB217',
+  '#FFC500',
+  '#FFD900',
+  '#FFEC00',
+  '#FBFE00',
+  '#E6FF00',
+  '#D0FF00',
+  '#B5FF00',
 ];
 
 export {

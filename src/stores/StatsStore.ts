@@ -41,7 +41,7 @@ export class StatsStore {
     this.counts[type][note] += 1;
   }
 
-  get runningAveragesAndPercentages(): Record<string, Record<string, NoteStatistics>> {
+  get data(): Record<string, Record<string, NoteStatistics>> {
     const data: Record<string, Record<string, NoteStatistics>> = {};
 
     // only 3 types so not an expensive loop

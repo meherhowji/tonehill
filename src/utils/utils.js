@@ -3,6 +3,7 @@ import both from 'ramda/es/both';
 import complement from 'ramda/es/complement';
 import equals from 'ramda/es/equals';
 import is from 'ramda/es/is';
+import {NOTE_SCORE_PALETTE} from './constants';
 
 // used in app.tsx
 const getNoteMeta = frequency => {
@@ -198,6 +199,17 @@ function noteToSolfege(note, scale, solfege) {
 
 const isValidNumber = both(is(Number), complement(equals(NaN)));
 
+function getRgbForPercent(percentage) {
+  // Ensure the percentage is within the valid range [0, 100]
+  percentage = Math.max(0, Math.min(100, percentage));
+
+  // Calculate the index based on the percentage
+  const index = Math.floor((percentage / 100) * (NOTE_SCORE_PALETTE.length - 1));
+
+  // Retrieve the corresponding color from the palette
+  return NOTE_SCORE_PALETTE[index];
+}
+
 export {
   getNoteMeta,
   getNotes,
@@ -208,4 +220,5 @@ export {
   parseNote,
   generateScale,
   noteToSolfege,
+  getRgbForPercent,
 };
