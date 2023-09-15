@@ -3,8 +3,11 @@ import {View, Dimensions, StyleSheet} from 'react-native';
 import {VictoryChart, VictoryLine, VictoryAxis, VictoryLabel, LineSegment} from 'victory-native';
 import {Defs, LinearGradient, Stop} from 'react-native-svg';
 import {calculateGridStyle} from '../utils/utils';
+import {useRootStore} from '../stores/RootStoreProvider';
+import {observer} from 'mobx-react-lite';
 
-const LineChart = ({data}) => {
+const LineChart = observer(({data}) => {
+  const {commonStore} = useRootStore();
   return (
     <View style={styles.container}>
       <VictoryChart
@@ -22,7 +25,7 @@ const LineChart = ({data}) => {
               stroke: ({tick}) => calculateGridStyle(tick, true),
               strokeWidth: ({tick}) => calculateGridStyle(tick, false),
             },
-            tickLabels: {fontSize: 8, padding: -15, opacity: 0},
+            tickLabels: {fontSize: 8, padding: -15, opacity: commonStore.showAxisLabel ? 1 : 0},
           }}
         />
         <GradientLine />
@@ -44,7 +47,7 @@ const LineChart = ({data}) => {
       </VictoryChart>
     </View>
   );
-};
+});
 
 const GradientLine = React.memo(() => {
   return (

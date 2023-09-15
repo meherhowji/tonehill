@@ -1,10 +1,11 @@
 import React from 'react';
 import {InTuneRangeDropdown, AccidentalSwitch, CentsDropdown, FrequencyDropdown, OctaveDropdown} from './';
+import AxisLabelToggle from './AxisLabelToggle';
 
 const settingsData = [
   {
     title: 'Display',
-    data: ['Accidental', 'Octave', 'Cents'],
+    data: ['Accidental', 'Octave', 'Cents', 'Axis Labels'],
   },
   {
     title: 'Tuner',
@@ -30,6 +31,7 @@ const settingsConfig = [
   {name: 'Cents', component: <CentsDropdown />},
   {name: 'Frequency', component: <FrequencyDropdown />},
   {name: 'Octave', component: <OctaveDropdown />},
+  {name: 'Axis Labels', component: <AxisLabelToggle />},
 ];
 
 export {settingsData, settingsConfig};

@@ -6,6 +6,7 @@ export class CommonStore {
   showOctave: boolean = true;
   showCents: boolean = true;
   showFrequency: boolean = false;
+  showAxisLabel: boolean = false;
   inTuneRange: number = 5;
   userKey: string = 'C#';
   userScale: string[] = SCALES.MAJOR;
@@ -28,6 +29,10 @@ export class CommonStore {
 
   toggleFrequency() {
     this.showFrequency = !this.showFrequency;
+  }
+
+  toggleAxisLabel() {
+    this.showAxisLabel = !this.showAxisLabel;
   }
 
   setInTuneRange(cent: number) {
