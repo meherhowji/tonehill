@@ -7,10 +7,11 @@ import {useRootStore} from '../stores/RootStoreProvider';
 import {observer} from 'mobx-react-lite';
 
 const MusicalNotePicker = observer(({stats}) => {
-  const {commonStore} = useRootStore();
+  const {commonStore, statsStore} = useRootStore();
 
   return (
     <View style={styles.container}>
+      {console.log(statsStore.runningAveragesAndPercentages.flats['A4'], ' < ststa ')}
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
         {generateScale(commonStore.userKey, commonStore.userScale).map((note, index) => (
           <View key={index} style={[styles.noteItem, {backgroundColor: 1 ? '' : ''}]}>

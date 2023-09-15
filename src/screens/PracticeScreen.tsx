@@ -5,7 +5,7 @@ import {MetaObject, DynamicObject, DataArray, PitchDataObject} from '../types/ty
 import {DEFAULT_DATA, DEFAULT_META, DEFAULT_CHART_DATA} from '../utils/constants';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {View, StyleSheet} from 'react-native';
-import negate from 'ramda/rs/negate';
+import negate from 'ramda/es/negate';
 import LineChart from '../components/wave';
 import LinearGradient from 'react-native-linear-gradient';
 import {UserKey} from '../components/UserKey';
@@ -69,7 +69,7 @@ const PracticeScreen: React.FC = observer(() => {
 
     if (note && cents) {
       const type = cents < negate(inTuneRange) ? 'flats' : cents > inTuneRange ? 'sharps' : 'perfect';
-      statsStore.addValue(note, type, cents);
+      statsStore.addValue(type, note, cents);
     }
   }, [metaData]);
 
