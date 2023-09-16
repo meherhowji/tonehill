@@ -1,24 +1,24 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
-import {generateScale, getRgbForPercent} from '../utils/utils';
+import {generateScale} from '../utils/utils';
 import {useRootStore} from '../stores/RootStoreProvider';
 import {observer} from 'mobx-react-lite';
 
 const StatsBar = observer(({stats}) => {
   const {commonStore, statsStore} = useRootStore();
-  const [selectedNote, setSelectedNote] = useState(commonStore.userKey + 3);
+  const [selectedNote, toggleSelectedNote] = useState('');
   return (
     <View style={styles.container}>
       <View style={styles.row}>
         {generateScale(commonStore.userKey, commonStore.userScale).map((note, index) => (
           <View
             key={index}
-            style={[
-              styles.noteItem,
-              // {backgroundColor: getRgbForPercent(statsStore.data?.perfect[note + 3]?.percentage)},
-              // {shadowColor: getRgbForPercent(statsStore.data?.perfect[note + 3]?.percentage)},
-            ]}>
-            <TouchableOpacity style={styles.cell} underlayColor={'#fff0'} onPress={() => setSelectedNote(note)}>
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={[styles.noteItem, {backgroundColor: selectedNote === note ? 'rgb(38,38,38)' : 'rgba(0,0,0,0)'}]}>
+            <TouchableOpacity
+              style={styles.cell}
+              underlayColor={'#fff0'}
+              onPress={() => toggleSelectedNote(prev => (prev === note ? '' : note))}>
               <Text style={styles.noteText}>{note}</Text>
             </TouchableOpacity>
           </View>
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     opacity: 1,
   },
   tallyLabel: {
-    fontSize: 9,
+    fontSize: 10,
     fontFamily: 'RobotoMono-Bold',
     color: '#fff',
     opacity: 1,
