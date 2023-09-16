@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'red',
   },
   firstRow: {
-    marginTop: 20,
+    // marginTop: 20,
   },
   lastRow: {
     marginTop: 35,

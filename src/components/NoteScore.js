@@ -10,21 +10,21 @@ const NoteScore = observer(({stats}) => {
   return (
     <View style={styles.container}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
-        {/* <View style={styles.row}>
+        <View style={styles.row}>
           {generateScale(commonStore.userKey, commonStore.userScale).map((note, index) => (
             <View
               key={index}
               style={[
                 styles.noteItem,
-                {backgroundColor: getRgbForPercent(statsStore.data?.perfect[note + 3]?.percentage)},
-                {shadowColor: getRgbForPercent(statsStore.data?.perfect[note + 3]?.percentage)},
+                // {backgroundColor: getRgbForPercent(statsStore.data?.perfect[note + 3]?.percentage)},
+                // {shadowColor: getRgbForPercent(statsStore.data?.perfect[note + 3]?.percentage)},
               ]}>
               <TouchableOpacity style={styles.cell} underlayColor={'#fff0'} onPress={() => setSelectedNote(note)}>
                 <Text style={styles.noteText}>{note}</Text>
               </TouchableOpacity>
             </View>
           ))}
-        </View> */}
+        </View>
         <View style={styles.row}>
           <TouchableOpacity style={styles.tally} underlayColor={'#fff0'}>
             <Text style={styles.tallyValue}>
@@ -50,11 +50,13 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
+    padding: 15,
+    gap: 5,
     // backgroundColor: 'green',
   },
   tally: {
     flex: 1,
-    margin: 20,
+    // margin: 15,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
@@ -67,25 +69,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   noteItem: {
-    // backgroundColor: 'green',
-    // flexDirection: 'row',
-    // justifyContent: 'space-around',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
     flex: 1,
     width: 36,
     height: 30,
-    borderRadius: 3,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
     // marginHorizontal: 5,
-    backgroundColor: '#ffffff',
-    shadowColor: '#ffffff',
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 1,
   },
   noteText: {
-    fontSize: 16,
+    // backgroundColor: '#ffffff',
+    fontSize: 12,
     fontFamily: 'RobotoMono-Bold',
     color: '#fff',
     opacity: 1,

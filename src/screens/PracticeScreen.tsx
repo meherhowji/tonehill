@@ -80,10 +80,10 @@ const PracticeScreen: React.FC = observer(() => {
           <LineChart data={chartData} />
           <View style={styles.infoBar}>
             <View style={styles.userKeyScale}>
-              {/* <View style={styles.userControls}>
+              <View style={styles.userControls}>
                 <UserKey />
                 <UserScale />
-              </View> */}
+              </View>
               <View>
                 <RecordButton startRecording={onRecord} isRecording={isRecording} />
               </View>
