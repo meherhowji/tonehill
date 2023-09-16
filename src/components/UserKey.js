@@ -50,9 +50,10 @@ const UserKey = observer(() => {
           }}
           style={{
             padding: 0,
-            backgroundColor: 'rgb(38,38,38)',
             minHeight: 30,
             borderRadius: 4,
+            backgroundColor: 'rgba(38,38,38,0)',
+            borderColor: '#fff1',
           }}
           textStyle={{
             color: 'white',
@@ -82,6 +83,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     // backgroundColor: 'cyan',
     padding: 15,
+    paddingBottom: 0,
   },
 });
 

@@ -7,13 +7,10 @@ import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {View, StyleSheet} from 'react-native';
 import negate from 'ramda/es/negate';
 import LineChart from '../components/wave';
-import {UserKey} from '../components/UserKey';
-import {UserScale} from '../components/UserScale';
 import ToneDisplay from '../components/ToneDisplay';
-import RecordButton from '../components/RecordButton';
 import {observer} from 'mobx-react-lite';
 import {useRootStore} from '../stores/RootStoreProvider';
-import {StatsBar} from '../components/StatsBar';
+import InfoBar from '../components/InfoBar';
 
 const PracticeScreen: React.FC = observer(() => {
   const {commonStore, statsStore} = useRootStore();
@@ -78,18 +75,7 @@ const PracticeScreen: React.FC = observer(() => {
         <View style={styles.container}>
           <ToneDisplay audioData={metaData} />
           <LineChart data={chartData} />
-          <View style={styles.infoBar}>
-            <View style={styles.userKeyScale}>
-              <View style={styles.userControls}>
-                <UserKey />
-                <UserScale />
-              </View>
-              <View>
-                <RecordButton startRecording={onRecord} isRecording={isRecording} />
-              </View>
-            </View>
-            <StatsBar />
-          </View>
+          <InfoBar onRecord={onRecord} isRecording={isRecording} />
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -135,25 +121,6 @@ const styles = StyleSheet.create({
     color: 'white',
     marginTop: 5,
     marginBottom: 10,
-  },
-  userKeyScale: {
-    // flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginTop: 10,
-    // backgroundColor: 'gray',
-  },
-  userControls: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
-  infoBar: {
-    flex: 1,
-    // backgroundColor: '#000',
-    backgroundColor: '#111',
-    borderRadius: 10,
-    // margin: 10,
   },
 });
 
