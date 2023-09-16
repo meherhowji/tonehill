@@ -14,7 +14,7 @@ function StatsBar() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.5,
+    // flex: 1,
     flexDirection: 'column',
     justifyContent: 'start',
     // backgroundColor: 'red',

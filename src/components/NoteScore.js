@@ -10,24 +10,7 @@ const NoteScore = observer(({stats}) => {
   return (
     <View style={styles.container}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.row}>
-          <TouchableOpacity style={styles.tally} underlayColor={'#fff0'}>
-            <Text style={styles.tallyText}>
-              {`In Tune: ${statsStore.data?.perfect[selectedNote + 3]?.percentage?.toFixed(0) || '-'}%`}{' '}
-            </Text>
-            <Text style={styles.tallyText}>
-              {`Cents: ${statsStore.data?.perfect[selectedNote + 3]?.percentage?.toFixed(0) || '-'}%`}{' '}
-            </Text>
-            {/* <Text style={styles.tallyText}>
-              {`Flat: ${statsStore.data?.flats[selectedNote + 3]?.percentage || '-'}`}{' '}
-            </Text>
-            <Text style={styles.tallyText}>
-              {`Sharp: ${statsStore.data?.sharps[selectedNote + 3]?.percentage || '-'}`}{' '}
-            </Text> */}
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.row}>
+        {/* <View style={styles.row}>
           {generateScale(commonStore.userKey, commonStore.userScale).map((note, index) => (
             <View
               key={index}
@@ -41,6 +24,14 @@ const NoteScore = observer(({stats}) => {
               </TouchableOpacity>
             </View>
           ))}
+        </View> */}
+        <View style={styles.row}>
+          <TouchableOpacity style={styles.tally} underlayColor={'#fff0'}>
+            <Text style={styles.tallyValue}>
+              {`${statsStore.data?.perfect[selectedNote + 3]?.percentage?.toFixed(0) || '-'}`}
+            </Text>
+            <Text style={styles.tallyLabel}>In Tune %</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>
@@ -53,19 +44,20 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flex: 1,
-    // backgroundColor: 'green',
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
   },
   row: {
     flexDirection: 'row',
+    // backgroundColor: 'green',
   },
   tally: {
     flex: 1,
     margin: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   gradient: {
     flex: 1,
@@ -75,12 +67,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   noteItem: {
-    flexDirection: 'row',
+    // backgroundColor: 'green',
+    // flexDirection: 'row',
+    // justifyContent: 'space-around',
+    flex: 1,
     width: 36,
-    height: 36,
-    borderRadius: 20,
-    marginHorizontal: 5,
-    // borderWidth: 1,
+    height: 30,
+    borderRadius: 3,
+    // marginHorizontal: 5,
     backgroundColor: '#ffffff',
     shadowColor: '#ffffff',
     shadowOffset: {
@@ -96,8 +90,14 @@ const styles = StyleSheet.create({
     color: '#fff',
     opacity: 1,
   },
-  tallyText: {
-    fontSize: 16,
+  tallyValue: {
+    fontSize: 60,
+    fontFamily: 'Righteous',
+    color: '#fff',
+    opacity: 1,
+  },
+  tallyLabel: {
+    fontSize: 9,
     fontFamily: 'RobotoMono-Bold',
     color: '#fff',
     opacity: 1,

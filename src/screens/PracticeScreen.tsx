@@ -7,7 +7,6 @@ import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {View, StyleSheet} from 'react-native';
 import negate from 'ramda/es/negate';
 import LineChart from '../components/wave';
-import LinearGradient from 'react-native-linear-gradient';
 import {UserKey} from '../components/UserKey';
 import {UserScale} from '../components/UserScale';
 import ToneDisplay from '../components/ToneDisplay';
@@ -30,6 +29,7 @@ const PracticeScreen: React.FC = observer(() => {
       await PitchDetector.start();
     } else {
       await PitchDetector.stop();
+      setChartData(DEFAULT_CHART_DATA);
     }
     const status = await PitchDetector.isRecording();
     setIsRecording(status);
@@ -52,7 +52,7 @@ const PracticeScreen: React.FC = observer(() => {
     setChartData(prevChartData => {
       let updatedChartData = [...prevChartData];
       // TODO: how can we make the chart animation of data shifting/adding with ease
-      updatedChartData.length > 25 && updatedChartData.shift();
+      updatedChartData.length > 20 && updatedChartData.shift();
       updatedChartData.push({time: counter.current, hz: mapNoteToValue(meta, 'C2', true, inTuneRange)});
       return updatedChartData;
     });
@@ -76,20 +76,20 @@ const PracticeScreen: React.FC = observer(() => {
     <SafeAreaProvider>
       <SafeAreaView style={styles.safeContainer}>
         <View style={styles.container}>
-          {/* <LinearGradient colors={['rgb(2,8,15)', 'rgb(11,18,28)', 'rgb(2,8,15)']} style={styles.gradient}> */}
           <ToneDisplay audioData={metaData} />
           <LineChart data={chartData} />
-          <View style={styles.userKeyScale}>
-            <View style={styles.userControls}>
-              <UserKey />
-              <UserScale />
+          <View style={styles.infoBar}>
+            <View style={styles.userKeyScale}>
+              {/* <View style={styles.userControls}>
+                <UserKey />
+                <UserScale />
+              </View> */}
+              <View>
+                <RecordButton startRecording={onRecord} isRecording={isRecording} />
+              </View>
             </View>
-            <View>
-              <RecordButton startRecording={onRecord} isRecording={isRecording} />
-            </View>
+            <StatsBar />
           </View>
-          {/* <StatsBar /> */}
-          {/* </LinearGradient> */}
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -99,12 +99,13 @@ const PracticeScreen: React.FC = observer(() => {
 const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    backgroundColor: 'rgb(0,0,0)',
+    backgroundColor: '#111',
   },
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#010101',
+    // backgroundColor: '#010101',
+    backgroundColor: '#111',
   },
   gradient: {
     flex: 1,
@@ -136,15 +137,23 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   userKeyScale: {
-    flex: 1,
+    // flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
+    marginTop: 10,
     // backgroundColor: 'gray',
   },
   userControls: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
+  },
+  infoBar: {
+    flex: 1,
+    // backgroundColor: '#000',
+    backgroundColor: '#111',
+    borderRadius: 10,
+    // margin: 10,
   },
 });
 

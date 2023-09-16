@@ -61,10 +61,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
+    // backgroundColor: 'green',
   },
   toneText: {
     position: 'relative',
-    // backgroundColor: 'green',
     height: 90,
     width: 105,
     overflow: 'hidden',

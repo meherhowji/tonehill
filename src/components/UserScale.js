@@ -53,7 +53,7 @@ const UserScale = observer(() => {
           }}
           textStyle={{
             color: 'white',
-            fontSize: 16,
+            fontSize: 14,
             fontFamily: 'RobotoMono-Medium',
             padding: 0,
             textTransform: 'uppercase',
