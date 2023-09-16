@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'red',
   },
   recordBar: {
+    // marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',

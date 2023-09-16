@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'green',
     padding: 15,
     paddingTop: 0,
+    marginTop: 10,
   },
   row: {
     // backgroundColor: 'blue',

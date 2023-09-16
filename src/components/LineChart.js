@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Dimensions, StyleSheet, Text} from 'react-native';
+import {View, Dimensions, StyleSheet} from 'react-native';
 import {VictoryChart, VictoryLine, VictoryAxis, VictoryLabel, LineSegment} from 'victory-native';
 import {Defs, LinearGradient, Stop} from 'react-native-svg';
 import {calculateGridStyle} from '../utils/utils';
@@ -69,6 +69,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     // backgroundColor: 'brown',
+    marginTop: 0,
+    marginBottom: 30,
   },
   centAxis: {
     position: 'absolute',

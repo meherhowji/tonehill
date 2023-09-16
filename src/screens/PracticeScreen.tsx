@@ -6,7 +6,7 @@ import {DEFAULT_DATA, DEFAULT_META, DEFAULT_CHART_DATA} from '../utils/constants
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {View, StyleSheet} from 'react-native';
 import negate from 'ramda/es/negate';
-import LineChart from '../components/wave';
+import LineChart from '../components/LineChart';
 import ToneDisplay from '../components/ToneDisplay';
 import {observer} from 'mobx-react-lite';
 import {useRootStore} from '../stores/RootStoreProvider';
@@ -85,13 +85,13 @@ const PracticeScreen: React.FC = observer(() => {
 const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    backgroundColor: '#111',
+    backgroundColor: '#000',
   },
   container: {
     flex: 1,
     flexDirection: 'column',
     // backgroundColor: '#010101',
-    backgroundColor: '#111',
+    backgroundColor: '#000',
   },
   gradient: {
     flex: 1,
