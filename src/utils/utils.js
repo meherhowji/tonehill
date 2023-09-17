@@ -3,10 +3,11 @@ import both from 'ramda/es/both';
 import complement from 'ramda/es/complement';
 import equals from 'ramda/es/equals';
 import is from 'ramda/es/is';
+import memoizeWith from 'ramda/es/memoizeWith';
 import {NOTE_SCORE_PALETTE} from './constants';
 
 // used in app.tsx
-const getNoteMeta = frequency => {
+const unMemoedGetNoteMeta = frequency => {
   // Initialize variables to store the nearest note, frequency, and minimum difference
   let nearestNote = null;
   let minDifference = Infinity;
@@ -43,6 +44,9 @@ const getNoteMeta = frequency => {
     return {note: null, accuracy: null, cents: null};
   }
 };
+
+// Memoized, TODO: need to benchmark
+const getNoteMeta = memoizeWith(frequency => frequency, unMemoedGetNoteMeta);
 
 // used in chart.js
 function getNotes(startNote, endNote) {
@@ -117,17 +121,20 @@ const calculateGridStyle = (tick, isStroke) => {
       strokeWidth = 1;
       break;
     case 20:
+      opacity = 0.1;
+      strokeWidth = 0.5;
+      break;
     case 40:
-      opacity = 0;
-      strokeWidth = 1;
+      opacity = 0.1;
+      strokeWidth = 0.5;
       break;
     case 30:
       opacity = 0.1;
-      strokeWidth = 1;
+      strokeWidth = 0.5;
       break;
     default:
       opacity = 0.1;
-      strokeWidth = 1;
+      strokeWidth = 0.5;
   }
 
   return isStroke ? `rgba(255, 255, 255, ${opacity})` : strokeWidth;

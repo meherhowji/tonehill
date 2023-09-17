@@ -9,7 +9,7 @@ import {sharpToFlatMapping} from '../utils/mappings';
 
 // audioData is metaData containing note, accuracy and cent
 const ToneDisplay = observer(({audioData}) => {
-  const {commonStore} = useRootStore();
+  const {commonStore, statsStore} = useRootStore();
   const [data, setData] = useState({note: '', accidental: '', frequency: '', octave: ''});
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const ToneDisplay = observer(({audioData}) => {
             {commonStore.showOctave && <Text style={styles.octave}>{data.octave}</Text>}
           </View>
           {/* <View style={styles.cents}>
-            <Text style={styles.centsValue}>{9}</Text>
+            <Text style={styles.centsValue}>{statsStore.cents}</Text>
             <Text style={styles.centsLabel}>¢</Text>
           </View> */}
         </View>
@@ -61,13 +61,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
-    // backgroundColor: 'green',
   },
   toneText: {
     position: 'relative',
     height: 90,
     width: 105,
-    overflow: 'hidden',
+    // overflow: 'hidden',
+    // backgroundColor: 'green',
   },
   toneTextFallback: {
     position: 'relative',
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   },
   cents: {
     position: 'absolute',
-    bottom: 0,
+    bottom: -40,
     left: 0,
     width: '100%',
     textAlign: 'center',

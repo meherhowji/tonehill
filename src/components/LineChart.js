@@ -10,7 +10,8 @@ const LineChart = observer(({data}) => {
   const {commonStore} = useRootStore();
   return (
     <View style={styles.container}>
-      <VictoryChart width={Dimensions.get('window').width} padding={{top: 50, bottom: 50, left: 15, right: 15}}>
+      {console.log(data, ' <<<<<<< ')}
+      <VictoryChart padding={{top: 60, bottom: 60, left: 10, right: 50}}>
         <VictoryAxis
           dependentAxis
           tickValues={[-50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50]}
@@ -39,8 +40,9 @@ const LineChart = observer(({data}) => {
             axis: {stroke: '#756f6a', opacity: 0},
             data: {
               stroke: 'url(#gradient)',
-              strokeWidth: 4,
+              strokeWidth: 3,
               strokeLinecap: 'round',
+              opacity: 0.6,
             },
           }}
           data={data}
@@ -68,9 +70,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    // backgroundColor: 'brown',
+    backgroundColor: 'rgb(10,10,10)',
     marginTop: 0,
     marginBottom: 30,
+    borderRadius: 10,
   },
   centAxis: {
     position: 'absolute',

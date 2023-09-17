@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect, useCallback} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {PitchDetector} from 'react-native-pitch-detector';
 import {getNoteMeta, mapNoteToValue} from '../utils/utils';
 import {MetaObject, DataArray, PitchDataObject} from '../types/types';
@@ -11,6 +11,7 @@ import ToneDisplay from '../components/ToneDisplay';
 import {observer} from 'mobx-react-lite';
 import {useRootStore} from '../stores/RootStoreProvider';
 import InfoBar from '../components/InfoBar';
+import {screenBg, screenMargin} from '../styles/globals';
 
 const PracticeScreen: React.FC = observer(() => {
   const {commonStore, statsStore} = useRootStore();
@@ -21,16 +22,15 @@ const PracticeScreen: React.FC = observer(() => {
   const [isRecording, setIsRecording] = useState(false);
   const inTuneRange = commonStore.inTuneRange;
 
-  const onRecord = useCallback(async (isStart: boolean) => {
+  const onRecord = async (isStart: boolean) => {
     if (isStart) {
       await PitchDetector.start();
     } else {
       await PitchDetector.stop();
-      setChartData(DEFAULT_CHART_DATA);
     }
     const status = await PitchDetector.isRecording();
     setIsRecording(status);
-  }, []);
+  };
 
   useEffect(() => {
     PitchDetector.addListener(setData);
@@ -44,8 +44,8 @@ const PracticeScreen: React.FC = observer(() => {
       return;
     }
 
-    // TODO: frequency > 67.60563659667969, how can we memoize
-    const meta = getNoteMeta(data.frequency);
+    const simpleFrequency = parseFloat(data.frequency.toFixed(2)); // NOTE: accuracy reduction
+    const meta = getNoteMeta(simpleFrequency);
     setChartData(prevChartData => {
       let updatedChartData = [...prevChartData];
       // TODO: how can we make the chart animation of data shifting/adding with ease
@@ -84,14 +84,13 @@ const PracticeScreen: React.FC = observer(() => {
 
 const styles = StyleSheet.create({
   safeContainer: {
+    ...screenBg,
     flex: 1,
-    backgroundColor: '#000',
   },
   container: {
+    ...screenMargin,
     flex: 1,
     flexDirection: 'column',
-    // backgroundColor: '#010101',
-    backgroundColor: '#000',
   },
   gradient: {
     flex: 1,

@@ -19,6 +19,8 @@ export class StatsStore {
     perfect: {},
   };
 
+  cents: number = 0;
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -36,7 +38,7 @@ export class StatsStore {
         this.counts[t][note] = 0;
       }
     }
-
+    this.cents = value;
     this.sums[type][note] += value;
     this.counts[type][note] += 1;
   }
