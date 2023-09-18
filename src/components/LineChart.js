@@ -10,7 +10,6 @@ const LineChart = observer(({data}) => {
   const {commonStore} = useRootStore();
   return (
     <View style={styles.container}>
-      {console.log(data, ' <<<<<<< ')}
       <VictoryChart padding={{top: 60, bottom: 60, left: 0, right: 30}}>
         <VictoryAxis
           dependentAxis

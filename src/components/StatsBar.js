@@ -9,18 +9,19 @@ const StatsBar = observer(({stats}) => {
   const [selectedNote, toggleSelectedNote] = useState('');
   return (
     <View style={styles.container}>
-      <View style={styles.row}>
+      <View style={[styles.row, styles.firstRow]}>
         {generateScale(commonStore.userKey, commonStore.userScale).map((note, index) => (
-          <View
-            key={index}
-            // eslint-disable-next-line react-native/no-inline-styles
-            style={[styles.noteItem, {backgroundColor: selectedNote === note ? 'rgb(38,38,38)' : 'rgba(0,0,0,0)'}]}>
-            <TouchableOpacity
-              style={styles.cell}
-              underlayColor={'#fff0'}
-              onPress={() => toggleSelectedNote(prev => (prev === note ? '' : note))}>
+          <View key={index} style={styles.noteItem}>
+            <TouchableOpacity style={[styles.cell, styles.noteLabel]} underlayColor={'#fff0'}>
+              {/* onPress={() => toggleSelectedNote(prev => (prev === note ? '' : note))}> */}
               <Text style={styles.noteText}>{note}</Text>
             </TouchableOpacity>
+            <View style={[styles.cell, styles.rule]}></View>
+            <View style={[styles.cell, styles.noteValue]}>
+              <Text style={styles.noteValueText}>{`${statsStore.data?.perfect[note + 3]?.percentage?.toFixed(
+                0,
+              )}%`}</Text>
+            </View>
           </View>
         ))}
       </View>
@@ -43,16 +44,21 @@ const styles = StyleSheet.create({
     // backgroundColor: 'green',
     // padding: 15,
     paddingTop: 0,
-    marginTop: 10,
+    // marginTop: 10,
   },
   row: {
+    flex: 1,
     // backgroundColor: 'blue',
     flexDirection: 'row',
-    marginTop: 10,
     gap: 5,
   },
+  firstRow: {
+    display: 'none',
+    // backgroundColor: 'rgba(255,0,0,0.5)',
+    marginTop: 10,
+  },
   lastRow: {
-    marginTop: 20,
+    // backgroundColor: 'red',
   },
   tally: {
     flex: 1,
@@ -69,18 +75,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   noteItem: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
     flex: 1,
-    width: 36,
-    height: 30,
-    borderBottomWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
-    marginHorizontal: 5,
+    // marginHorizontal: 5,
+    // backgroundColor: 'red',
   },
   noteText: {
     // backgroundColor: '#ffffff',
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: 'RobotoMono-Bold',
     color: '#fff',
     opacity: 1,
@@ -98,11 +102,31 @@ const styles = StyleSheet.create({
     opacity: 1,
   },
   cell: {
+    flex: 1,
     width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
+    color: '#fff',
+    paddingLeft: 10,
+    // height: '100%',
+    // justifyContent: 'center',
     // backgroundColor: 'blue',
+  },
+  noteLabel: {
+    // alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+  },
+  noteValue: {},
+  noteValueText: {
+    color: '#fff',
+    fontSize: 14,
+    fontFamily: 'RobotoMono-Regular',
+  },
+  rule: {
+    flex: 0,
+    width: '80%',
+    // backgroundColor: 'red',
+    marginLeft: 10,
+    borderBottomWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
   },
 });
 
