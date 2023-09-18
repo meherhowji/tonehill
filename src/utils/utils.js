@@ -135,6 +135,10 @@ const calculateGridStyle = (tick, isStroke) => {
     case 50:
       opacity = 0.04;
       strokeWidth = 0.5;
+      break;
+    default:
+      opacity = 0;
+      strokeWidth = 0.5;
   }
 
   return isStroke ? `rgba(255, 255, 255, ${opacity})` : strokeWidth;
