@@ -24,9 +24,9 @@ const RecordButton: React.FC<RecordButtonProps> = ({isRecording, startRecording}
 
 const styles = StyleSheet.create({
   recordBox: {
-    padding: 15,
-    paddingBottom: 0,
-    // alignSelf: 'flex-end',
+    // padding: 15,
+    // paddingBottom: 0,
+    // alignSelf: 'center',
     // backgroundColor: 'magenta',
   },
   button: {

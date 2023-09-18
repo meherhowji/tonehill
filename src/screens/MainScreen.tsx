@@ -34,7 +34,7 @@ function MainScreen() {
           tabBarIcon: ({focused}) => <Icon name={'music'} focused={focused} />,
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Stats"
         component={StatsScreen}
         options={{
@@ -61,7 +61,7 @@ function MainScreen() {
             e.preventDefault();
           },
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Settings"
         component={SettingsScreen}

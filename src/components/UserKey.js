@@ -80,10 +80,7 @@ const UserKey = observer(() => {
 
 const styles = StyleSheet.create({
   container: {
-    alignSelf: 'flex-start',
     // backgroundColor: 'cyan',
-    padding: 15,
-    paddingBottom: 0,
   },
 });
 

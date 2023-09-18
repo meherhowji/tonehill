@@ -25,7 +25,7 @@ function InfoBar({onRecord, isRecording}) {
 const styles = StyleSheet.create({
   infoBar: {
     flex: 1,
-    // backgroundColor: 'red',
+    // backgroundColor: 'rgba(0,0,0,0.5)',
   },
   recordBar: {
     // marginTop: 10,
