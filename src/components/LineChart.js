@@ -11,10 +11,10 @@ const LineChart = observer(({data}) => {
   return (
     <View style={styles.container}>
       {console.log(data, ' <<<<<<< ')}
-      <VictoryChart padding={{top: 60, bottom: 60, left: 10, right: 50}}>
+      <VictoryChart padding={{top: 60, bottom: 60, left: 0, right: 30}}>
         <VictoryAxis
           dependentAxis
-          tickValues={[-50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50]}
+          tickValues={[-60, -50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50, 60]}
           axisComponent={<LineSegment type={'axis'} style={styles.hide} />}
           tickLabelComponent={
             <VictoryLabel
@@ -42,7 +42,7 @@ const LineChart = observer(({data}) => {
               stroke: 'url(#gradient)',
               strokeWidth: 3,
               strokeLinecap: 'round',
-              opacity: 0.6,
+              opacity: 1,
             },
           }}
           data={data}
@@ -58,8 +58,10 @@ const GradientLine = React.memo(() => {
   return (
     <Defs>
       <LinearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-        <Stop offset="0%" stopColor="#ff1178" stopOpacity="1" />
-        <Stop offset="50%" stopColor="#8318f6" stopOpacity="1" />
+        {/* <Stop offset="0%" stopColor="#ff1178" stopOpacity="1" />
+        <Stop offset="70%" stopColor="#8318f6" stopOpacity="1" /> */}
+        <Stop offset="0%" stopColor="#a82343" stopOpacity="1" />
+        <Stop offset="80%" stopColor="#322083" stopOpacity="1" />
       </LinearGradient>
     </Defs>
   );
@@ -70,7 +72,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgb(10,10,10)',
+    // backgroundColor: 'rgb(10,10,10)',
     marginTop: 0,
     marginBottom: 30,
     borderRadius: 10,

@@ -3,10 +3,11 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {PracticeScreen, StatsScreen, RecordingsScreen, SettingsScreen} from './';
 // https://github.com/oblador/react-native-vector-icons/issues/1074#issuecomment-534053163
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import {screenBg} from '../styles/globals';
 
 const Tab = createBottomTabNavigator();
 
-const Icon = ({name, focused}) => <FontAwesome6 name={name} size={20} color={focused ? 'white' : 'gray'} />;
+const Icon = ({name, focused}) => <FontAwesome6 name={name} size={16} color={focused ? 'white' : 'gray'} />;
 
 function MainScreen() {
   return (
@@ -14,13 +15,13 @@ function MainScreen() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
+          ...screenBg,
           paddingHorizontal: 5,
           paddingTop: 0,
-          backgroundColor: 'rgba(0,0,0,1)',
           borderTopWidth: 0,
         },
         tabBarLabelStyle: {
-          fontSize: 13,
+          fontSize: 12,
           fontFamily: 'Inter-Medium',
         },
         tabBarActiveTintColor: 'white',

@@ -117,23 +117,23 @@ const calculateGridStyle = (tick, isStroke) => {
       strokeWidth = 1;
       break;
     case 10:
-      opacity = 0.1;
+      opacity = 0.05;
       strokeWidth = 1;
       break;
     case 20:
-      opacity = 0.1;
-      strokeWidth = 0.5;
-      break;
-    case 40:
-      opacity = 0.1;
+      opacity = 0.04;
       strokeWidth = 0.5;
       break;
     case 30:
-      opacity = 0.1;
+      opacity = 0.04;
       strokeWidth = 0.5;
       break;
-    default:
-      opacity = 0.1;
+    case 40:
+      opacity = 0.04;
+      strokeWidth = 0.5;
+      break;
+    case 50:
+      opacity = 0.04;
       strokeWidth = 0.5;
   }
 
