@@ -28,7 +28,7 @@ const StatsBar = observer(({stats}) => {
       <View style={[styles.row, styles.lastRow]}>
         <TouchableOpacity style={styles.tally} underlayColor={'#fff0'}>
           <Text style={styles.tallyValue}>
-            {`${statsStore.data?.perfect[selectedNote + 3]?.percentage?.toFixed(0) || '-'}`}
+            {`${statsStore.data?.perfect[selectedNote + 3]?.percentage?.toFixed(0) || '—'}`}
           </Text>
           <Text style={styles.tallyLabel}>In Tune %</Text>
         </TouchableOpacity>

@@ -9,13 +9,11 @@ function InfoBar({onRecord, isRecording}) {
   return (
     <View style={styles.infoBar}>
       <View style={styles.recordBar}>
-        <View style={styles.selectKeyScale}>
+        {/* <View style={styles.selectKeyScale}>
           <UserKey />
           <UserScale />
-        </View>
-        <View>
-          <RecordButton startRecording={onRecord} isRecording={isRecording} />
-        </View>
+        </View> */}
+        <View>{/* <RecordButton startRecording={onRecord} isRecording={isRecording} /> */}</View>
       </View>
       <StatsBar />
     </View>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Dimensions, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {VictoryChart, VictoryLine, VictoryAxis, VictoryLabel, LineSegment} from 'victory-native';
 import {Defs, LinearGradient, Stop} from 'react-native-svg';
 import {calculateGridStyle} from '../utils/utils';
@@ -8,6 +8,10 @@ import {observer} from 'mobx-react-lite';
 
 const LineChart = observer(({data}) => {
   const {commonStore} = useRootStore();
+  const dater = [];
+  for (let x = -50; x <= 50; x += 1) {
+    dater.push({x, y: Math.sin(x / 10) * 50}); // You can adjust the oscillation pattern here
+  }
   return (
     <View style={styles.container}>
       <VictoryChart padding={{top: 60, bottom: 60, left: 0, right: 30}}>
@@ -20,6 +24,7 @@ const LineChart = observer(({data}) => {
               dy={0}
               dx={0}
               textAnchor="start"
+              style={styles.labelStyle}
               text={({datum}) => (datum === 0 || datum === 50 || datum === -50 ? datum : '')}
             />
           }
@@ -28,10 +33,21 @@ const LineChart = observer(({data}) => {
             grid: {
               stroke: ({tick}) => calculateGridStyle(tick, true),
               strokeWidth: ({tick}) => calculateGridStyle(tick, false),
+              strokeColor: 'green',
             },
             tickLabels: {fontSize: 8, padding: 0, opacity: commonStore.showAxisLabel ? 1 : 0, color: 'white'},
           }}
         />
+        {/* adding another axis creates interesting effect but hits the performance*/}
+        {/* <VictoryAxis
+          label=""
+          standalone={false}
+          // width="100%"
+          tickValues={[0, 20]}
+          style={{
+            tickLabels: {opacity: 0},
+          }}
+        /> */}
         <GradientLine />
         <VictoryLine
           interpolation="natural"
@@ -49,6 +65,17 @@ const LineChart = observer(({data}) => {
           y="hz"
         />
       </VictoryChart>
+      {/* <View style={{flex: 1, backgroundColor: 'red', height: 100}}>
+        <VictoryChart
+          domain={{x: [-50, 50]}} // Set the x-axis domain to -50 to 50
+        >
+          <VictoryScatter
+            data={[{x: -30}]} // Pass your data as an array of objects with x-values
+            size={6} // Adjust the size of the circle as needed
+            style={{data: {fill: 'blue'}}} // Change the circle color as desired
+          />
+        </VictoryChart>
+      </View> */}
     </View>
   );
 });
@@ -57,10 +84,10 @@ const GradientLine = React.memo(() => {
   return (
     <Defs>
       <LinearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-        {/* <Stop offset="0%" stopColor="#ff1178" stopOpacity="1" />
-        <Stop offset="70%" stopColor="#8318f6" stopOpacity="1" /> */}
-        <Stop offset="0%" stopColor="#a82343" stopOpacity="1" />
-        <Stop offset="80%" stopColor="#322083" stopOpacity="1" />
+        <Stop offset="0%" stopColor="#ff1178" stopOpacity="1" />
+        <Stop offset="70%" stopColor="#8318f6" stopOpacity="1" />
+        {/* <Stop offset="0%" stopColor="#a82343" stopOpacity="1" />
+        <Stop offset="60%" stopColor="#322083" stopOpacity="1" /> */}
       </LinearGradient>
     </Defs>
   );
@@ -72,8 +99,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     // backgroundColor: 'rgb(10,10,10)',
-    marginTop: 0,
-    marginBottom: 30,
+    marginTop: 10,
+    // marginBottom: 20,
     borderRadius: 10,
   },
   centAxis: {
@@ -84,6 +111,7 @@ const styles = StyleSheet.create({
     height: '100%',
     // backgroundColor: 'rgba(255,0,0,0.5)',
   },
+  labelStyle: {fill: 'rgba(255,255,255,0.15)', fontSize: 7},
   cent: {
     // backgroundColor: 'rgba(255,0,0,0.5)',
     position: 'absolute',

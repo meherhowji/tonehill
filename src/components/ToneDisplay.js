@@ -39,10 +39,10 @@ const ToneDisplay = observer(({audioData}) => {
             </Text>
             {commonStore.showOctave && <Text style={styles.octave}>{data.octave}</Text>}
           </View>
-          {/* <View style={styles.cents}>
-            <Text style={styles.centsValue}>{statsStore.cents}</Text>
+          <View style={styles.cents}>
+            <Text style={styles.centsValue}>{statsStore.cents > 0 ? `+${statsStore.cents}` : statsStore.cents}</Text>
             <Text style={styles.centsLabel}>¢</Text>
-          </View> */}
+          </View>
         </View>
       ) : (
         <View style={styles.toneTextFallback}>
@@ -61,13 +61,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
+    // backgroundColor: 'green',
   },
   toneText: {
     position: 'relative',
     height: 90,
     width: 105,
     // overflow: 'hidden',
-    // backgroundColor: 'green',
   },
   toneTextFallback: {
     position: 'relative',
@@ -84,20 +84,20 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
-    marginTop: -2,
+    marginTop: -1,
     opacity: 0.8,
   },
   centsValue: {
     alignSelf: 'center',
     fontFamily: 'RobotoMono-Medium',
     color: 'white',
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
     opacity: 0.8,
   },
   cents: {
     position: 'absolute',
-    bottom: -40,
+    bottom: -50,
     left: 0,
     width: '100%',
     textAlign: 'center',

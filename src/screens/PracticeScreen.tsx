@@ -45,7 +45,7 @@ const PracticeScreen: React.FC = observer(() => {
     }
 
     const simpleFrequency = parseFloat(data.frequency.toFixed(2)); // NOTE: accuracy reduction
-    const meta = getNoteMeta(simpleFrequency);
+    const meta = getNoteMeta(simpleFrequency); // get note, accuracy, cents
     setChartData(prevChartData => {
       let updatedChartData = [...prevChartData];
       // TODO: how can we make the chart animation of data shifting/adding with ease

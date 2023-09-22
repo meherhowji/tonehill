@@ -109,39 +109,44 @@ function mapNoteToValue({note, cents}, fixedNote, resetToZero, inTuneRange) {
 }
 
 const calculateGridStyle = (tick, isStroke) => {
-  let opacity, strokeWidth;
+  let stroke,
+    strokeWidth,
+    tickAbs = Math.abs(tick);
 
-  switch (Math.abs(tick)) {
+  switch (tickAbs) {
     case 0:
-      opacity = 0.1;
       strokeWidth = 1;
+      stroke = 'rgba(169, 255, 153, 0.3)';
       break;
     case 10:
-      opacity = 0.05;
+      stroke = 'rgba(169, 255, 153, 0.15)';
       strokeWidth = 1;
       break;
     case 20:
-      opacity = 0.04;
+      stroke = 'rgba(238, 122, 67, 0.2)';
       strokeWidth = 0.5;
       break;
     case 30:
-      opacity = 0.04;
+      stroke = 'rgba(238, 122, 67, 0.1)';
       strokeWidth = 0.5;
       break;
     case 40:
-      opacity = 0.04;
+      stroke = 'rgba(238, 122, 67, 0.1)';
       strokeWidth = 0.5;
       break;
     case 50:
-      opacity = 0.04;
+      stroke = 'rgba(238, 122, 67, 0.1)';
       strokeWidth = 0.5;
       break;
     default:
-      opacity = 0;
+      stroke = 'rgba(0, 0, 0, 0)';
       strokeWidth = 0.5;
   }
 
-  return isStroke ? `rgba(255, 255, 255, ${opacity})` : strokeWidth;
+  if (tickAbs <= 10) {
+  }
+
+  return isStroke ? stroke : strokeWidth;
 };
 
 function parseNote(note) {
