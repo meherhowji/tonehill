@@ -77,6 +77,7 @@ const UserScale = observer(() => {
 
 const styles = StyleSheet.create({
   container: {
+    marginLeft: 10,
     // alignSelf: 'flex-start',
     // backgroundColor: 'cyan',
     // padding: 15,

@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 
 interface RecordButtonProps {
   isRecording: boolean;
@@ -10,12 +11,20 @@ const RecordButton: React.FC<RecordButtonProps> = ({isRecording, startRecording}
   const goLive = () => {
     isRecording ? startRecording(false) : startRecording(true);
   };
+  const resetSession = () => {
+    return 0;
+  };
   return (
     <View style={styles.recordBox}>
       <TouchableOpacity style={[styles.button, isRecording && styles.buttonLive]} onPress={goLive}>
         <Text style={[styles.recordDot, isRecording && styles.recordDotLive]}>●</Text>
         <Text style={[styles.recordText, isRecording && styles.recordTextLive]}>
           {isRecording ? 'RECORDING' : 'RECORD'}
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={[styles.button, styles.reset]} onPress={resetSession}>
+        <Text style={[styles.recordText]}>
+          <FontAwesome6 name={'rotate-right'} size={16} color={'rgb(238,122,67)'} />
         </Text>
       </TouchableOpacity>
     </View>
@@ -27,11 +36,14 @@ const styles = StyleSheet.create({
     // padding: 15,
     // paddingBottom: 0,
     // alignSelf: 'center',
-    // backgroundColor: 'magenta',
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
   },
   button: {
     // display: 'inline-flex',
     flexDirection: 'row',
+    height: 30,
     padding: 5,
     paddingLeft: 8,
     paddingRight: 8,
@@ -39,6 +51,9 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  reset: {
+    marginLeft: 10,
   },
   buttonLive: {
     backgroundColor: 'rgb(238,122,67)',
