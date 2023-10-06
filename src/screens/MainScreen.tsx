@@ -34,6 +34,13 @@ function MainScreen() {
           tabBarIcon: ({focused}) => <Icon name={'music'} focused={focused} />,
         }}
       />
+      <Tab.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          tabBarIcon: ({focused}) => <Icon name="sliders" focused={focused} />,
+        }}
+      />
       {/* <Tab.Screen
         name="Stats"
         component={StatsScreen}
@@ -62,13 +69,6 @@ function MainScreen() {
           },
         }}
       /> */}
-      <Tab.Screen
-        name="Settings"
-        component={SettingsScreen}
-        options={{
-          tabBarIcon: ({focused}) => <Icon name="sliders" focused={focused} />,
-        }}
-      />
     </Tab.Navigator>
   );
 }

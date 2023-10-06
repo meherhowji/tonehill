@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import {VictoryChart, VictoryLine, VictoryAxis, VictoryLabel, LineSegment} from 'victory-native';
+// import {VictoryChart, VictoryLine, VictoryAxis, VictoryLabel, LineSegment} from 'victory-native';
+import { CartesianChart, Line } from "victory-native";
 import {Defs, LinearGradient, Stop} from 'react-native-svg';
 import {calculateGridStyle} from '../utils/utils';
 import {useRootStore} from '../stores/RootStoreProvider';
@@ -8,10 +9,6 @@ import {observer} from 'mobx-react-lite';
 
 const LineChart = observer(({data}) => {
   const {commonStore} = useRootStore();
-  const dater = [];
-  for (let x = -50; x <= 50; x += 1) {
-    dater.push({x, y: Math.sin(x / 10) * 50}); // You can adjust the oscillation pattern here
-  }
   return (
     <View style={styles.container}>
       <VictoryChart padding={{top: 60, bottom: 60, left: 0, right: 30}}>
