@@ -3,7 +3,7 @@ import {View, Text, SectionList, StyleSheet} from 'react-native';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {settingsData, settingsConfig} from '../components/settings/settingsData';
 import {screenBg} from '../styles/globals';
-import {BlurView} from '@react-native-community/blur';
+// import {BlurView} from '@react-native-community/blur';
 
 const SettingsScreen = () => {
   const renderItemComponent = (item: string) => {
