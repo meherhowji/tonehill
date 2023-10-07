@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 // import {VictoryChart, VictoryLine, VictoryAxis, VictoryLabel, LineSegment} from 'victory-native';
-import { CartesianChart, Line } from "victory-native";
+import {CartesianChart, Line} from 'victory-native';
 import {Defs, LinearGradient, Stop} from 'react-native-svg';
 import {calculateGridStyle} from '../utils/utils';
 import {useRootStore} from '../stores/RootStoreProvider';
@@ -9,9 +9,30 @@ import {observer} from 'mobx-react-lite';
 
 const LineChart = observer(({data}) => {
   const {commonStore} = useRootStore();
+  const DATA = Array.from({length: 31}, (_, i) => ({
+    day: i,
+    highTmp: 40 + 30 * Math.random(),
+  }));
   return (
     <View style={styles.container}>
-      <VictoryChart padding={{top: 60, bottom: 60, left: 0, right: 30}}>
+      <CartesianChart
+        data={DATA} // 👈 specify your data
+        xKey="day" // 👈 specify data key for x-axis
+        yKeys={['highTmp']} // 👈 specify data keys used for y-axis
+        // axisOptions={{font}} // 👈 we'll generate axis labels using given font.
+      >
+        {/* 👇 render function exposes various data, such as points. */}
+        {({points}) => {
+          // 👇 and we'll use the Line component to render a line path.
+					// TODO: last this was tried, reanimated was throwing many peer dependencies error beefing up our devDeps
+					// and this points was never getting populated with the data
+					// considering many features will be WIP e.g. custom axes, gradient etc
+					// plan to do it for the next app store release
+					console.log(points, DATA)
+          return <Line points={points.highTmp} color="red" strokeWidth={3} />
+				}}
+      </CartesianChart>
+      {/* <VictoryChart padding={{top: 60, bottom: 60, left: 0, right: 30}}>
         <VictoryAxis
           dependentAxis
           tickValues={[-60, -50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50, 60]}
@@ -34,9 +55,9 @@ const LineChart = observer(({data}) => {
             },
             tickLabels: {fontSize: 8, padding: 0, opacity: commonStore.showAxisLabel ? 1 : 0, color: 'white'},
           }}
-        />
-        {/* adding another axis creates interesting effect but hits the performance*/}
-        {/* <VictoryAxis
+        /> */}
+      {/* adding another axis creates interesting effect but hits the performance*/}
+      {/* <VictoryAxis
           label=""
           standalone={false}
           // width="100%"
@@ -45,7 +66,7 @@ const LineChart = observer(({data}) => {
             tickLabels: {opacity: 0},
           }}
         /> */}
-        <GradientLine />
+      {/* <GradientLine />
         <VictoryLine
           interpolation="natural"
           style={{
@@ -61,7 +82,7 @@ const LineChart = observer(({data}) => {
           x="time"
           y="hz"
         />
-      </VictoryChart>
+      </VictoryChart> */}
       {/* <View style={{flex: 1, backgroundColor: 'red', height: 100}}>
         <VictoryChart
           domain={{x: [-50, 50]}} // Set the x-axis domain to -50 to 50
@@ -95,7 +116,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    // backgroundColor: 'rgb(10,10,10)',
+    backgroundColor: 'rgb(10,10,10)',
     marginTop: 10,
     // marginBottom: 20,
     borderRadius: 10,
@@ -134,4 +155,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(LineChart);
+export default LineChart;
