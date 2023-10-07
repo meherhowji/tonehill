@@ -3,7 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {PracticeScreen, StatsScreen, RecordingsScreen, SettingsScreen} from './';
 // https://github.com/oblador/react-native-vector-icons/issues/1074#issuecomment-534053163
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import {screenBg} from '../styles/globals';
+import {BlurView} from '@react-native-community/blur';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,11 +15,25 @@ function MainScreen() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          ...screenBg,
           paddingHorizontal: 5,
           paddingTop: 0,
           borderTopWidth: 0,
+          position: 'absolute',
         },
+        tabBarBackground: () => (
+          <BlurView
+            style={{
+              position: 'absolute',
+              left: 0,
+              bottom: 0,
+              width: '100%',
+              height: 85,
+            }}
+            blurType="dark"
+            blurAmount={10}
+            reducedTransparencyFallbackColor="white"
+          />
+        ),
         tabBarLabelStyle: {
           fontSize: 12,
           fontFamily: 'Inter-Medium',
@@ -34,21 +48,14 @@ function MainScreen() {
           tabBarIcon: ({focused}) => <Icon name={'music'} focused={focused} />,
         }}
       />
-      {/* <Tab.Screen
+      <Tab.Screen
         name="Stats"
         component={StatsScreen}
         options={{
           tabBarIcon: ({focused}) => <Icon name={'chart-simple'} focused={focused} />,
-          tabBarLabelStyle: {opacity: 0.5},
-          tabBarIconStyle: {opacity: 0.5},
-        }}
-        listeners={{
-          tabPress: e => {
-            e.preventDefault();
-          },
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Recordings"
         component={RecordingsScreen}
         options={{

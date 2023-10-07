@@ -2,6 +2,8 @@ import React, {useCallback} from 'react';
 import {View, Text, SectionList, StyleSheet} from 'react-native';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {settingsData, settingsConfig} from '../components/settings/settingsData';
+import {screenBg} from '../styles/globals';
+import {BlurView} from '@react-native-community/blur';
 
 const SettingsScreen = () => {
   const renderItemComponent = (item: string) => {
@@ -47,7 +49,7 @@ const SettingsScreen = () => {
 const css = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    backgroundColor: 'rgb(0,0,0))',
+    ...screenBg,
   },
   settingList: {
     padding: 20,
@@ -103,6 +105,13 @@ const css = StyleSheet.create({
     fontSize: 45,
     color: 'white',
     fontFamily: 'Inter-Bold',
+  },
+  blurView: {
+    position: 'absolute',
+    left: 0,
+    bottom: 0,
+    width: '100%',
+    height: 300,
   },
 });
 
