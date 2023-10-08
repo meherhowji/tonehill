@@ -2,7 +2,7 @@ import React, {useRef, useState, useEffect} from 'react';
 import {PitchDetector} from 'react-native-pitch-detector';
 import {getNoteMeta, mapNoteToValue} from '../utils/utils';
 import {MetaObject, DataArray, PitchDataObject} from '../types/types';
-import {DEFAULT_DATA, DEFAULT_META, DEFAULT_CHART_DATA} from '../utils/constants';
+import {DEFAULT_DATA, DEFAULT_META, DEFAULT_CHART_DATA, FREQUENCY_PRECISION} from '../utils/constants';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {View, StyleSheet} from 'react-native';
 import negate from 'ramda/es/negate';
@@ -44,7 +44,7 @@ const PracticeScreen: React.FC = observer(() => {
       return;
     }
 
-    const simpleFrequency = parseFloat(data.frequency.toFixed(2)); // NOTE: accuracy reduction
+    const simpleFrequency = parseFloat(data.frequency.toFixed(FREQUENCY_PRECISION)); // NOTE: accuracy reduction
     const meta = getNoteMeta(simpleFrequency); // get note, accuracy, cents
     setChartData(prevChartData => {
       let updatedChartData = [...prevChartData];

@@ -4,7 +4,7 @@ import equals from 'ramda/es/equals';
 import {observer} from 'mobx-react-lite';
 import {useRootStore} from '../stores/RootStoreProvider';
 import {FLAT} from '../utils/constants';
-import {isValidNumber, parseNote} from '../utils/utils';
+import {isValidNumber, parseNote, mapValueToIndex} from '../utils/utils';
 import {sharpToFlatMapping} from '../utils/mappings';
 
 // audioData is metaData containing note, accuracy and cent
@@ -30,7 +30,7 @@ const ToneDisplay = observer(({audioData}) => {
     <View style={styles.toneContainer}>
       {data.note ? (
         <View style={styles.toneText}>
-          <Text style={styles.tone} includeFontPadding>
+          <Text style={[styles.tone, {color: statsStore.toneLabelColor}]} includeFontPadding>
             {data.note}
           </Text>
           <View style={styles.toneMeta}>

@@ -34,18 +34,21 @@
 // setIsRecording(status);
 // };
 
-/* <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
-        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((octave, index) => (
-          <View key={index} style={[styles.noteItem, {opacity: selectedOctave === octave ? 1 : 0.4}]}>
-            <TouchableHighlight style={styles.cell} underlayColor={'#fff0'} onPress={() => handleOctaveSelect(octave)}>
-              <Text style={[styles.noteText, {opacity: selectedOctave === octave ? 1 : 0.4}]}>{octave}</Text>
-            </TouchableHighlight>
-          </View>
-        ))}
-      </ScrollView> */
+/* 
+<ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
+	{[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((octave, index) => (
+		<View key={index} style={[styles.noteItem, {opacity: selectedOctave === octave ? 1 : 0.4}]}>
+			<TouchableHighlight style={styles.cell} underlayColor={'#fff0'} onPress={() => handleOctaveSelect(octave)}>
+				<Text style={[styles.noteText, {opacity: selectedOctave === octave ? 1 : 0.4}]}>{octave}</Text>
+			</TouchableHighlight>
+		</View>
+	))}
+</ScrollView> 
+*/
 
 {
-  /* <View style={[styles.row, styles.lastRow]}>
+  /* 
+	<View style={[styles.row, styles.lastRow]}>
         <View style={styles.cell}>
           <TouchableOpacity style={styles.cell} onPress={() => setToggleFlat(!toggleFlat)}>
             <Text style={styles.textLabel}>Flat</Text>
@@ -85,5 +88,6 @@
             )}
           </TouchableOpacity>
         </View>
-      </View> */
+      </View> 
+			*/
 }

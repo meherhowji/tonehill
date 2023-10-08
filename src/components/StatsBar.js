@@ -12,8 +12,10 @@ const StatsBar = observer(({stats}) => {
       <View style={[styles.row, styles.firstRow]}>
         {generateScale(commonStore.userKey, commonStore.userScale).map((note, index) => (
           <View key={index} style={styles.noteItem}>
-            <TouchableOpacity style={[styles.cell, styles.noteLabel]} underlayColor={'#fff0'}>
-              {/* onPress={() => toggleSelectedNote(prev => (prev === note ? '' : note))}> */}
+            <TouchableOpacity
+              style={[styles.cell, styles.noteLabel]}
+              underlayColor={'#fff0'}
+              onPress={() => toggleSelectedNote(prev => (prev === note ? '' : note))}>
               <Text style={styles.noteText}>{note}</Text>
             </TouchableOpacity>
             <View style={[styles.cell, styles.rule]}></View>
