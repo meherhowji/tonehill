@@ -11,13 +11,13 @@ function InfoBar({onRecord, isRecording}) {
       <View style={styles.recordBar}>
         <View style={styles.selectKeyScale}>
           <UserKey />
-          <UserScale />
+          {/* <UserScale /> */}
         </View>
         <View>
           <RecordButton startRecording={onRecord} isRecording={isRecording} />
         </View>
       </View>
-      <StatsBar />
+      {/* <StatsBar /> */}
     </View>
   );
 }
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     // marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    alignItems: 'flex-end',
     // marginTop: 10,
     // backgroundColor: 'gray',
   },

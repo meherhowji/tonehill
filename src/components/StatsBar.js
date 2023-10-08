@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   lastRow: {
+		display: 'none'
     // backgroundColor: 'red',
   },
   tally: {
