@@ -3,10 +3,10 @@ import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {observer} from 'mobx-react-lite';
-import {useRootStore} from '../stores/RootStoreProvider';
+import {useRootStore} from '../stores';
 
 const UserScale = observer(() => {
-  const {commonStore} = useRootStore();
+  const {common} = useRootStore();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('major');
   const [items, setItems] = useState([
@@ -27,7 +27,7 @@ const UserScale = observer(() => {
           multiple={false}
           open={open}
           value={`Scale: ${value}`}
-          onSelectItem={v => commonStore.setUserScale(v.value)}
+          onSelectItem={v => common.setUserScale(v.value)}
           items={items}
           setOpen={setOpen}
           setValue={setValue}

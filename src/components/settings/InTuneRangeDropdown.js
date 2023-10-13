@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {observer} from 'mobx-react-lite';
-import {useRootStore} from '../../stores/RootStoreProvider';
+import {useRootStore} from '../../stores';
 
 function InTuneRangeDropdown() {
-  const {commonStore} = useRootStore();
+  const {common} = useRootStore();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(5);
   const [items, setItems] = useState([
@@ -30,7 +30,7 @@ function InTuneRangeDropdown() {
       defaultValue={value}
       itemSeparator={true}
       showTickIcon={false}
-      onChangeValue={v => commonStore.setInTuneRange(v)}
+      onChangeValue={v => common.setInTuneRange(v)}
       containerStyle={styles.container}
       placeholderStyle={styles.placeholder}
       style={styles.dropdown}

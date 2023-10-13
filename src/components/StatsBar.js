@@ -1,16 +1,16 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import {generateScale} from '../utils/utils';
-import {useRootStore} from '../stores/RootStoreProvider';
+import {useRootStore} from '../stores';
 import {observer} from 'mobx-react-lite';
 
 const StatsBar = observer(({stats}) => {
-  const {commonStore, statsStore} = useRootStore();
+  const {common, stats} = useRootStore();
   const [selectedNote, toggleSelectedNote] = useState('');
   return (
     <View style={styles.container}>
       <View style={[styles.row, styles.firstRow]}>
-        {generateScale(commonStore.userKey, commonStore.userScale).map((note, index) => (
+        {generateScale(common.userKey, common.userScale).map((note, index) => (
           <View key={index} style={styles.noteItem}>
             <TouchableOpacity
               style={[styles.cell, styles.noteLabel]}

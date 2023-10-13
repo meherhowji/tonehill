@@ -2,19 +2,19 @@ import React from 'react';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import {SHARP, FLAT} from '../../utils/constants';
 import {StyleSheet} from 'react-native';
-import {useRootStore} from '../../stores/RootStoreProvider';
+import {useRootStore} from '../../stores';
 import {observer} from 'mobx-react-lite';
 
 const AccidentalSwitch = observer(() => {
-  const {commonStore} = useRootStore();
+  const {common} = useRootStore();
   return (
     <SegmentedControl
       style={css.segmentedControl}
       values={[SHARP, FLAT]}
-      selectedIndex={commonStore.accidental === SHARP ? 0 : 1}
+      selectedIndex={common.accidental === SHARP ? 0 : 1}
       onChange={event => {
         // let _selectedIndex = event.nativeEvent.selectedSegmentIndex;
-        commonStore.toggleAccidental();
+        common.toggleAccidental();
       }}
     />
   );

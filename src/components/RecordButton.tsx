@@ -22,11 +22,11 @@ const RecordButton: React.FC<RecordButtonProps> = ({isRecording, startRecording}
           {isRecording ? 'RECORDING' : 'RECORD'}
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.button, styles.reset]} onPress={resetSession}>
+      {/* <TouchableOpacity style={[styles.button, styles.reset]} onPress={resetSession}>
         <Text style={[styles.recordText]}>
           <FontAwesome6 name={'rotate-right'} size={16} color={'rgb(238,122,67)'} />
         </Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

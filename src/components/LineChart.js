@@ -3,11 +3,11 @@ import {View, StyleSheet} from 'react-native';
 import {VictoryChart, VictoryLine, VictoryAxis, VictoryLabel, LineSegment} from 'victory-native';
 import {Defs, LinearGradient, Stop} from 'react-native-svg';
 import {calculateGridStyle} from '../utils/utils';
-import {useRootStore} from '../stores/RootStoreProvider';
+import {useRootStore} from '../stores';
 import {observer} from 'mobx-react-lite';
 
 const LineChart = observer(({data}) => {
-  const {commonStore} = useRootStore();
+  const {common} = useRootStore();
   const dater = [];
   for (let x = -50; x <= 50; x += 1) {
     dater.push({x, y: Math.sin(x / 10) * 50}); // You can adjust the oscillation pattern here
@@ -35,7 +35,7 @@ const LineChart = observer(({data}) => {
               strokeWidth: ({tick}) => calculateGridStyle(tick, false),
               strokeColor: 'green',
             },
-            tickLabels: {fontSize: 8, padding: 0, opacity: commonStore.showAxisLabel ? 1 : 0, color: 'white'},
+            tickLabels: {fontSize: 8, padding: 0, opacity: common.showAxisLabel ? 1 : 0, color: 'white'},
           }}
         />
         {/* adding another axis creates interesting effect but hits the performance*/}
@@ -95,7 +95,7 @@ const GradientLine = React.memo(() => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 2,
     flexDirection: 'row',
     alignItems: 'center',
     // backgroundColor: 'rgb(10,10,10)',

@@ -2,20 +2,20 @@ import React, {useState, useEffect} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import equals from 'ramda/es/equals';
 import {observer} from 'mobx-react-lite';
-import {useRootStore} from '../stores/RootStoreProvider';
+import {useRootStore} from '../stores';
 import {FLAT} from '../utils/constants';
 import {isValidNumber, parseNote, mapValueToIndex} from '../utils/utils';
 import {sharpToFlatMapping} from '../utils/mappings';
 
 // audioData is metaData containing note, accuracy and cent
 const ToneDisplay = observer(({audioData}) => {
-  const {commonStore, statsStore} = useRootStore();
+  const {common, stats} = useRootStore();
   const [data, setData] = useState({note: '', accidental: '', frequency: '', octave: ''});
 
   useEffect(() => {
     if (audioData?.note) {
       let {note, accidental, octave} = parseNote(audioData.note);
-      if (commonStore.accidental === FLAT) {
+      if (common.accidental === FLAT) {
         const mappedNote = sharpToFlatMapping[note + accidental];
         const mappedParsedNote = parseNote(mappedNote);
         ({note, accidental} = mappedParsedNote);
@@ -30,17 +30,17 @@ const ToneDisplay = observer(({audioData}) => {
     <View style={styles.toneContainer}>
       {data.note ? (
         <View style={styles.toneText}>
-          <Text style={[styles.tone, {color: statsStore.toneLabelColor}]} includeFontPadding>
+          <Text style={[styles.tone, {color: stats.toneLabelColor}]} includeFontPadding>
             {data.note}
           </Text>
           <View style={styles.toneMeta}>
             <Text style={[styles.accidentals, equals(data.accidental, 'p') && styles.flatAccidentalStyle]}>
               {data.accidental}
             </Text>
-            {commonStore.showOctave && <Text style={styles.octave}>{data.octave}</Text>}
+            {common.showOctave && <Text style={styles.octave}>{data.octave}</Text>}
           </View>
           <View style={styles.cents}>
-            <Text style={styles.centsValue}>{statsStore.cents > 0 ? `+${statsStore.cents}` : statsStore.cents}</Text>
+            <Text style={styles.centsValue}>{stats.cents > 0 ? `+${stats.cents}` : stats.cents}</Text>
             <Text style={styles.centsLabel}>¢</Text>
           </View>
         </View>
@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'relative',
     // backgroundColor: 'green',
+    zIndex: -1,
   },
   toneText: {
     position: 'relative',

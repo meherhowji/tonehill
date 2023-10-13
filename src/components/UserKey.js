@@ -3,11 +3,11 @@ import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {notes} from '../utils/mappings';
-import {useRootStore} from '../stores/RootStoreProvider';
+import {useRootStore} from '../stores';
 import {observer} from 'mobx-react-lite';
 
 const UserKey = observer(() => {
-  const {commonStore} = useRootStore();
+  const {common} = useRootStore();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('C#');
   const [items, setItems] = useState([]);
@@ -21,21 +21,21 @@ const UserKey = observer(() => {
   }, []);
 
   return (
-    // need to move this to commonStore
+    // need to move this to common
     <TouchableWithoutFeedback onPress={() => setOpen(false)}>
       <View style={styles.container}>
         <DropDownPicker
           multiple={false}
           open={open}
           value={`Key: ${value}`}
-          onSelectItem={v => commonStore.setUserKey(v?.value)}
+          onSelectItem={v => common.setUserKey(v?.value)}
           items={items}
           setOpen={setOpen}
           setValue={setValue}
           setItems={setItems}
           showArrowIcon={false}
           listMode={'SCROLLVIEW'}
-          dropDownDirection={'TOP'}
+          dropDownDirection={'DOWN'}
           placeholder={`Key: ${value}`}
           containerStyle={{
             width: 77,

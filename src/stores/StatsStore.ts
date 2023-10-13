@@ -1,6 +1,6 @@
 import {makeAutoObservable} from 'mobx';
 import * as R from 'ramda';
-import {NOTE_SCORE_PALETTE_HALF} from '../utils/constants';
+import {hydrateStore, makePersistable} from 'mobx-persist-store';
 
 interface NoteStatistics {
   average: number;
@@ -11,7 +11,7 @@ interface NoteStatistics {
  * `StatsStore` is a MobX store for calculating running averages and percentages of musical notes.
  * It keeps track of the sums and counts for three types of notes: flats, sharps, and perfect.
  */
-export class StatsStore {
+export class StatsStore implements IStore {
   /**
    * Object to store the sums of different types and notes.
    * Example: {flats: {C: 10, D: 5}, sharps: {C: 5, D: 10}, perfect: {C: 0, D: 0}}
@@ -39,6 +39,11 @@ export class StatsStore {
 
   constructor() {
     makeAutoObservable(this);
+
+    makePersistable(this, {
+      name: StatsStore.name,
+      properties: ['sums', 'counts', 'cents'],
+    });
   }
 
   /**
@@ -106,7 +111,12 @@ export class StatsStore {
   }
 
   get toneLabelColor(): string {
-    // put commonstore value, intunerange here
+    // TODO:put commonstore value, intunerange here
     return this.cents > -5 && this.cents < 5 ? '#B5FF00' : '#FFFFFF';
   }
+
+  // Hydration
+  hydrate = async (): PVoid => {
+    await hydrateStore(this);
+  };
 }

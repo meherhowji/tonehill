@@ -2,7 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {MainScreen, SplashScreen, AuthScreen} from './screens';
-import {RootStoreProvider} from './stores/RootStoreProvider';
+import {RootStoreProvider} from './stores';
 import {GridOverlay} from 'react-native-grid-overlay';
 
 const Stack = createNativeStackNavigator();

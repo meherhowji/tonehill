@@ -1,17 +1,17 @@
 import React, {useState} from 'react';
 import {StyleSheet, TouchableOpacity, Text} from 'react-native';
-import {useRootStore} from '../../stores/RootStoreProvider';
+import {useRootStore} from '../../stores';
 import {observer} from 'mobx-react-lite';
 
 const FrequencyDropdown = observer(() => {
-  const {commonStore} = useRootStore();
+  const {common} = useRootStore();
   const [isDisabled, setIsDisabled] = useState(true);
 
   const [value, setValue] = useState('Show');
 
   const update = () => {
     setValue(prev => (prev === 'Show' ? 'Hide' : 'Show'));
-    commonStore.toggleFrequency();
+    common.toggleFrequency();
   };
 
   return (

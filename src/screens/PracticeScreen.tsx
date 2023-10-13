@@ -9,18 +9,18 @@ import negate from 'ramda/es/negate';
 import LineChart from '../components/LineChart';
 import ToneDisplay from '../components/ToneDisplay';
 import {observer} from 'mobx-react-lite';
-import {useRootStore} from '../stores/RootStoreProvider';
+import {useRootStore} from '../stores';
 import InfoBar from '../components/InfoBar';
 import {screenBg, screenMargin} from '../styles/globals';
 
 const PracticeScreen: React.FC = observer(() => {
-  const {commonStore, statsStore} = useRootStore();
+  const {common, stats} = useRootStore();
   const counter = useRef<number>(0);
   const [data, setData] = useState<PitchDataObject>(DEFAULT_DATA);
   const [chartData, setChartData] = useState<DataArray>(DEFAULT_CHART_DATA);
   const [metaData, setMetaData] = useState<MetaObject>(DEFAULT_META);
   const [isRecording, setIsRecording] = useState(false);
-  const inTuneRange = commonStore.inTuneRange;
+  const inTuneRange = common.inTuneRange;
 
   const onRecord = async (isStart: boolean) => {
     if (isStart) {
@@ -65,7 +65,7 @@ const PracticeScreen: React.FC = observer(() => {
 
     if (note && cents) {
       const type = cents < negate(inTuneRange) ? 'flats' : cents > inTuneRange ? 'sharps' : 'perfect';
-      statsStore.addValue(type, note, cents);
+      stats.addValue(type, note, cents);
     }
   }, [metaData]);
 
@@ -73,9 +73,9 @@ const PracticeScreen: React.FC = observer(() => {
     <SafeAreaProvider>
       <SafeAreaView style={styles.safeContainer}>
         <View style={styles.container}>
+          <InfoBar onRecord={onRecord} isRecording={isRecording} />
           <ToneDisplay audioData={metaData} />
           <LineChart data={chartData} />
-          <InfoBar onRecord={onRecord} isRecording={isRecording} />
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
