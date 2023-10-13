@@ -1,7 +1,8 @@
 import {makeAutoObservable} from 'mobx';
+import {hydrateStore, makePersistable} from 'mobx-persist-store';
 import {SCALES} from '../utils/constants';
 
-export class CommonStore {
+export class CommonStore implements IStore {
   accidental: string = '#';
   showOctave: boolean = true;
   showCents: boolean = true;
@@ -13,6 +14,20 @@ export class CommonStore {
 
   constructor() {
     makeAutoObservable(this);
+
+    makePersistable(this, {
+      name: CommonStore.name,
+      properties: [
+        'accidental',
+        'showOctave',
+        'showCents',
+        'showFrequency',
+        'showAxisLabel',
+        'inTuneRange',
+        'userKey',
+        'userScale',
+      ],
+    });
   }
 
   toggleAccidental() {
@@ -46,4 +61,31 @@ export class CommonStore {
   setUserScale(scale: string) {
     this.userScale = SCALES[scale.toUpperCase()] || SCALES.MAJOR;
   }
+
+  get octaveVisibility() {
+    return this.showOctave ? 'Show' : 'Hide';
+  }
+
+  get centsVisibility() {
+    return this.showCents ? 'Show' : 'Hide';
+  }
+
+  get axisLabelVisibility() {
+    return this.showAxisLabel ? 'Show' : 'Hide';
+  }
+
+  // Unified set methods
+  set<T extends StoreKeysOf<CommonStore>>(what: T, value: CommonStore[T]) {
+    (this as CommonStore)[what] = value;
+  }
+  setMany<T extends StoreKeysOf<CommonStore>>(obj: Record<T, CommonStore[T]>) {
+    for (const [k, v] of Object.entries(obj)) {
+      this.set(k as T, v as CommonStore[T]);
+    }
+  }
+
+  // Hydration
+  hydrate = async (): PVoid => {
+    await hydrateStore(this);
+  };
 }

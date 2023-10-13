@@ -5,7 +5,7 @@ import {observer} from 'mobx-react-lite';
 
 const AxisLabelToggle = observer(() => {
   const {common} = useRootStore();
-  const [value, setValue] = useState('Show');
+  const [value, setValue] = useState(common.axisLabelVisibility);
 
   const update = () => {
     setValue(prev => (prev === 'Show' ? 'Hide' : 'Show'));

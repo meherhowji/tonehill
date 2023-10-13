@@ -2,11 +2,6 @@ import {makeAutoObservable} from 'mobx';
 import * as R from 'ramda';
 import {hydrateStore, makePersistable} from 'mobx-persist-store';
 
-interface NoteStatistics {
-  average: number;
-  percentage: number;
-}
-
 /**
  * `StatsStore` is a MobX store for calculating running averages and percentages of musical notes.
  * It keeps track of the sums and counts for three types of notes: flats, sharps, and perfect.
@@ -111,8 +106,18 @@ export class StatsStore implements IStore {
   }
 
   get toneLabelColor(): string {
-    // TODO:put commonstore value, intunerange here
+    // TODO: put StatsStore value, intunerange here
     return this.cents > -5 && this.cents < 5 ? '#B5FF00' : '#FFFFFF';
+  }
+
+  // Unified set methods
+  set<T extends StoreKeysOf<StatsStore>>(what: T, value: StatsStore[T]) {
+    (this as StatsStore)[what] = value;
+  }
+  setMany<T extends StoreKeysOf<StatsStore>>(obj: Record<T, StatsStore[T]>) {
+    for (const [k, v] of Object.entries(obj)) {
+      this.set(k as T, v as StatsStore[T]);
+    }
   }
 
   // Hydration

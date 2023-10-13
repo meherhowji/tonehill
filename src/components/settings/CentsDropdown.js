@@ -5,7 +5,7 @@ import {observer} from 'mobx-react-lite';
 
 const CentsDropdown = observer(() => {
   const {common} = useRootStore();
-  const [value, setValue] = useState('Show');
+  const [value, setValue] = useState(common.centsVisibility);
 
   const update = () => {
     setValue(prev => (prev === 'Show' ? 'Hide' : 'Show'));

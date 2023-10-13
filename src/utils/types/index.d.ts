@@ -34,3 +34,8 @@ type RootStoreContextType = RootStore | null;
 interface RootStoreProviderProps {
   children: ReactNode;
 }
+
+interface NoteStatistics {
+  average: number;
+  percentage: number;
+}

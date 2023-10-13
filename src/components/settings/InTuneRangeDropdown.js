@@ -7,7 +7,7 @@ import {useRootStore} from '../../stores';
 function InTuneRangeDropdown() {
   const {common} = useRootStore();
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(5);
+  const [value, setValue] = useState(common.inTuneRange);
   const [items, setItems] = useState([
     {label: '±10 cents', value: 10},
     {label: '±7 cents', value: 7},
