@@ -24,7 +24,11 @@ const LineChart = observer(({data}) => {
               dy={0}
               dx={0}
               textAnchor="start"
-              style={styles.labelStyle}
+              style={{
+                fill: 'rgba(255,255,255, 0.25)',
+                fontSize: 8,
+                opacity: common.showAxisLabel ? 1 : 0,
+              }}
               text={({datum}) => (datum === 0 || datum === 50 || datum === -50 ? datum : '')}
             />
           }
@@ -35,7 +39,7 @@ const LineChart = observer(({data}) => {
               strokeWidth: ({tick}) => calculateGridStyle(tick, false),
               strokeColor: 'green',
             },
-            tickLabels: {fontSize: 8, padding: 0, opacity: common.showAxisLabel ? 1 : 0, color: 'white'},
+            tickLabels: {padding: 1},
           }}
         />
         {/* adding another axis creates interesting effect but hits the performance*/}
@@ -111,7 +115,6 @@ const styles = StyleSheet.create({
     height: '100%',
     // backgroundColor: 'rgba(255,0,0,0.5)',
   },
-  labelStyle: {fill: 'rgba(255,255,255,0.15)', fontSize: 7},
   cent: {
     // backgroundColor: 'rgba(255,0,0,0.5)',
     position: 'absolute',

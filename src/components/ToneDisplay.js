@@ -39,10 +39,12 @@ const ToneDisplay = observer(({audioData}) => {
             </Text>
             {common.showOctave && <Text style={styles.octave}>{data.octave}</Text>}
           </View>
-          <View style={styles.cents}>
-            <Text style={styles.centsValue}>{stats.cents > 0 ? `+${stats.cents}` : stats.cents}</Text>
-            <Text style={styles.centsLabel}>¢</Text>
-          </View>
+          {common.showCents && (
+            <View style={styles.cents}>
+              <Text style={styles.centsValue}>{stats.cents > 0 ? `+${stats.cents}` : stats.cents}</Text>
+              <Text style={styles.centsLabel}>¢</Text>
+            </View>
+          )}
         </View>
       ) : (
         <View style={styles.toneTextFallback}>
