@@ -1,23 +1,26 @@
-import {StatsStore} from '../StatsStore';
+import '../_hydration.ts'
+import {StatsStore as S} from '../StatsStore';
 
 // Reset the store before each test
-let statsStore;
+let stats;
 
+// TODO: fix tests as they are failing due to persisting
 beforeEach(() => {
-  statsStore = new StatsStore();
+  stats = new S();
+	stats.stopPersisting()
 });
 
 test('Adding values and calculating percentages', () => {
   // Add some values for testing
-  statsStore.addValue('flats', 'C', 5);
-  statsStore.addValue('sharps', 'D', 10);
-  statsStore.addValue('perfect', 'E', 5);
-  statsStore.addValue('flats', 'C', 4);
-  statsStore.addValue('sharps', 'D', 1);
-  statsStore.addValue('perfect', 'E', 3);
+  stats.addValue('flats', 'C', 5);
+  stats.addValue('sharps', 'D', 10);
+  stats.addValue('perfect', 'E', 5);
+  stats.addValue('flats', 'C', 4);
+  stats.addValue('sharps', 'D', 1);
+  stats.addValue('perfect', 'E', 3);
 
   // Calculate the running averages and percentages
-  const data = statsStore.data;
+  const data = stats.data;
 
   // Test the percentages for specific notes and types
   expect(data.flats.C.percentage).toBe(100);
@@ -31,21 +34,21 @@ test('Adding values and calculating percentages', () => {
   expect(data.perfect.E.percentage).toBe(100);
 
   // Add more values for testing
-  statsStore.addValue('sharps', 'C', 3);
-  statsStore.addValue('flats', 'D', 8);
-  statsStore.addValue('perfect', 'E', 4);
+  stats.addValue('sharps', 'C', 3);
+  stats.addValue('flats', 'D', 8);
+  stats.addValue('perfect', 'E', 4);
 
-  statsStore.addValue('perfect', 'C', 3);
-  statsStore.addValue('sharps', 'D', 8);
-  statsStore.addValue('perfect', 'E', 4);
+  stats.addValue('perfect', 'C', 3);
+  stats.addValue('sharps', 'D', 8);
+  stats.addValue('perfect', 'E', 4);
 
-  statsStore.addValue('sharps', 'C', 3);
-  statsStore.addValue('flats', 'D', 8);
-  statsStore.addValue('sharps', 'E', 4);
-  statsStore.addValue('flats', 'E', 4);
+  stats.addValue('sharps', 'C', 3);
+  stats.addValue('flats', 'D', 8);
+  stats.addValue('sharps', 'E', 4);
+  stats.addValue('flats', 'E', 4);
 
   // Calculate the running averages and percentages again
-  const newData = statsStore.data;
+  const newData = stats.data;
 
   // Test the updated percentages for specific notes and types
   expect(newData.flats.C.percentage).toBe(40);
@@ -62,6 +65,6 @@ test('Adding values and calculating percentages', () => {
 });
 
 test('Negative test case: Note to not exist when no values added', () => {
-  const data = statsStore.data;
+  const data = stats.data;
   expect(data.flats.C).toBe(undefined);
 });

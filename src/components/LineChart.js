@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
-import {VictoryChart, VictoryLine, VictoryAxis, VictoryLabel, LineSegment} from 'victory-native';
+import {View, StyleSheet, Text} from 'react-native';
+import {VictoryScatter, VictoryChart, VictoryLine, VictoryAxis, VictoryLabel, LineSegment} from 'victory-native';
 import {Defs, LinearGradient, Stop} from 'react-native-svg';
 import {calculateGridStyle} from '../utils/utils';
 import {useRootStore} from '../stores';
@@ -69,17 +69,6 @@ const LineChart = observer(({data}) => {
           y="hz"
         />
       </VictoryChart>
-      {/* <View style={{flex: 1, backgroundColor: 'red', height: 100}}>
-        <VictoryChart
-          domain={{x: [-50, 50]}} // Set the x-axis domain to -50 to 50
-        >
-          <VictoryScatter
-            data={[{x: -30}]} // Pass your data as an array of objects with x-values
-            size={6} // Adjust the size of the circle as needed
-            style={{data: {fill: 'blue'}}} // Change the circle color as desired
-          />
-        </VictoryChart>
-      </View> */}
     </View>
   );
 });
@@ -102,10 +91,10 @@ const styles = StyleSheet.create({
     flex: 2,
     flexDirection: 'row',
     alignItems: 'center',
-    // backgroundColor: 'rgb(10,10,10)',
+    // backgroundColor: 'tan',
     marginTop: 10,
     // marginBottom: 20,
-    borderRadius: 10,
+    // borderRadius: 10,
   },
   centAxis: {
     position: 'absolute',

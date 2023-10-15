@@ -28,7 +28,7 @@ export class StatsStore implements IStore {
   };
 
   /**
-   * Property to store the cents value.
+   * Property to store the current cent value.
    */
   cents: number = 0;
 
