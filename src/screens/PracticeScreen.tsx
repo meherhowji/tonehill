@@ -12,6 +12,8 @@ import {observer} from 'mobx-react-lite';
 import {useRootStore} from '../stores';
 import InfoBar from '../components/InfoBar';
 import {screenBg, screenMargin} from '../styles/globals';
+// import {getTimeZone} from 'react-native-localize';
+import {DateTime} from 'luxon';
 
 const PracticeScreen: React.FC = observer(() => {
   const {common, stats} = useRootStore();
@@ -20,13 +22,18 @@ const PracticeScreen: React.FC = observer(() => {
   const [chartData, setChartData] = useState<DataArray>(DEFAULT_CHART_DATA);
   const [metaData, setMetaData] = useState<MetaObject>(DEFAULT_META);
   const [isRecording, setIsRecording] = useState(false);
+  const [sessionId, setSessionId] = useState<null | number>(null); // use timestamp as sessionId
   const inTuneRange = common.inTuneRange;
+  // console.log(DateTime.now().toMillis(), Date.now(), getTimeZone(), ' <><><><><><><> ');
 
   const onRecord = async (isStart: boolean) => {
     if (isStart) {
       await PitchDetector.start();
+      const timestamp = DateTime.now().toMillis(); // timestamp contains no TZ, hence luxon package
+      setSessionId(timestamp);
     } else {
       await PitchDetector.stop();
+      setSessionId(null); // reset timestamp
     }
     const status = await PitchDetector.isRecording();
     setIsRecording(status);
@@ -63,9 +70,10 @@ const PracticeScreen: React.FC = observer(() => {
   useEffect(() => {
     const {note, cents} = metaData;
 
-    if (note && cents) {
+    // sessionId can be null in that we don't want to store any data as it indicated the record button is OFF
+    if (note && cents && sessionId) {
       const type = cents < negate(inTuneRange) ? 'flats' : cents > inTuneRange ? 'sharps' : 'perfect';
-      stats.addValue(type, note, cents);
+      stats.addValue(type, note, cents, sessionId);
     }
   }, [metaData]);
 

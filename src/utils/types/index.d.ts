@@ -38,4 +38,11 @@ interface RootStoreProviderProps {
 interface NoteStatistics {
   average: number;
   percentage: number;
+	count: number
+}
+
+interface TimestampedNoteData {
+  type: string;
+  note: string;
+  value: number;
 }

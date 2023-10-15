@@ -3,7 +3,6 @@ import {View, StyleSheet} from 'react-native';
 import {UserKey} from './UserKey';
 import {UserScale} from './UserScale';
 import RecordButton from './RecordButton';
-import {StatsBar} from './StatsBar';
 
 function InfoBar({onRecord, isRecording}) {
   return (
@@ -17,7 +16,6 @@ function InfoBar({onRecord, isRecording}) {
           <RecordButton startRecording={onRecord} isRecording={isRecording} />
         </View>
       </View>
-      {/* <StatsBar /> */}
     </View>
   );
 }

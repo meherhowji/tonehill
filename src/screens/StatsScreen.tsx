@@ -2,8 +2,12 @@ import React from 'react';
 import {View, Text, StyleSheet, ScrollView, TouchableHighlight} from 'react-native';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {screenBg} from '../styles/globals';
+import {useRootStore} from '../stores';
+import {StatsBar} from '../components/StatsBar';
+import {observer} from 'mobx-react-lite';
 
-const StatsScreen = () => {
+const StatsScreen = observer(() => {
+  const {stats} = useRootStore();
   const selectedOctave = 1;
   const handleOctaveSelect = (v: any) => v;
   return (
@@ -13,7 +17,7 @@ const StatsScreen = () => {
           <Text style={css.settingHeader}>Stats</Text>
 
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={css.scrollContainer}>
-            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((octave, index) => (
+            {stats.sessions.map((octave, index) => (
               <View key={index} style={[css.noteItem, {opacity: selectedOctave === octave ? 1 : 0.4}]}>
                 <TouchableHighlight style={css.cell} underlayColor={'#fff0'} onPress={() => handleOctaveSelect(octave)}>
                   <Text style={[css.noteText, {opacity: selectedOctave === octave ? 1 : 0.4}]}>{octave}</Text>
@@ -21,11 +25,13 @@ const StatsScreen = () => {
               </View>
             ))}
           </ScrollView>
+
+          <StatsBar />
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
   );
-};
+});
 
 const css = StyleSheet.create({
   safeContainer: {

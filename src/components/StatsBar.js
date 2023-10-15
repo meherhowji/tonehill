@@ -4,7 +4,7 @@ import {generateScale} from '../utils/utils';
 import {useRootStore} from '../stores';
 import {observer} from 'mobx-react-lite';
 
-const StatsBar = observer(({stats}) => {
+const StatsBar = observer(() => {
   const {common, stats} = useRootStore();
   const [selectedNote, toggleSelectedNote] = useState('');
   return (
@@ -20,9 +20,7 @@ const StatsBar = observer(({stats}) => {
             </TouchableOpacity>
             <View style={[styles.cell, styles.rule]}></View>
             <View style={[styles.cell, styles.noteValue]}>
-              <Text style={styles.noteValueText}>{`${stats.data?.perfect[note + 3]?.percentage?.toFixed(
-                0,
-              )}%`}</Text>
+              <Text style={styles.noteValueText}>{`${stats.details?.perfect[note + 3]?.percentage?.toFixed(0)}%`}</Text>
             </View>
           </View>
         ))}
@@ -30,7 +28,7 @@ const StatsBar = observer(({stats}) => {
       <View style={[styles.row, styles.lastRow]}>
         <TouchableOpacity style={styles.tally} underlayColor={'#fff0'}>
           <Text style={styles.tallyValue}>
-            {`${stats.data?.perfect[selectedNote + 3]?.percentage?.toFixed(0) || '—'}`}
+            {`${stats.details?.perfect[selectedNote + 3]?.percentage?.toFixed(0) || '—'}`}
           </Text>
           <Text style={styles.tallyLabel}>In Tune %</Text>
         </TouchableOpacity>
@@ -60,7 +58,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   lastRow: {
-		display: 'none'
+    display: 'none',
     // backgroundColor: 'red',
   },
   tally: {
