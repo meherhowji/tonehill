@@ -9,7 +9,7 @@ import {observer} from 'mobx-react-lite';
 const UserKey = observer(() => {
   const {common} = useRootStore();
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('C#');
+  const [value, setValue] = useState('');
   const [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -19,6 +19,10 @@ const UserKey = observer(() => {
     }));
     setItems(notesList);
   }, []);
+
+  useEffect(() => {
+    setValue(common.userKey);
+  }, [common.userKey]);
 
   return (
     // need to move this to common
@@ -38,7 +42,7 @@ const UserKey = observer(() => {
           dropDownDirection={'DOWN'}
           placeholder={`Key: ${value}`}
           containerStyle={{
-            width: 77,
+            width: common.userKey.includes('#') ? 73 : 66,
           }}
           listItemContainer={{
             height: 40,
