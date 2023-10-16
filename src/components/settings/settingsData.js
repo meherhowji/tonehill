@@ -25,6 +25,7 @@ const settingsData = [
   },
 ];
 
+// TODO: setting to toggle confirm the delete actions
 const settingsConfig = [
   {name: 'Accidental', component: <AccidentalSwitch />},
   {name: 'In-Tune Range', component: <InTuneRangeDropdown />},

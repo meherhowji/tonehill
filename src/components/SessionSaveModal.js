@@ -1,9 +1,35 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {KeyboardAvoidingView, TextInput, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
 import {BlurView} from '@react-native-community/blur';
 
-const SessionSaveModal = ({visible, onSetModalVisible}) => {
+const SessionSaveModal = ({visible, onSetModalVisible, onDelete, onSave}) => {
   const [inputText, setInputText] = useState('');
+  const [confirmDelete, setConfirmDelete] = useState(false);
+
+  // const onSave = () => {
+  // TODO: save the session
+  // };
+
+  const saveSession = () => {
+    // TODO: save the stats store session ???
+    onSetModalVisible(false);
+    setInputText('');
+    setConfirmDelete(false);
+    onSave();
+  };
+
+  const deleteSession = () => {
+    // TODO: reset the session, propogate to parent?
+    if (confirmDelete) {
+      onSetModalVisible(false);
+      setConfirmDelete(false);
+      setInputText('');
+      onDelete();
+    } else {
+      setConfirmDelete(true);
+    }
+  };
+
   return (
     <Modal animationType="fade" transparent={true} visible={visible} onRequestClose={() => setModalVisible(false)}>
       <BlurView style={styles.blurView} blurType="dark" blurAmount={3} reducedTransparencyFallbackColor="white" />
@@ -18,11 +44,15 @@ const SessionSaveModal = ({visible, onSetModalVisible}) => {
               autoFocus
             />
             <View style={styles.buttonContainer}>
-              <Pressable style={[styles.button, styles.buttonSave]} onPress={() => onSetModalVisible(false)}>
+              <Pressable style={[styles.button, styles.buttonSave]} onPress={saveSession}>
                 <Text style={styles.textStyle}>SAVE</Text>
               </Pressable>
-              <Pressable style={[styles.button, styles.buttonClose]} onPress={() => onSetModalVisible(false)}>
-                <Text style={styles.textStyle}>DELETE</Text>
+              <Pressable style={[styles.button, styles.buttonClose]} onPress={deleteSession}>
+                {confirmDelete ? (
+                  <Text style={styles.textStyle}>YES, DELETE!</Text>
+                ) : (
+                  <Text style={styles.textStyle}>DELETE</Text>
+                )}
               </Pressable>
             </View>
           </View>

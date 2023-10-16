@@ -42,6 +42,10 @@ const PracticeScreen: React.FC = observer(() => {
     setIsRecording(status);
   };
 
+  const sessionDelete = () => {
+    setSessionId(null);
+  };
+
   useEffect(() => {
     PitchDetector.addListener(setData);
     return () => {
@@ -87,7 +91,14 @@ const PracticeScreen: React.FC = observer(() => {
           <InfoBar onRecord={onRecord} isRecording={isRecording} />
           <ToneDisplay audioData={metaData} />
           <LineChart data={chartData} />
-          <SessionSaveModal visible={showSessionSaveModal} onSetModalVisible={setShowSessionSaveModal} />
+          <SessionSaveModal
+            visible={showSessionSaveModal}
+            onSetModalVisible={setShowSessionSaveModal}
+            onSave={() => {}}
+            onDelete={() => {
+              sessionDelete();
+            }}
+          />
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
