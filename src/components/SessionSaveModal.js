@@ -19,10 +19,10 @@ const SessionSaveModal = ({visible, onSetModalVisible}) => {
             />
             <View style={styles.buttonContainer}>
               <Pressable style={[styles.button, styles.buttonSave]} onPress={() => onSetModalVisible(false)}>
-                <Text style={styles.textStyle}>Save</Text>
+                <Text style={styles.textStyle}>SAVE</Text>
               </Pressable>
               <Pressable style={[styles.button, styles.buttonClose]} onPress={() => onSetModalVisible(false)}>
-                <Text style={styles.textStyle}>Delete</Text>
+                <Text style={styles.textStyle}>DELETE</Text>
               </Pressable>
             </View>
           </View>
@@ -51,15 +51,15 @@ const styles = StyleSheet.create({
     width: '80%',
     padding: 20,
     backgroundColor: '#1d1d1d',
-    borderRadius: 20,
+    borderRadius: 15,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
     elevation: 5,
   },
   input: {
@@ -88,15 +88,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   buttonSave: {
-    backgroundColor: '#98BF64',
+    backgroundColor: 'rgba(152, 191, 100, 0.7)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.15)',
   },
   buttonClose: {
-    backgroundColor: '#FF843A',
+    backgroundColor: 'rgba(255, 132, 58, 0.7)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.15)',
   },
   textStyle: {
     width: '100%',
     color: 'white',
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: 'bold',
     textAlign: 'center',
     fontFamily: 'Inter-Regular',
