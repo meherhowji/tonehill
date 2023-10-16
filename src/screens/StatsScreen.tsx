@@ -17,16 +17,24 @@ const StatsScreen = observer(() => {
           <Text style={css.settingHeader}>Stats</Text>
 
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={css.scrollContainer}>
-            {stats.sessions.map((octave, index) => (
-              <View key={index} style={[css.noteItem, {opacity: selectedOctave === octave ? 1 : 0.4}]}>
-                <TouchableHighlight style={css.cell} underlayColor={'#fff0'} onPress={() => handleOctaveSelect(octave)}>
-                  <Text style={[css.noteText, {opacity: selectedOctave === octave ? 1 : 0.4}]}>{octave}</Text>
-                </TouchableHighlight>
+            {stats.daysFromSession.map((dateObj, index) => (
+              <View>
+                <View style={css.monthItem}>
+                  <Text style={[css.monthText, {opacity: 1}]}>{`${dateObj.month} ${dateObj.year}`}</Text>
+                </View>
+                <View key={index} style={[css.dayItem, {opacity: 1}]}>
+                  <TouchableHighlight
+                    style={css.cell}
+                    underlayColor={'#fff0'}
+                    onPress={() => handleOctaveSelect(dateObj)}>
+                    <Text style={[css.dayText, {opacity: 1}]}>{dateObj.day}</Text>
+                  </TouchableHighlight>
+                </View>
               </View>
             ))}
           </ScrollView>
 
-          <StatsBar />
+          {/* <StatsBar /> */}
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -50,10 +58,21 @@ const css = StyleSheet.create({
     color: 'white',
     fontFamily: 'Inter-Bold',
   },
-  scrollContainer: {},
+  scrollContainer: {marginTop: 25, backgroundColor: 'rgba(0,255,0,0)'},
   cell: {},
-  noteItem: {backgroundColor: 'transparent', padding: 15, fontSize: 14},
-  noteText: {color: 'white', fontSize: 32},
+  dayItem: {
+    backgroundColor: 'gray',
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+    color: 'white',
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+	monthItem: {marginBottom: 10},
+  monthText: {color: 'white', fontSize: 20, fontWeight: 'bold', fontFamily: 'Inter-Regular'},
+  dayText: {color: 'white', fontSize: 24, fontWeight: 'bold', fontFamily: 'Inter-Regular', letterSpacing: -1},
 });
 
 export default StatsScreen;

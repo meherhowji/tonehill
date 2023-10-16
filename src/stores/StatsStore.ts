@@ -1,6 +1,7 @@
 import {makeAutoObservable} from 'mobx';
 import * as R from 'ramda';
 import {hydrateStore, makePersistable} from 'mobx-persist-store';
+import {DateTime} from 'luxon';
 
 /**
  * `StatsStore` is a MobX store for calculating running averages and percentages of musical notes.
@@ -51,7 +52,7 @@ export class StatsStore implements IStore {
    * @param timestamp - The session-id is timestamp
    */
   addValue(type: string, note: string, value: number, timestamp: number) {
-    const noteData: TimestampedNoteData = {type, note, value};
+    const noteData: TimestampedNoteData = {timestamp, type, note, value};
 
     if (!this.data[timestamp]) {
       this.data[timestamp] = [];
@@ -68,6 +69,49 @@ export class StatsStore implements IStore {
   // Get all the data associated with a specific timestamp
   getDataByTimestamp(timestamp: number): TimestampedNoteData[] {
     return this.data[timestamp] || [];
+  }
+
+  /**
+   * Get all timestamps for a specific day.
+   * @param date - The date for which you want to fetch timestamps.
+   * @returns An array of timestamps for the specified day.
+   */
+  getTimestampsForDay(date: Date): number[] {
+    const dayTimestamps: number[] = [];
+
+    // Iterate through all timestamps and check if they belong to the specified day
+    for (const timestamp of Object.keys(this.data).map(Number)) {
+      const timestampDate = new Date(timestamp);
+      if (
+        timestampDate.getDate() === date.getDate() &&
+        timestampDate.getMonth() === date.getMonth() &&
+        timestampDate.getFullYear() === date.getFullYear()
+      ) {
+        dayTimestamps.push(timestamp);
+      }
+    }
+
+    return dayTimestamps;
+  }
+
+  /**
+   * Get a list of unique days from the stored timestamps.
+   * @returns An array of unique Luxon DateTime objects representing days.
+   */
+  get daysFromSession(): Array<{day: string; month: string; year: string}> {
+    const uniqueDays: Set<string> = new Set();
+
+    // Iterate through all timestamps and add their corresponding days to the set
+    for (const timestamp of Object.keys(this.data).map(Number)) {
+      const timestampDate = DateTime.fromMillis(timestamp).toFormat('dd-LLLL-yyyy');
+      timestampDate && uniqueDays.add(timestampDate);
+    }
+
+    // Convert the set to an array of Luxon DateTime objects
+    return Array.from(uniqueDays).map(date => {
+      const [day, month, year] = date.split('-');
+      return {day, month, year};
+    });
   }
 
   /**
