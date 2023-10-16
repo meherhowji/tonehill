@@ -14,6 +14,7 @@ import InfoBar from '../components/InfoBar';
 import {screenBg, screenMargin} from '../styles/globals';
 // import {getTimeZone} from 'react-native-localize';
 import {DateTime} from 'luxon';
+import SessionSaveModal from '../components/SessionSaveModal';
 
 const PracticeScreen: React.FC = observer(() => {
   const {common, stats} = useRootStore();
@@ -22,6 +23,7 @@ const PracticeScreen: React.FC = observer(() => {
   const [chartData, setChartData] = useState<DataArray>(DEFAULT_CHART_DATA);
   const [metaData, setMetaData] = useState<MetaObject>(DEFAULT_META);
   const [isRecording, setIsRecording] = useState(false);
+  const [showSessionSaveModal, setShowSessionSaveModal] = useState(false);
   const [sessionId, setSessionId] = useState<null | number>(null); // use timestamp as sessionId
   const inTuneRange = common.inTuneRange;
   // console.log(DateTime.now().toMillis(), Date.now(), getTimeZone(), ' <><><><><><><> ');
@@ -34,6 +36,7 @@ const PracticeScreen: React.FC = observer(() => {
     } else {
       await PitchDetector.stop();
       setSessionId(null); // reset timestamp
+      setShowSessionSaveModal(true);
     }
     const status = await PitchDetector.isRecording();
     setIsRecording(status);
@@ -84,6 +87,7 @@ const PracticeScreen: React.FC = observer(() => {
           <InfoBar onRecord={onRecord} isRecording={isRecording} />
           <ToneDisplay audioData={metaData} />
           <LineChart data={chartData} />
+          <SessionSaveModal visible={showSessionSaveModal} onSetModalVisible={setShowSessionSaveModal} />
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
