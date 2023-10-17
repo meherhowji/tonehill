@@ -35,7 +35,6 @@ const PracticeScreen: React.FC = observer(() => {
       setSessionId(timestamp);
     } else {
       await PitchDetector.stop();
-      setSessionId(null); // reset timestamp
       setShowSessionSaveModal(true);
     }
     const status = await PitchDetector.isRecording();
@@ -56,28 +55,28 @@ const PracticeScreen: React.FC = observer(() => {
 
     const simpleFrequency = parseFloat(data.frequency.toFixed(FREQUENCY_PRECISION)); // NOTE: accuracy reduction
     const meta = getNoteMeta(simpleFrequency); // get note, accuracy, cents
+    const {note, cents} = meta;
+
     setChartData(prevChartData => {
       let updatedChartData = [...prevChartData];
-      updatedChartData.length > 20 && updatedChartData.shift();
-      updatedChartData.push({time: counter.current, hz: mapNoteToValue(meta, 'C2', true, inTuneRange)});
+      const newItem = {
+        time: counter.current, // Ensure time is always in the range of 0 to 20
+        hz: mapNoteToValue(meta, 'C2', true, inTuneRange),
+      };
+
+      updatedChartData.length > 20 && updatedChartData.shift(); // Remove the first item
+      updatedChartData.push(newItem);
+      counter.current = counter.current + 1; // Increment counter
       return updatedChartData;
     });
-
     setMetaData(meta);
-    // TODO: how can we use time here instead of counter inc
-    counter.current = counter.current + 1;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
-
-  useEffect(() => {
-    const {note, cents} = metaData;
 
     // sessionId can be null in that we don't want to store any data as it indicated the record button is OFF
     if (note && cents && sessionId) {
       const type = cents < negate(inTuneRange) ? 'flats' : cents > inTuneRange ? 'sharps' : 'perfect';
       stats.addValue(type, note, cents, sessionId);
     }
-  }, [metaData]);
+  }, [data]);
 
   const onSave = useCallback(() => {}, []);
   const onDelete = useCallback(() => {}, []);
@@ -94,6 +93,7 @@ const PracticeScreen: React.FC = observer(() => {
             onSetModalVisible={setShowSessionSaveModal}
             onSave={onSave}
             onDelete={onDelete}
+						sessionId={sessionId}
           />
         </View>
       </SafeAreaView>

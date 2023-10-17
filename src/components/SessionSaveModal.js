@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
 import {KeyboardAvoidingView, TextInput, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
 import {BlurView} from '@react-native-community/blur';
+import { useRootStore } from '../stores'
 
-const SessionSaveModal = React.memo(({visible, onSetModalVisible, onDelete, onSave}) => {
+const SessionSaveModal = React.memo(({visible, onSetModalVisible, onDelete, onSave, sessionId}) => {
+	const {stats} = useRootStore()
   const [inputText, setInputText] = useState('');
   const [confirmDelete, setConfirmDelete] = useState(false);
 
@@ -21,6 +23,7 @@ const SessionSaveModal = React.memo(({visible, onSetModalVisible, onDelete, onSa
   const deleteSession = () => {
     // TODO: reset the session, propogate to parent?
     if (confirmDelete) {
+			stats.deleteSession(sessionId)
       onSetModalVisible(false);
       setConfirmDelete(false);
       setInputText('');

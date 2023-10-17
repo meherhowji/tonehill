@@ -53,6 +53,7 @@ const LineChart = observer(({data}) => {
         />
         <GradientLine />
         <VictoryLine
+				  // domain={{ x: [0, 20], y: [-50, 50] }}
           interpolation="natural"
           style={{
             axis: {stroke: '#756f6a', opacity: 0},

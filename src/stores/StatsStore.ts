@@ -1,5 +1,4 @@
 import {makeAutoObservable} from 'mobx';
-import * as R from 'ramda';
 import {hydrateStore, makePersistable, PersistStoreMap} from 'mobx-persist-store';
 import {DateTime} from 'luxon';
 
@@ -176,6 +175,17 @@ export class StatsStore implements IStore {
   setMany<T extends StoreKeysOf<StatsStore>>(obj: Record<T, StatsStore[T]>) {
     for (const [k, v] of Object.entries(obj)) {
       this.set(k as T, v as StatsStore[T]);
+    }
+  }
+
+  deleteSession(sessionId: number) {
+    if (this.data[sessionId]) {
+      delete this.data[sessionId];
+    }
+
+		const timestampIndex = this.timestamps.indexOf(sessionId);
+    if (timestampIndex !== -1) {
+      this.timestamps.splice(timestampIndex, 1);
     }
   }
 
