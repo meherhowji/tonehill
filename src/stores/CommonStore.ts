@@ -1,5 +1,5 @@
 import {makeAutoObservable} from 'mobx';
-import {hydrateStore, makePersistable} from 'mobx-persist-store';
+import {hydrateStore, makePersistable, PersistStoreMap} from 'mobx-persist-store';
 import {SCALES} from '../utils/constants';
 
 export class CommonStore implements IStore {
@@ -15,19 +15,26 @@ export class CommonStore implements IStore {
   constructor() {
     makeAutoObservable(this);
 
-    makePersistable(this, {
-      name: CommonStore.name,
-      properties: [
-        'accidental',
-        'showOctave',
-        'showCents',
-        'showFrequency',
-        'showAxisLabel',
-        'inTuneRange',
-        'userKey',
-        'userScale',
-      ],
-    });
+    // REF: https://github.com/quarrant/mobx-persist-store/issues/64
+    const persist = () => {
+      makePersistable(this, {
+        name: CommonStore.name,
+        properties: [
+          'accidental',
+          'showOctave',
+          'showCents',
+          'showFrequency',
+          'showAxisLabel',
+          'inTuneRange',
+          'userKey',
+          'userScale',
+        ],
+      });
+    };
+
+    const persistedStore = Array.from(PersistStoreMap.values()).find(el => el.storageName.includes(CommonStore.name));
+    persistedStore && persistedStore.stopPersisting();
+    persist();
   }
 
   toggleAccidental() {

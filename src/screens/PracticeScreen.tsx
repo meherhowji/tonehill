@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, {useRef, useState, useEffect, useCallback} from 'react';
 import {PitchDetector} from 'react-native-pitch-detector';
 import {getNoteMeta, mapNoteToValue} from '../utils/utils';
 import {MetaObject, DataArray, PitchDataObject} from '../types/types';
@@ -28,7 +28,7 @@ const PracticeScreen: React.FC = observer(() => {
   const inTuneRange = common.inTuneRange;
   // console.log(DateTime.now().toMillis(), Date.now(), getTimeZone(), ' <><><><><><><> ');
 
-  const onRecord = async (isStart: boolean) => {
+  const onRecord = useCallback(async (isStart: boolean) => {
     if (isStart) {
       await PitchDetector.start();
       const timestamp = DateTime.now().toMillis(); // timestamp contains no TZ, hence luxon package
@@ -40,11 +40,7 @@ const PracticeScreen: React.FC = observer(() => {
     }
     const status = await PitchDetector.isRecording();
     setIsRecording(status);
-  };
-
-  const sessionDelete = () => {
-    setSessionId(null);
-  };
+  }, []);
 
   useEffect(() => {
     PitchDetector.addListener(setData);
@@ -62,7 +58,6 @@ const PracticeScreen: React.FC = observer(() => {
     const meta = getNoteMeta(simpleFrequency); // get note, accuracy, cents
     setChartData(prevChartData => {
       let updatedChartData = [...prevChartData];
-      // TODO: how can we make the chart animation of data shifting/adding with ease
       updatedChartData.length > 20 && updatedChartData.shift();
       updatedChartData.push({time: counter.current, hz: mapNoteToValue(meta, 'C2', true, inTuneRange)});
       return updatedChartData;
@@ -84,6 +79,9 @@ const PracticeScreen: React.FC = observer(() => {
     }
   }, [metaData]);
 
+  const onSave = useCallback(() => {}, []);
+  const onDelete = useCallback(() => {}, []);
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.safeContainer}>
@@ -94,10 +92,8 @@ const PracticeScreen: React.FC = observer(() => {
           <SessionSaveModal
             visible={showSessionSaveModal}
             onSetModalVisible={setShowSessionSaveModal}
-            onSave={() => {}}
-            onDelete={() => {
-              sessionDelete();
-            }}
+            onSave={onSave}
+            onDelete={onDelete}
           />
         </View>
       </SafeAreaView>

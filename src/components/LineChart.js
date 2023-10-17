@@ -1,37 +1,46 @@
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
-import {VictoryScatter, VictoryChart, VictoryLine, VictoryAxis, VictoryLabel, LineSegment} from 'victory-native';
+import {VictoryChart, VictoryLine, VictoryAxis, VictoryLabel, LineSegment} from 'victory-native';
 import {Defs, LinearGradient, Stop} from 'react-native-svg';
 import {calculateGridStyle} from '../utils/utils';
 import {useRootStore} from '../stores';
 import {observer} from 'mobx-react-lite';
 
+const GradientLine = React.memo(() => (
+  <Defs>
+    <LinearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <Stop offset="0%" stopColor="#ff1178" stopOpacity="1" />
+      <Stop offset="70%" stopColor="#8318f6" stopOpacity="1" />
+    </LinearGradient>
+  </Defs>
+));
+
+const LineSeg = React.memo(() => <LineSegment type={'axis'} style={styles.hide} />);
+
+const TickLabel = React.memo(props => (
+  <VictoryLabel
+    {...props}
+    dy={0}
+    dx={0}
+    textAnchor="start"
+    style={{
+      fill: 'rgba(255,255,255, 0.20)',
+      fontSize: 8,
+    }}
+    text={({datum}) => (datum === 0 || datum === 50 || datum === -50 ? datum : '')}
+  />
+));
+
 const LineChart = observer(({data}) => {
   const {common} = useRootStore();
-  const dater = [];
-  for (let x = -50; x <= 50; x += 1) {
-    dater.push({x, y: Math.sin(x / 10) * 50}); // You can adjust the oscillation pattern here
-  }
   return (
     <View style={styles.container}>
       <VictoryChart padding={{top: 60, bottom: 60, left: 0, right: 30}}>
         <VictoryAxis
           dependentAxis
           tickValues={[-60, -50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50, 60]}
-          axisComponent={<LineSegment type={'axis'} style={styles.hide} />}
-          tickLabelComponent={
-            <VictoryLabel
-              dy={0}
-              dx={0}
-              textAnchor="start"
-              style={{
-                fill: 'rgba(255,255,255, 0.25)',
-                fontSize: 8,
-                opacity: common.showAxisLabel ? 1 : 0,
-              }}
-              text={({datum}) => (datum === 0 || datum === 50 || datum === -50 ? datum : '')}
-            />
-          }
+          axisComponent={<LineSeg />}
+          tickLabelComponent={common.showAxisLabel ? <TickLabel /> : <></>}
           orientation="right"
           style={{
             grid: {
@@ -42,16 +51,6 @@ const LineChart = observer(({data}) => {
             tickLabels: {padding: 1},
           }}
         />
-        {/* adding another axis creates interesting effect but hits the performance*/}
-        {/* <VictoryAxis
-          label=""
-          standalone={false}
-          // width="100%"
-          tickValues={[0, 20]}
-          style={{
-            tickLabels: {opacity: 0},
-          }}
-        /> */}
         <GradientLine />
         <VictoryLine
           interpolation="natural"
@@ -70,19 +69,6 @@ const LineChart = observer(({data}) => {
         />
       </VictoryChart>
     </View>
-  );
-});
-
-const GradientLine = React.memo(() => {
-  return (
-    <Defs>
-      <LinearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-        <Stop offset="0%" stopColor="#ff1178" stopOpacity="1" />
-        <Stop offset="70%" stopColor="#8318f6" stopOpacity="1" />
-        {/* <Stop offset="0%" stopColor="#a82343" stopOpacity="1" />
-        <Stop offset="60%" stopColor="#322083" stopOpacity="1" /> */}
-      </LinearGradient>
-    </Defs>
   );
 });
 
@@ -129,4 +115,19 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(LineChart);
+export default LineChart;
+
+{
+  /* adding another axis creates interesting effect but hits the performance*/
+}
+{
+  /* <VictoryAxis
+          label=""
+          standalone={false}
+          // width="100%"
+          tickValues={[0, 20]}
+          style={{
+            tickLabels: {opacity: 0},
+          }}
+        /> */
+}

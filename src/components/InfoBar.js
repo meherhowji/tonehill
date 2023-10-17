@@ -4,9 +4,10 @@ import {UserKey} from './UserKey';
 import {UserScale} from './UserScale';
 import RecordButton from './RecordButton';
 
-function InfoBar({onRecord, isRecording}) {
+const InfoBar = React.memo(({onRecord, isRecording}) => {
   return (
     <View style={styles.infoBar}>
+      {console.log("🚀 ~ file: InfoBar.js:10 ~ InfoBar ~ infoBar:", ' RENDERED') }
       <View style={styles.recordBar}>
         <View style={styles.selectKeyScale}>
           <UserKey />
@@ -18,7 +19,7 @@ function InfoBar({onRecord, isRecording}) {
       </View>
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   infoBar: {

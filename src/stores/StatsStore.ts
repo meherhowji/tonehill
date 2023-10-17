@@ -1,6 +1,6 @@
 import {makeAutoObservable} from 'mobx';
 import * as R from 'ramda';
-import {hydrateStore, makePersistable} from 'mobx-persist-store';
+import {hydrateStore, makePersistable, PersistStoreMap} from 'mobx-persist-store';
 import {DateTime} from 'luxon';
 
 /**
@@ -38,10 +38,17 @@ export class StatsStore implements IStore {
   constructor() {
     makeAutoObservable(this);
 
-    makePersistable(this, {
-      name: StatsStore.name,
-      properties: ['data', 'cents', 'timestamps'],
-    });
+    // REF: https://github.com/quarrant/mobx-persist-store/issues/64
+    const persist = () => {
+      makePersistable(this, {
+        name: StatsStore.name,
+        properties: ['data', 'cents', 'timestamps'],
+      });
+    };
+
+    const persistedStore = Array.from(PersistStoreMap.values()).find(el => el.storageName.includes(StatsStore.name));
+    persistedStore && persistedStore.stopPersisting();
+    persist();
   }
 
   /**
@@ -52,7 +59,7 @@ export class StatsStore implements IStore {
    * @param timestamp - The session-id is timestamp
    */
   addValue(type: string, note: string, value: number, timestamp: number) {
-    const noteData: TimestampedNoteData = {timestamp, type, note, value};
+    const noteData: TimestampedNoteData = {type, note, value};
 
     if (!this.data[timestamp]) {
       this.data[timestamp] = [];

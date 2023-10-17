@@ -42,7 +42,7 @@ interface NoteStatistics {
 }
 
 interface TimestampedNoteData {
-	timestamp: number,
+	// timestamp: number,
   type: string;
   note: string;
   value: number;

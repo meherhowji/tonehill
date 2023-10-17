@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {KeyboardAvoidingView, TextInput, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
 import {BlurView} from '@react-native-community/blur';
 
-const SessionSaveModal = ({visible, onSetModalVisible, onDelete, onSave}) => {
+const SessionSaveModal = React.memo(({visible, onSetModalVisible, onDelete, onSave}) => {
   const [inputText, setInputText] = useState('');
   const [confirmDelete, setConfirmDelete] = useState(false);
 
@@ -32,6 +32,7 @@ const SessionSaveModal = ({visible, onSetModalVisible, onDelete, onSave}) => {
 
   return (
     <Modal animationType="fade" transparent={true} visible={visible} onRequestClose={() => setModalVisible(false)}>
+      {console.log('🚀 ~ file: SessionSaveModal.js:65 ~ SessionSaveModal ~ SessionSaveModal:', ' RENDERED')}
       <BlurView style={styles.blurView} blurType="dark" blurAmount={3} reducedTransparencyFallbackColor="white" />
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{flex: 1}}>
         <View style={styles.centeredView}>
@@ -60,7 +61,7 @@ const SessionSaveModal = ({visible, onSetModalVisible, onDelete, onSave}) => {
       </KeyboardAvoidingView>
     </Modal>
   );
-};
+});
 
 const styles = StyleSheet.create({
   blurView: {
