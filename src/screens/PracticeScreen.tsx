@@ -7,6 +7,7 @@ import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {View, StyleSheet} from 'react-native';
 import negate from 'ramda/es/negate';
 import LineChart from '../components/LineChart';
+import LineChart60 from '../components/LineChart60';
 import ToneDisplay from '../components/ToneDisplay';
 import {observer} from 'mobx-react-lite';
 import {useRootStore} from '../stores';
@@ -87,13 +88,14 @@ const PracticeScreen: React.FC = observer(() => {
         <View style={styles.container}>
           <InfoBar onRecord={onRecord} isRecording={isRecording} />
           <ToneDisplay audioData={metaData} />
-          <LineChart data={chartData} />
+          {/* <LineChart data={chartData} /> */}
+          <LineChart60 />
           <SessionSaveModal
             visible={showSessionSaveModal}
             onSetModalVisible={setShowSessionSaveModal}
             onSave={onSave}
             onDelete={onDelete}
-						sessionId={sessionId}
+            sessionId={sessionId}
           />
         </View>
       </SafeAreaView>
