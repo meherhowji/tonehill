@@ -74,8 +74,8 @@ const PracticeScreen: React.FC = observer(() => {
 
     // sessionId can be null in that we don't want to store any data as it indicated the record button is OFF
     if (note && cents && sessionId) {
-      const type = cents < negate(inTuneRange) ? 'flats' : cents > inTuneRange ? 'sharps' : 'perfect';
-      stats.addValue(type, note, cents, sessionId);
+      // const type = cents < negate(inTuneRange) ? 'flats' : cents > inTuneRange ? 'sharps' : 'perfect';
+      // stats.addValue(type, note, cents, sessionId);
     }
   }, [data]);
 
@@ -89,7 +89,7 @@ const PracticeScreen: React.FC = observer(() => {
           <InfoBar onRecord={onRecord} isRecording={isRecording} />
           <ToneDisplay audioData={metaData} />
           {/* <LineChart data={chartData} /> */}
-          <LineChart60 />
+          <LineChart60 data={chartData} />
           <SessionSaveModal
             visible={showSessionSaveModal}
             onSetModalVisible={setShowSessionSaveModal}

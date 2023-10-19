@@ -1,18 +1,38 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {CartesianChart, Line} from 'victory-native';
+import {LinearGradient, vec, useFont} from '@shopify/react-native-skia';
+import inter from '../assets/fonts/Inter-Regular.ttf';
 
-function LineChart60() {
-  const DATA = Array.from({length: 20}, (_, i) => ({
-    day: i,
-    highTmp: 20 + 30 * Math.random(),
-  }));
-
+function LineChart60({data}) {
+  const font = useFont(inter, 8);
   return (
     <View style={styles.container}>
       <View style={styles.chart}>
-        <CartesianChart data={DATA} xKey="day" yKeys={['highTmp']}>
-          {({points}) => <Line points={points.highTmp} color="red" strokeWidth={3} curveType={'natural'} />}
+        <CartesianChart
+          data={data}
+          xKey="time"
+          yKeys={['hz']}
+          domain={{y: [-60, 60]}}
+          axisOptions={{
+            font,
+            lineColor: {grid: 'rgba(255,255,255,0.5)', frame: 'rgba(0,0,0,0)'},
+            // tickCount: {
+            //   x: 0,
+            //   y: 3,
+            // },
+            axisSide: {
+              x: 'bottom',
+              y: 'right',
+            },
+            labelColor: 'rgba(255,255,255,0.4)',
+            // formatXLabel: label => ''
+          }}>
+          {({points}) => (
+            <Line points={points.hz} color="red" strokeWidth={3} curveType={'natural'}>
+              <LinearGradient start={vec(0, 50)} end={vec(200, 0)} colors={['#ff1178', '#8318f6']} />
+            </Line>
+          )}
         </CartesianChart>
         <View style={styles.grid}></View>
       </View>
@@ -44,7 +64,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     height: '100%',
-    backgroundColor: 'rgba(255,0,0,0.2)',
+    // backgroundColor: 'rgba(255,0,0,0.2)',
   },
 });
 

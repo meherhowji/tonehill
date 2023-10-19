@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
-import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import {useStopwatch} from '../utils/hooks/useStopwatch';
 
 interface RecordButtonProps {
   isRecording: boolean;
@@ -8,23 +8,26 @@ interface RecordButtonProps {
 }
 
 const RecordButton: React.FC<RecordButtonProps> = ({isRecording, startRecording}) => {
+  console.log('🚀 ~ file: RecordButton.tsx:28 ~ RecordButton:');
+  const {start, formattedTime} = useStopwatch();
+
   const goLive = () => {
     isRecording ? startRecording(false) : startRecording(true);
   };
-  const resetSession = () => {
-    return 0;
-  };
+
   return (
     <View style={styles.recordBox}>
-      <TouchableOpacity style={[styles.button, isRecording && styles.buttonLive]} onPress={goLive}>
+      <TouchableOpacity
+        style={[styles.button, isRecording && styles.buttonLive]}
+        onPress={() => {
+          goLive();
+          start();
+        }}>
         <Text style={[styles.recordDot, isRecording && styles.recordDotLive]}>●</Text>
-        <Text style={[styles.recordText, isRecording && styles.recordTextLive]}>{isRecording ? 'STOP' : 'START'}</Text>
-      </TouchableOpacity>
-      {/* <TouchableOpacity style={[styles.button, styles.reset]} onPress={resetSession}>
-        <Text style={[styles.recordText]}>
-          <FontAwesome6 name={'rotate-right'} size={16} color={'rgb(238,122,67)'} />
+        <Text style={[styles.recordText, isRecording && styles.recordTextLive]}>
+          {isRecording ? `RECORDING ${formattedTime}` : `RECORD`}
         </Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
     </View>
   );
 };
