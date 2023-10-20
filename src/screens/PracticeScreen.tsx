@@ -6,8 +6,9 @@ import {DEFAULT_DATA, DEFAULT_META, DEFAULT_CHART_DATA, FREQUENCY_PRECISION} fro
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {View, StyleSheet} from 'react-native';
 import negate from 'ramda/es/negate';
-import LineChart from '../components/LineChart';
-import LineChart60 from '../components/LineChart60';
+// import LineChart from '../components/LineChart';
+// import LineChart60 from '../components/LineChart60';
+import {LineChart} from '../components/LineChartSkia';
 import ToneDisplay from '../components/ToneDisplay';
 import {observer} from 'mobx-react-lite';
 import {useRootStore} from '../stores';
@@ -89,7 +90,8 @@ const PracticeScreen: React.FC = observer(() => {
           <InfoBar onRecord={onRecord} isRecording={isRecording} />
           <ToneDisplay audioData={metaData} />
           {/* <LineChart data={chartData} /> */}
-          <LineChart60 data={chartData} />
+          {/* <LineChart60 data={chartData} /> */}
+          <LineChart data={chartData} />
           <SessionSaveModal
             visible={showSessionSaveModal}
             onSetModalVisible={setShowSessionSaveModal}
