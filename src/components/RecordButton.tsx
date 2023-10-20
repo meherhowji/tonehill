@@ -8,21 +8,24 @@ interface RecordButtonProps {
 }
 
 const RecordButton: React.FC<RecordButtonProps> = ({isRecording, startRecording}) => {
-  console.log('🚀 ~ file: RecordButton.tsx:28 ~ RecordButton:');
-  const {start, formattedTime} = useStopwatch();
+  console.log('🚀 ~ file: RecordButton.tsx:28 ~ RecordButton:', 'RENDERED');
+  const {start, reset, stop, formattedTime} = useStopwatch();
 
   const goLive = () => {
-    isRecording ? startRecording(false) : startRecording(true);
+    if (isRecording) {
+      reset();
+      stop();
+      startRecording(false);
+    } else {
+      reset();
+      startRecording(true);
+      start();
+    }
   };
 
   return (
     <View style={styles.recordBox}>
-      <TouchableOpacity
-        style={[styles.button, isRecording && styles.buttonLive]}
-        onPress={() => {
-          goLive();
-          start();
-        }}>
+      <TouchableOpacity style={[styles.button, isRecording && styles.buttonLive]} onPress={goLive}>
         <Text style={[styles.recordDot, isRecording && styles.recordDotLive]}>●</Text>
         <Text style={[styles.recordText, isRecording && styles.recordTextLive]}>
           {isRecording ? `RECORDING ${formattedTime}` : `RECORD`}
