@@ -29,6 +29,7 @@ const PracticeScreen: React.FC = observer(() => {
   const [showSessionSaveModal, setShowSessionSaveModal] = useState(false);
   const [sessionId, setSessionId] = useState<null | number>(null); // use timestamp as sessionId
   const inTuneRange = common.inTuneRange;
+  const counter = useRef(0);
   // console.log(DateTime.now().toMillis(), Date.now(), getTimeZone(), ' <><><><><><><> ');
 
   const onRecord = useCallback(async (isStart: boolean) => {
@@ -63,7 +64,7 @@ const PracticeScreen: React.FC = observer(() => {
     setChartData(prevChartData => {
       let updatedChartData = [...prevChartData];
       const newItem = {
-        date: Date.now(),
+        date: counter.current,
         value: mapNoteToValue(meta, 'C2', true, inTuneRange),
       };
 
@@ -72,6 +73,7 @@ const PracticeScreen: React.FC = observer(() => {
       return updatedChartData;
     });
     setMetaData(meta);
+    counter.current = counter.current + 1;
 
     // sessionId can be null in that we don't want to store any data as it indicated the record button is OFF
     if (note && cents && sessionId) {
