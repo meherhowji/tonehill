@@ -1,14 +1,16 @@
 import React, {useRef, useState, useEffect, useCallback} from 'react';
 import {PitchDetector} from 'react-native-pitch-detector';
 import {getNoteMeta, mapNoteToValue} from '../utils/utils';
-import {MetaObject, DataArray, PitchDataObject} from '../types/types';
+// import {MetaObject, DataArray, PitchDataObject} from '../components/types';
 import {DEFAULT_DATA, DEFAULT_META, DEFAULT_CHART_DATA, FREQUENCY_PRECISION} from '../utils/constants';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {View, StyleSheet} from 'react-native';
 import negate from 'ramda/es/negate';
 // import LineChart from '../components/LineChart';
 // import LineChart60 from '../components/LineChart60';
-import {LineChart} from '../components/LineChartSkia';
+// import {LineChart} from '../components/LineChartSkiaWithD3';
+// import {LineChart} from '../components/LineChartSkiaWithMargelo';
+import {LineChart} from '../components/LineChartSkiaWithD3';
 import ToneDisplay from '../components/ToneDisplay';
 import {observer} from 'mobx-react-lite';
 import {useRootStore} from '../stores';
@@ -20,7 +22,6 @@ import SessionSaveModal from '../components/SessionSaveModal';
 
 const PracticeScreen: React.FC = observer(() => {
   const {common, stats} = useRootStore();
-  const counter = useRef<number>(0);
   const [data, setData] = useState<PitchDataObject>(DEFAULT_DATA);
   const [chartData, setChartData] = useState<DataArray>(DEFAULT_CHART_DATA);
   const [metaData, setMetaData] = useState<MetaObject>(DEFAULT_META);
@@ -62,13 +63,12 @@ const PracticeScreen: React.FC = observer(() => {
     setChartData(prevChartData => {
       let updatedChartData = [...prevChartData];
       const newItem = {
-        time: counter.current, // Ensure time is always in the range of 0 to 20
-        hz: mapNoteToValue(meta, 'C2', true, inTuneRange),
+        date: Date.now(),
+        value: mapNoteToValue(meta, 'C2', true, inTuneRange),
       };
 
       updatedChartData.length > 20 && updatedChartData.shift(); // Remove the first item
       updatedChartData.push(newItem);
-      counter.current = counter.current + 1; // Increment counter
       return updatedChartData;
     });
     setMetaData(meta);

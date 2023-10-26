@@ -2,7 +2,7 @@ const DEFAULT_ACCIDENTAL: string = '#';
 const SHARP: string = '#';
 const FLAT: string = 'b';
 
-const DEFAULT_CHART_DATA: {time: number; hz: number}[] = [{time: 0, hz: 0}];
+const DEFAULT_CHART_DATA: {date: number; value: number}[] = [{date: Date.now(), value: 0}];
 const FREQUENCY_PRECISION = 2; // decimal points, such that the function can be memoised for meta calculation
 const DEFAULT_META: {note: string | null; accuracy: number | null; cents: number | null} = {
   note: null,

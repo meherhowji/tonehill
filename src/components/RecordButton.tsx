@@ -8,7 +8,7 @@ interface RecordButtonProps {
 }
 
 const RecordButton: React.FC<RecordButtonProps> = ({isRecording, startRecording}) => {
-  console.log('🚀 ~ file: RecordButton.tsx:28 ~ RecordButton:', 'RENDERED');
+  // console.log('🚀 ~ file: RecordButton.tsx:28 ~ RecordButton:', 'RENDERED');
   const {start, reset, stop, formattedTime} = useStopwatch();
 
   const goLive = () => {
