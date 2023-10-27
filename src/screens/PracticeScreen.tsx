@@ -5,7 +5,6 @@ import {getNoteMeta, mapNoteToValue} from '../utils/utils';
 import {DEFAULT_DATA, DEFAULT_META, DEFAULT_CHART_DATA, FREQUENCY_PRECISION} from '../utils/constants';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {View, StyleSheet} from 'react-native';
-import negate from 'ramda/es/negate';
 // import LineChart from '../components/LineChart';
 // import LineChart60 from '../components/LineChart60';
 // import {LineChart} from '../components/LineChartSkiaWithD3';
@@ -30,7 +29,7 @@ const PracticeScreen: React.FC = observer(() => {
   const [sessionId, setSessionId] = useState<null | number>(null); // use timestamp as sessionId
   const inTuneRange = common.inTuneRange;
   const counter = useRef(0);
-  // console.log(DateTime.now().toMillis(), Date.now(), getTimeZone(), ' <><><><><><><> ');
+  const statsData = useRef<StatsData>({});
 
   const onRecord = useCallback(async (isStart: boolean) => {
     if (isStart) {
@@ -40,6 +39,7 @@ const PracticeScreen: React.FC = observer(() => {
     } else {
       await PitchDetector.stop();
       setShowSessionSaveModal(true);
+      // stats.addValue(v.type, v.note, v.cents, sessionId);
     }
     const status = await PitchDetector.isRecording();
     setIsRecording(status);
@@ -76,9 +76,14 @@ const PracticeScreen: React.FC = observer(() => {
     counter.current = counter.current + 1;
 
     // sessionId can be null in that we don't want to store any data as it indicated the record button is OFF
+    // performance bottleneck as writing to mmkv is slow, hence storing all in useref and then bulk pushing to mobx, then mmkv.
+    // tonedisplay data is directly passed to avoid this too
     if (note && cents && sessionId) {
-      // const type = cents < negate(inTuneRange) ? 'flats' : cents > inTuneRange ? 'sharps' : 'perfect';
-      // stats.addValue(type, note, cents, sessionId);
+      const type = cents < -inTuneRange ? 'flats' : cents > inTuneRange ? 'sharps' : 'perfect';
+      if (!statsData.current[sessionId]) {
+        statsData.current[sessionId] = [];
+      }
+      statsData.current[sessionId].push({type, note, cents});
     }
   }, [data]);
 

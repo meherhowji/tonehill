@@ -13,41 +13,33 @@ interface LineChartProps {
 }
 
 const LineChart: React.FC<LineChartProps> = ({data}) => {
-  const [path, setPath] = useState<SkPath | null>();
+  // const [path, setPath] = useState<SkPath | null>();
   const height = 200;
   const width = 360;
+  const xMin = data[0].date;
+  const xMax = data[data.length - 1].date;
 
-  useEffect(() => {
-    let xMin, xMax;
+  // useEffect(() => {
+  const y = scaleLinear().domain([-50, 50]).range([height, 0]);
+  const x = scaleTime().domain([xMin, xMax]).range([0, width]);
 
-    if (data.length < 20) {
-      xMin = Math.min(...data.map(d => d.date));
-      xMax = Math.max(...data.map(d => d.date));
-    } else {
-      xMin = data[0].date;
-      xMax = data[19].date;
-    }
+  const curvedLine = line<DataPoint>()
+    .x(d => x(d.date))
+    .y(d => y(d.value))
+    .curve(curveBasis)(data);
 
-    const y = scaleLinear().domain([-50, 50]).range([height, 0]);
-    const x = scaleTime().domain([xMin, xMax]).range([0, width]);
-
-    const curvedLine = line<DataPoint>()
-      .x(d => x(d.date))
-      .y(d => y(d.value))
-      .curve(curveBasis)(data);
-
-    const skPath = Skia.Path.MakeFromSVGString(curvedLine!);
-    setPath(skPath!);
-  }, [data]);
+  const skPath = Skia.Path.MakeFromSVGString(curvedLine!);
+  // setPath(skPath!);
+  // }, [data]);
 
   return (
     <View style={styles.container}>
       <Canvas style={{width, height, backgroundColor: 'rgba(0,0,0,0)'}}>
-        {path && (
-          <Path style="stroke" path={path} strokeWidth={4} color="purple">
+        {
+          <Path style="stroke" path={skPath} strokeWidth={4} color="purple">
             <LinearGradient start={vec(0, height / 2)} end={vec(height, 0)} colors={['#ff1178', '#8318f6']} />
           </Path>
-        )}
+        }
       </Canvas>
     </View>
   );

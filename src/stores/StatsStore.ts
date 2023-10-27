@@ -30,7 +30,8 @@ export class StatsStore implements IStore {
   // };
 
   // Property to store the current cent value.
-  cents: number = 0;
+  
+	cents: number = 0;
   // Property to store timestamps
   timestamps: number[] = [];
 

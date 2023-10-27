@@ -1,101 +1,76 @@
-import {frequencyToNote, notes} from './mappings';
+import { frequencyToNote, notes } from './mappings';
 import both from 'ramda/es/both';
 import complement from 'ramda/es/complement';
 import equals from 'ramda/es/equals';
 import is from 'ramda/es/is';
 import memoizeWith from 'ramda/es/memoizeWith';
 import identity from 'ramda/es/identity';
-// import {NOTE_SCORE_PALETTE_SINGLE} from './constants';
 
-// used in app.tsx
-let getNoteMeta = frequency => {
-  // Initialize variables to store the nearest note, frequency, and minimum difference
-  let nearestNote = null;
-  let minDifference = Infinity;
-  let nearestFrequency = null;
-  // Define the maximum deviation in cents that corresponds to 0 percent accuracy
-  const centMax = 50;
+type NoteMeta = {
+  note: string | null;
+  accuracy: number | null;
+  cents: number | null;
+};
 
-  // Iterate through the frequencyToNote object using entries
+// TODO: why mix type, maybe return null or string or strigified number
+type NoteMap = Record<string, string | number>;
+
+let getNoteMeta = (frequency: number): NoteMeta => {
+  let nearestNote: string | null = null;
+  let minDifference: number = Infinity;
+  let nearestFrequency: number | null = null;
+  const centMax: number = 50;
+
   for (const [freq, note] of Object.entries(frequencyToNote)) {
-    // Calculate the absolute difference between the current frequency and the target frequency
-    const difference = Math.abs(freq - frequency);
+    const difference = Math.abs(parseFloat(freq) - frequency);
 
-    // Check if the current difference is smaller than the minimum difference
     if (difference < minDifference) {
-      // Update the nearestNote, nearestFrequency, and minDifference variables
       minDifference = difference;
       nearestNote = note;
-      nearestFrequency = freq;
+      nearestFrequency = parseFloat(freq);
     }
   }
 
-  // Check if the input frequency is positive
-  if (frequency > 0) {
-    // Calculate the deviation in cents from the nearest note
+  if (frequency > 0 && nearestFrequency) {
     const cents = parseInt((1200 * Math.log2(frequency / nearestFrequency)).toFixed(0), 10);
-
-    // Calculate the accuracy as a percentage based on the deviation in cents
     const accuracy = parseInt(((1 - Math.abs(cents) / centMax) * 100).toFixed(0), 10);
 
-    // Return an object with the nearest note, accuracy, and cents
-    return {note: nearestNote, accuracy, cents};
+    return { note: nearestNote, accuracy, cents };
   } else {
-    // Return an object with null values if the input frequency is not positive
-    return {note: null, accuracy: null, cents: null};
+    return { note: null, accuracy: null, cents: null };
   }
 };
 
-// function to map the -50 to 50 ka range to the color pallate index list of 11
-// originally was supposed to be used with tone display label color change based on cent value
-// now this feature is moved to mobx store
-// function mapValueToIndex(value) {
-//   const index = Math.floor((Math.abs(value) / 50) * (NOTE_SCORE_PALETTE_SINGLE.length - 1));
-//   return NOTE_SCORE_PALETTE_SINGLE[index];
-// }
+getNoteMeta = memoizeWith((frequency: number) => frequency.toString(), getNoteMeta);
 
-// Memoized, TODO: need to benchmark
-getNoteMeta = memoizeWith(identity, getNoteMeta);
-
-// used in chart.js
-function getNotes(startNote, endNote) {
-  // Get the index of the start and end notes' base names (without octave)
+function getNotes(startNote: string, endNote: string): string[] {
   const startNoteIndex = notes.indexOf(startNote.slice(0, -1));
   const endNoteIndex = notes.indexOf(endNote.slice(0, -1));
 
-  // Extract the octaves from the start and end notes
   const startOctave = parseInt(startNote.slice(-1), 10);
   const endOctave = parseInt(endNote.slice(-1), 10);
+  const _notes: string[] = [];
 
-  // Create an array to store the generated notes
-  const _notes = [];
-
-  // Iterate through octaves from start to end
   for (let octave = startOctave; octave <= endOctave; octave++) {
-    // Calculate the starting and ending index for the current octave
     const startIndex = octave === startOctave ? startNoteIndex : 0;
     const endIndex = octave === endOctave ? endNoteIndex : notes.length - 1;
 
-    // Generate notes for the current octave and add them to the _notes array
     for (let i = startIndex; i <= endIndex; i++) {
       const note = `${notes[i]}${octave}`;
       _notes.push(note);
     }
   }
 
-  // Return the array of generated notes
   return _notes;
 }
 
-// used in app.tsx
-function mapNoteToValue({note, cents}, fixedNote, resetToZero, inTuneRange) {
+function mapNoteToValue({ note, cents }: NoteMeta, fixedNote: string, resetToZero: boolean, inTuneRange: number): number {
   if (resetToZero) {
-    let adjustedCents = cents >= inTuneRange * -1 && cents <= inTuneRange ? 0 : cents;
-    return adjustedCents;
+    let adjustedCents = cents && cents >= inTuneRange * -1 && cents <= inTuneRange ? 0 : cents;
+    return adjustedCents || 0;
   }
-  // Split the input note into its note name and octave
-  const [, noteName, octave] = note.match(/([A-Ga-g#b]+)([0-9]+)/) || [];
-  // Calculate the value of the fixedNote
+
+  const [, noteName, octave] = note && note.match(/([A-Ga-g#b]+)([0-9]+)/) || [];
   const [, fixedNoteName, fixedOctave] = fixedNote.match(/([A-Ga-g#b]+)([0-9]+)/) || [];
 
   if (!noteName || !octave) {
@@ -107,20 +82,15 @@ function mapNoteToValue({note, cents}, fixedNote, resetToZero, inTuneRange) {
   }
 
   const fixedNoteValue = notes.indexOf(fixedNoteName) + parseInt(fixedOctave, 10) * notes.length;
-
-  // Calculate the value of the input note
   const noteValue = notes.indexOf(noteName) + parseInt(octave, 10) * notes.length;
-
-  // Calculate the relative value from the fixedNote, considering cents
-  const relativeValue = noteValue > 0 ? noteValue - fixedNoteValue + cents / 100 : 0;
-
+  const relativeValue = noteValue > 0 ? noteValue - fixedNoteValue + (cents || 0) / 100 : 0;
   return relativeValue;
 }
 
-const calculateGridStyle = (tick, isStroke) => {
-  let stroke,
-    strokeWidth,
-    tickAbs = Math.abs(tick);
+const calculateGridStyle = (tick: number, isStroke: boolean): string | number => {
+  let stroke: string | undefined;
+  let strokeWidth: number | undefined;
+  const tickAbs = Math.abs(tick);
 
   switch (tickAbs) {
     case 0:
@@ -152,13 +122,10 @@ const calculateGridStyle = (tick, isStroke) => {
       strokeWidth = 0.5;
   }
 
-  if (tickAbs <= 10) {
-  }
-
   return isStroke ? stroke : strokeWidth;
 };
 
-let parseNote = note => {
+let parseNote = (note: string): NoteMap => {
   const noteRegex = /^([A-Ga-g])([b#]?)(\d*)$/;
   const match = note.match(noteRegex);
 
@@ -167,7 +134,6 @@ let parseNote = note => {
   }
 
   const [, noteName, accidental, octave] = match;
-
   return {
     note: noteName.toUpperCase(),
     accidental: accidental === 'b' ? 'p' : accidental || '',
@@ -177,21 +143,15 @@ let parseNote = note => {
 
 parseNote = memoizeWith(identity, parseNote);
 
-function generateScale(key, scaleFormula) {
-  // Define the possible note names
-  const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-
-  // Find the index of the key in the noteNames array
+function generateScale(key: string, scaleFormula: string[]): string[] | 'Invalid key' {
+  const noteNames: string[] = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
   const keyIndex = noteNames.indexOf(key);
 
   if (keyIndex === -1) {
     return 'Invalid key';
   }
 
-  // Initialize the scale with the key
-  const noteList = [key];
-
-  // Generate the major scale notes
+  const noteList: string[] = [key];
   let currentIndex = keyIndex;
 
   for (const step of scaleFormula) {
@@ -206,17 +166,14 @@ function generateScale(key, scaleFormula) {
   return noteList;
 }
 
-function noteToSolfege(note, scale, solfege) {
-  // Find the index of the note within the scale
+function noteToSolfege(note: string, scale: string[], solfege: string[]): string | 'Note not found in the scale' {
   const noteIndex = scale.indexOf(note);
 
   if (noteIndex === -1) {
     return 'Note not found in the scale';
   }
 
-  // Calculate the solfege index based on the note index within the scale
   const solfegeIndex = (noteIndex + 7) % 7;
-
   return solfege[solfegeIndex];
 }
 
@@ -231,5 +188,4 @@ export {
   parseNote,
   generateScale,
   noteToSolfege,
-  // mapValueToIndex,
 };

@@ -10,7 +10,7 @@ import {sharpToFlatMapping} from '../utils/mappings';
 // audioData is metaData containing note, accuracy and cent
 const ToneDisplay = observer(({audioData}) => {
   const {common, stats} = useRootStore();
-  const [data, setData] = useState({note: '', accidental: '', frequency: '', octave: ''});
+  const [data, setData] = useState({note: '', accidental: '', frequency: '', octave: '', cents: ''});
 
   useEffect(() => {
     if (audioData?.note) {
@@ -21,7 +21,7 @@ const ToneDisplay = observer(({audioData}) => {
         ({note, accidental} = mappedParsedNote);
       }
 
-      setData({note, accidental, octave: isValidNumber(octave) ? octave : ''});
+      setData({note, accidental, octave: isValidNumber(octave) ? octave : '', cents: audioData.cents});
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [audioData]);
@@ -41,7 +41,7 @@ const ToneDisplay = observer(({audioData}) => {
           </View>
           {common.showCents && (
             <View style={styles.cents}>
-              <Text style={styles.centsValue}>{stats.cents > 0 ? `+${stats.cents}` : stats.cents}</Text>
+              <Text style={styles.centsValue}>{data.cents > 0 ? `+${data.cents}` :data.cents}</Text>
               <Text style={styles.centsLabel}>¢</Text>
             </View>
           )}
