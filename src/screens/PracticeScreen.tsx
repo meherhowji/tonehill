@@ -15,7 +15,6 @@ import {observer} from 'mobx-react-lite';
 import {useRootStore} from '../stores';
 import InfoBar from '../components/InfoBar';
 import {screenBg, screenMargin} from '../styles/globals';
-// import {getTimeZone} from 'react-native-localize';
 import {DateTime} from 'luxon';
 import SessionSaveModal from '../components/SessionSaveModal';
 
@@ -30,20 +29,6 @@ const PracticeScreen: React.FC = observer(() => {
   const inTuneRange = common.inTuneRange;
   const counter = useRef(0);
   const statsData = useRef<StatsData>({});
-
-  const onRecord = useCallback(async (isStart: boolean) => {
-    if (isStart) {
-      await PitchDetector.start();
-      const timestamp = DateTime.now().toMillis(); // timestamp contains no TZ, hence luxon package
-      setSessionId(timestamp);
-    } else {
-      await PitchDetector.stop();
-      setShowSessionSaveModal(true);
-      // stats.addValue(v.type, v.note, v.cents, sessionId);
-    }
-    const status = await PitchDetector.isRecording();
-    setIsRecording(status);
-  }, []);
 
   useEffect(() => {
     PitchDetector.addListener(setData);
@@ -80,6 +65,7 @@ const PracticeScreen: React.FC = observer(() => {
     // tonedisplay data is directly passed to avoid this too
     if (note && cents && sessionId) {
       const type = cents < -inTuneRange ? 'flats' : cents > inTuneRange ? 'sharps' : 'perfect';
+      // stats.addValue(type, note, cents, sessionId);
       if (!statsData.current[sessionId]) {
         statsData.current[sessionId] = [];
       }
@@ -89,6 +75,20 @@ const PracticeScreen: React.FC = observer(() => {
 
   const onSave = useCallback(() => {}, []);
   const onDelete = useCallback(() => {}, []);
+
+  const onRecord = useCallback(async (isStart: boolean) => {
+    if (isStart) {
+      await PitchDetector.start();
+      const timestamp = DateTime.now().toMillis(); // timestamp contains no TZ, hence luxon package
+      setSessionId(timestamp);
+    } else {
+      await PitchDetector.stop();
+      setShowSessionSaveModal(true);
+      stats.addSessionData(statsData.current);
+    }
+    const status = await PitchDetector.isRecording();
+    setIsRecording(status);
+  }, []);
 
   return (
     <SafeAreaProvider>

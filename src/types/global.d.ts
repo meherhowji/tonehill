@@ -48,7 +48,7 @@ declare global {
     // timestamp: number,
     type: string;
     note: string;
-    value: number;
+    cents: number;
   }
   interface DataPoint {
     date: number;
@@ -87,5 +87,5 @@ declare global {
   };
 
   type DataArray = DataPoint[];
-  type StatsData = Record<string, Array<{type: string; note: string; cents: number}>>;
+  type StatsData = Record<number, TimestampedNoteData[]>;
 }

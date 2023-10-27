@@ -30,8 +30,8 @@ export class StatsStore implements IStore {
   // };
 
   // Property to store the current cent value.
-  
-	cents: number = 0;
+
+  cents: number = 0;
   // Property to store timestamps
   timestamps: number[] = [];
 
@@ -51,6 +51,12 @@ export class StatsStore implements IStore {
     persist();
   }
 
+  addSessionData(data: Record<number, TimestampedNoteData[]>) {
+    this.data = {...this.data, ...data};
+    // as the data is pushed to store after every session is complete, therefore 0th index
+    this.timestamps.push(Number(Object.keys(data)[0]));
+  }
+
   /**
    * Adds a new value for a specific type and note and updates the sums and counts accordingly.
    * @param type - The type of the note (flats, sharps, or perfect)
@@ -58,8 +64,8 @@ export class StatsStore implements IStore {
    * @param value - The value to add
    * @param timestamp - The session-id is timestamp
    */
-  addValue(type: string, note: string, value: number, timestamp: number) {
-    const noteData: TimestampedNoteData = {type, note, value};
+  addValue(type: string, note: string, cents: number, timestamp: number) {
+    const noteData: TimestampedNoteData = {type, note, cents};
 
     if (!this.data[timestamp]) {
       this.data[timestamp] = [];
@@ -70,7 +76,7 @@ export class StatsStore implements IStore {
     }
 
     this.data[timestamp].push(noteData);
-    this.cents = value;
+    this.cents = cents;
   }
 
   // Get all the data associated with a specific timestamp
@@ -138,7 +144,7 @@ export class StatsStore implements IStore {
     const result: Record<string, Record<string, NoteStatistics>> = {};
 
     for (const noteData of data) {
-      const {type, note, value} = noteData;
+      const {type, note, cents} = noteData;
 
       if (!result[type]) {
         result[type] = {};
@@ -150,7 +156,7 @@ export class StatsStore implements IStore {
 
       // Update the average and count
       result[type][note].average =
-        (result[type][note].average * result[type][note].count + value) / (result[type][note].count + 1);
+        (result[type][note].average * result[type][note].count + cents) / (result[type][note].count + 1);
       result[type][note].count += 1;
 
       // Calculate percentages
@@ -184,7 +190,7 @@ export class StatsStore implements IStore {
       delete this.data[sessionId];
     }
 
-		const timestampIndex = this.timestamps.indexOf(sessionId);
+    const timestampIndex = this.timestamps.indexOf(sessionId);
     if (timestampIndex !== -1) {
       this.timestamps.splice(timestampIndex, 1);
     }
