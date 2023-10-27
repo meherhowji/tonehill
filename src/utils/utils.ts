@@ -1,4 +1,4 @@
-import { frequencyToNote, notes } from './mappings';
+import {frequencyToNote, notes} from './mappings';
 import both from 'ramda/es/both';
 import complement from 'ramda/es/complement';
 import equals from 'ramda/es/equals';
@@ -35,9 +35,9 @@ let getNoteMeta = (frequency: number): NoteMeta => {
     const cents = parseInt((1200 * Math.log2(frequency / nearestFrequency)).toFixed(0), 10);
     const accuracy = parseInt(((1 - Math.abs(cents) / centMax) * 100).toFixed(0), 10);
 
-    return { note: nearestNote, accuracy, cents };
+    return {note: nearestNote, accuracy, cents};
   } else {
-    return { note: null, accuracy: null, cents: null };
+    return {note: null, accuracy: null, cents: null};
   }
 };
 
@@ -64,13 +64,13 @@ function getNotes(startNote: string, endNote: string): string[] {
   return _notes;
 }
 
-function mapNoteToValue({ note, cents }: NoteMeta, fixedNote: string, resetToZero: boolean, inTuneRange: number): number {
+function mapNoteToValue({note, cents}: NoteMeta, fixedNote: string, resetToZero: boolean, inTuneRange: number): number {
   if (resetToZero) {
     let adjustedCents = cents && cents >= inTuneRange * -1 && cents <= inTuneRange ? 0 : cents;
     return adjustedCents || 0;
   }
 
-  const [, noteName, octave] = note && note.match(/([A-Ga-g#b]+)([0-9]+)/) || [];
+  const [, noteName, octave] = (note && note.match(/([A-Ga-g#b]+)([0-9]+)/)) || [];
   const [, fixedNoteName, fixedOctave] = fixedNote.match(/([A-Ga-g#b]+)([0-9]+)/) || [];
 
   if (!noteName || !octave) {
@@ -106,13 +106,7 @@ const calculateGridStyle = (tick: number, isStroke: boolean): string | number =>
       strokeWidth = 0.5;
       break;
     case 30:
-      stroke = 'rgba(238, 122, 67, 0.1)';
-      strokeWidth = 0.5;
-      break;
     case 40:
-      stroke = 'rgba(238, 122, 67, 0.1)';
-      strokeWidth = 0.5;
-      break;
     case 50:
       stroke = 'rgba(238, 122, 67, 0.1)';
       strokeWidth = 0.5;
@@ -179,6 +173,24 @@ function noteToSolfege(note: string, scale: string[], solfege: string[]): string
 
 const isValidNumber = both(is(Number), complement(equals(NaN)));
 
+function getStrokeColor(index: number): string {
+  const colors = [
+    'rgba(238, 122, 67, 0.1)',
+    'rgba(238, 122, 67, 0.12)',
+    'rgba(238, 122, 67, 0.14)',
+    'rgba(238, 122, 67, 0.18)',
+    'rgba(169, 255, 153, 0.2)',
+    'rgba(169, 255, 153, 0.25)',
+    'rgba(169, 255, 153, 0.2)',
+    'rgba(238, 122, 67, 0.18)',
+    'rgba(238, 122, 67, 0.14)',
+    'rgba(238, 122, 67, 0.12)',
+    'rgba(238, 122, 67, 0.1)',
+  ];
+
+  return colors[index % colors.length];
+}
+
 export {
   getNoteMeta,
   getNotes,
@@ -188,4 +200,5 @@ export {
   parseNote,
   generateScale,
   noteToSolfege,
+  getStrokeColor,
 };
