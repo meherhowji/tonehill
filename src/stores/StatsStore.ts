@@ -30,8 +30,8 @@ export class StatsStore implements IStore {
   // };
 
   // Property to store the current cent value.
-
   cents: number = 0;
+
   // Property to store timestamps
   timestamps: number[] = [];
 
@@ -42,7 +42,7 @@ export class StatsStore implements IStore {
     const persist = () => {
       makePersistable(this, {
         name: StatsStore.name,
-        properties: ['data', 'cents', 'timestamps'],
+        properties: ['data', 'timestamps'],
       });
     };
 

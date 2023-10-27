@@ -18,11 +18,11 @@ const StatsScreen = observer(() => {
 
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={css.scrollContainer}>
             {stats.daysFromSession.map((dateObj, index) => (
-              <View>
+              <View key={index}>
                 <View style={css.monthItem}>
                   <Text style={[css.monthText, {opacity: 1}]}>{`${dateObj.month} ${dateObj.year}`}</Text>
                 </View>
-                <View key={index} style={[css.dayItem, {opacity: 1}]}>
+                <View style={[css.dayItem, {opacity: 1}]}>
                   <TouchableHighlight
                     style={css.cell}
                     underlayColor={'#fff0'}
@@ -70,7 +70,7 @@ const css = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-	monthItem: {marginBottom: 10},
+  monthItem: {marginBottom: 10},
   monthText: {color: 'white', fontSize: 20, fontWeight: 'bold', fontFamily: 'Inter-Regular'},
   dayText: {color: 'white', fontSize: 24, fontWeight: 'bold', fontFamily: 'Inter-Regular', letterSpacing: -1},
 });

@@ -1,7 +1,6 @@
 import React, {useRef, useState, useEffect, useCallback} from 'react';
 import {PitchDetector} from 'react-native-pitch-detector';
 import {getNoteMeta, mapNoteToValue} from '../utils/utils';
-// import {MetaObject, DataArray, PitchDataObject} from '../components/types';
 import {DEFAULT_DATA, DEFAULT_META, DEFAULT_CHART_DATA, FREQUENCY_PRECISION} from '../utils/constants';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {View, StyleSheet} from 'react-native';
@@ -70,11 +69,9 @@ const PracticeScreen: React.FC = observer(() => {
         statsData.current[sessionId] = [];
       }
       statsData.current[sessionId].push({type, note, cents});
+      stats.set('cents', cents);
     }
   }, [data]);
-
-  const onSave = useCallback(() => {}, []);
-  const onDelete = useCallback(() => {}, []);
 
   const onRecord = useCallback(async (isStart: boolean) => {
     if (isStart) {
@@ -85,10 +82,14 @@ const PracticeScreen: React.FC = observer(() => {
       await PitchDetector.stop();
       setShowSessionSaveModal(true);
       stats.addSessionData(statsData.current);
+      statsData.current = {};
     }
     const status = await PitchDetector.isRecording();
     setIsRecording(status);
   }, []);
+
+  const onSave = useCallback(() => {}, []);
+  const onDelete = useCallback(() => {}, []);
 
   return (
     <SafeAreaProvider>
