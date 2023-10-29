@@ -81,14 +81,16 @@ const PracticeScreen: React.FC = observer(() => {
     } else {
       await PitchDetector.stop();
       setShowSessionSaveModal(true);
-      stats.addSessionData(statsData.current);
-      statsData.current = {};
     }
     const status = await PitchDetector.isRecording();
     setIsRecording(status);
   }, []);
 
-  const onSave = useCallback(() => {}, []);
+  const onSave = useCallback(() => {
+      stats.addSessionData(statsData.current);
+      statsData.current = {};
+	}, []);
+
   const onDelete = useCallback(() => {}, []);
 
   return (
