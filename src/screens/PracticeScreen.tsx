@@ -91,7 +91,9 @@ const PracticeScreen: React.FC = observer(() => {
       statsData.current = {};
 	}, []);
 
-  const onDelete = useCallback(() => {}, []);
+  const onDelete = useCallback(() => {
+      statsData.current = {};
+	}, []);
 
   return (
     <SafeAreaProvider>
