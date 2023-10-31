@@ -24,7 +24,7 @@ const PracticeScreen: React.FC = observer(() => {
   const [metaData, setMetaData] = useState<MetaObject>(DEFAULT_META);
   const [isRecording, setIsRecording] = useState(false);
   const [showSessionSaveModal, setShowSessionSaveModal] = useState(false);
-  const [sessionId, setSessionId] = useState<null | number>(null); // use timestamp as sessionId
+  const [sessionId, setSessionId] = useState<number>(0); // use timestamp as sessionId
   const inTuneRange = common.inTuneRange;
   const counter = useRef(DEFAULT_CHART_DATA.length);
   const statsData = useRef<StatsData>({});
@@ -93,10 +93,12 @@ const PracticeScreen: React.FC = observer(() => {
 
   const onDelete = useCallback(() => {
     statsData.current = {};
+    sessionId !== 0 && stats.deleteSession(sessionId);
     reset();
   }, []);
 
   const reset = useCallback(() => {
+    setShowSessionSaveModal(false);
     setData(DEFAULT_DATA);
     setChartData(DEFAULT_CHART_DATA);
     setMetaData(DEFAULT_META);
@@ -112,13 +114,7 @@ const PracticeScreen: React.FC = observer(() => {
           {/* <LineChart data={chartData} /> */}
           {/* <LineChart60 data={chartData} /> */}
           <LineChart data={chartData} />
-          <SessionSaveModal
-            visible={showSessionSaveModal}
-            onSetModalVisible={setShowSessionSaveModal}
-            onSave={onSave}
-            onDelete={onDelete}
-            sessionId={sessionId}
-          />
+          <SessionSaveModal visible={showSessionSaveModal} onSave={onSave} onDelete={onDelete} />
         </View>
       </SafeAreaView>
     </SafeAreaProvider>

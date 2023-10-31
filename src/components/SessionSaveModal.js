@@ -1,30 +1,19 @@
 import React, {useState} from 'react';
-import {KeyboardAvoidingView, TextInput, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
 import {BlurView} from '@react-native-community/blur';
-import { useRootStore } from '../stores'
+import {KeyboardAvoidingView, TextInput, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
 
-const SessionSaveModal = React.memo(({visible, onSetModalVisible, onDelete, onSave, sessionId}) => {
-	const {stats} = useRootStore()
+const SessionSaveModal = React.memo(({visible, onDelete, onSave}) => {
   const [inputText, setInputText] = useState('');
   const [confirmDelete, setConfirmDelete] = useState(false);
 
-  // const onSave = () => {
-  // TODO: save the session
-  // };
-
   const saveSession = () => {
-    // TODO: save the stats store session ???
-    onSetModalVisible(false);
-    setInputText('');
     setConfirmDelete(false);
+    setInputText('');
     onSave();
   };
 
   const deleteSession = () => {
-    // TODO: reset the session, propogate to parent?
     if (confirmDelete) {
-			stats.deleteSession(sessionId)
-      onSetModalVisible(false);
       setConfirmDelete(false);
       setInputText('');
       onDelete();
@@ -35,7 +24,6 @@ const SessionSaveModal = React.memo(({visible, onSetModalVisible, onDelete, onSa
 
   return (
     <Modal animationType="fade" transparent={true} visible={visible} onRequestClose={() => setModalVisible(false)}>
-      {console.log('🚀 ~ file: SessionSaveModal.js:65 ~ SessionSaveModal ~ SessionSaveModal:', ' RENDERED')}
       <BlurView style={styles.blurView} blurType="dark" blurAmount={3} reducedTransparencyFallbackColor="white" />
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{flex: 1}}>
         <View style={styles.centeredView}>

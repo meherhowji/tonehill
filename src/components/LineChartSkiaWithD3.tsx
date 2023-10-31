@@ -36,12 +36,12 @@ const LineChart: React.FC<LineChartProps> = ({data}) => {
           style={{
             position: 'absolute',
             alignSelf: 'center',
-            right: -10,
-            fontSize: 10,
-            color: 'rgba(255,255,255,0.2)',
+            right: -14,
+            fontSize: 24,
+            color: 'rgba(0,255,0,0.5)',
             fontFamily: 'RobotoMono-Regular',
           }}>
-          0
+          •
         </Text>
         <Canvas style={{width, height, backgroundColor: 'rgba(0,0,0,0)'}}>
           {/* <Text x={width - 10} y={height / 2} text="Hello World" /> */}
