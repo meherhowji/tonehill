@@ -111,8 +111,6 @@ const PracticeScreen: React.FC = observer(() => {
         <View style={styles.container}>
           <InfoBar onRecord={onRecord} isRecording={isRecording} />
           <ToneDisplay audioData={metaData} />
-          {/* <LineChart data={chartData} /> */}
-          {/* <LineChart60 data={chartData} /> */}
           <LineChart data={chartData} />
           <SessionSaveModal visible={showSessionSaveModal} onSave={onSave} onDelete={onDelete} />
         </View>
