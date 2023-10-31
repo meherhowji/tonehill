@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Canvas, Path, Skia, SkPath, Line, LinearGradient, vec} from '@shopify/react-native-skia';
 import {curveBasis, line, scaleLinear, scaleTime} from 'd3';
-import {View, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {getStrokeColor} from '../utils/utils';
 
 interface DataPoint {
@@ -31,12 +31,26 @@ const LineChart: React.FC<LineChartProps> = ({data}) => {
 
   return (
     <View style={styles.container}>
-      <Canvas style={{width, height, backgroundColor: 'rgba(0,0,0,0)'}}>
-        <LineGenerator width={width} height={height} numLines={11} />
-        <Path style="stroke" path={skPath!} strokeWidth={4} color="purple">
-          <LinearGradient start={vec(0, height / 2)} end={vec(width / 1.5, 0)} colors={['#ff1178', '#8318f6']} />
-        </Path>
-      </Canvas>
+      <View style={{backgroundColor: 'rgba(0,0,0,0)', justifyContent: 'center'}}>
+        <Text
+          style={{
+            position: 'absolute',
+            alignSelf: 'center',
+            right: -10,
+            fontSize: 10,
+            color: 'rgba(255,255,255,0.2)',
+            fontFamily: 'RobotoMono-Regular',
+          }}>
+          0
+        </Text>
+        <Canvas style={{width, height, backgroundColor: 'rgba(0,0,0,0)'}}>
+          {/* <Text x={width - 10} y={height / 2} text="Hello World" /> */}
+          <LineGenerator width={width} height={height} numLines={11} />
+          <Path style="stroke" path={skPath!} strokeWidth={4} color="purple">
+            <LinearGradient start={vec(0, height / 2)} end={vec(width / 1.5, 0)} colors={['#ff1178', '#8318f6']} />
+          </Path>
+        </Canvas>
+      </View>
     </View>
   );
 };
@@ -48,7 +62,8 @@ function LineGenerator({width, height, numLines}: {width: number; height: number
     let y = height / (10 / i);
     y = y === height ? height - 1 : y; // setting the exact height makes the stroke disappear out of bounds
     const color = getStrokeColor(i);
-    lines.push(<Line key={i} p1={vec(0, y)} p2={vec(width, y)} color={color} strokeWidth={1} />);
+    const strokeWidth = i === (numLines % 2 === 0 ? numLines / 2 : (numLines - 1) / 2) ? 3 : 1;
+    lines.push(<Line key={i} p1={vec(0, y)} p2={vec(width, y)} color={color} strokeWidth={strokeWidth} />);
   }
 
   return <>{lines}</>;

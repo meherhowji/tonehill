@@ -26,7 +26,7 @@ const PracticeScreen: React.FC = observer(() => {
   const [showSessionSaveModal, setShowSessionSaveModal] = useState(false);
   const [sessionId, setSessionId] = useState<null | number>(null); // use timestamp as sessionId
   const inTuneRange = common.inTuneRange;
-  const counter = useRef(0);
+  const counter = useRef(DEFAULT_CHART_DATA.length);
   const statsData = useRef<StatsData>({});
 
   useEffect(() => {
@@ -51,13 +51,12 @@ const PracticeScreen: React.FC = observer(() => {
         date: counter.current,
         value: mapNoteToValue(meta, 'C2', true, inTuneRange),
       };
-
+      counter.current = counter.current + 1;
       updatedChartData.length > 20 && updatedChartData.shift(); // Remove the first item
       updatedChartData.push(newItem);
       return updatedChartData;
     });
     setMetaData(meta);
-    counter.current = counter.current + 1;
 
     // sessionId can be null in that we don't want to store any data as it indicated the record button is OFF
     // performance bottleneck as writing to mmkv is slow, hence storing all in useref and then bulk pushing to mobx, then mmkv.
@@ -87,13 +86,22 @@ const PracticeScreen: React.FC = observer(() => {
   }, []);
 
   const onSave = useCallback(() => {
-      stats.addSessionData(statsData.current);
-      statsData.current = {};
-	}, []);
+    stats.addSessionData(statsData.current);
+    statsData.current = {};
+    reset();
+  }, []);
 
   const onDelete = useCallback(() => {
-      statsData.current = {};
-	}, []);
+    statsData.current = {};
+    reset();
+  }, []);
+
+  const reset = useCallback(() => {
+    setData(DEFAULT_DATA);
+    setChartData(DEFAULT_CHART_DATA);
+    setMetaData(DEFAULT_META);
+    counter.current = DEFAULT_CHART_DATA.length;
+  }, []);
 
   return (
     <SafeAreaProvider>
@@ -126,6 +134,7 @@ const styles = StyleSheet.create({
     ...screenMargin,
     flex: 1,
     flexDirection: 'column',
+    // backgroundColor: 'red'
   },
   gradient: {
     flex: 1,

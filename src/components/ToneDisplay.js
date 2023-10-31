@@ -22,6 +22,8 @@ const ToneDisplay = observer(({audioData}) => {
       }
 
       setData({note, accidental, octave: isValidNumber(octave) ? octave : '', cents: audioData.cents});
+    } else {
+      setData({note: '', accidental: '', frequency: '', octave: '', cents: ''});
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [audioData]);
@@ -41,7 +43,7 @@ const ToneDisplay = observer(({audioData}) => {
           </View>
           {common.showCents && (
             <View style={styles.cents}>
-              <Text style={styles.centsValue}>{data.cents > 0 ? `+${data.cents}` :data.cents}</Text>
+              <Text style={styles.centsValue}>{data.cents > 0 ? `+${data.cents}` : data.cents}</Text>
               <Text style={styles.centsLabel}>¢</Text>
             </View>
           )}
