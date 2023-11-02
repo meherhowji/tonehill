@@ -1,10 +1,22 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {BlurView} from '@react-native-community/blur';
 import {KeyboardAvoidingView, TextInput, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
 
 const SessionSaveModal = React.memo(({visible, onDelete, onSave}) => {
   const [inputText, setInputText] = useState('');
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const textInputRef = React.useRef(null);
+
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      if (textInputRef.current) {
+        textInputRef.current.focus();
+      }
+    }, 100);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [visible]);
 
   const saveSession = () => {
     setConfirmDelete(false);
@@ -34,7 +46,7 @@ const SessionSaveModal = React.memo(({visible, onDelete, onSave}) => {
               style={styles.input}
               value={inputText}
               onChangeText={text => setInputText(text)}
-              autoFocus
+              ref={textInputRef}
             />
             <View style={styles.buttonContainer}>
               <Pressable style={[styles.button, styles.buttonSave]} onPress={saveSession}>
