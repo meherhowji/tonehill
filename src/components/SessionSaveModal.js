@@ -8,14 +8,9 @@ const SessionSaveModal = React.memo(({visible, onDelete, onSave}) => {
   const textInputRef = React.useRef(null);
 
   useEffect(() => {
-    let timer = setTimeout(() => {
-      if (textInputRef.current) {
-        textInputRef.current.focus();
-      }
-    }, 100);
-    return () => {
-      clearTimeout(timer);
-    };
+    // https://hsiang.dev/textinput-autofocus-causing-navigation-animation-glitch
+    let timer = setTimeout(() => textInputRef.current && textInputRef.current.focus(), 10);
+    return () => clearTimeout(timer);
   }, [visible]);
 
   const saveSession = () => {
