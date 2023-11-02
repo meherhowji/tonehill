@@ -109,6 +109,7 @@ const PracticeScreen: React.FC = observer(() => {
     <SafeAreaProvider>
       <SafeAreaView style={styles.safeContainer}>
         <View style={styles.container}>
+          {console.log('🚀 ~ rendered: PracticeScreen.tsx:112')}
           <InfoBar onRecord={onRecord} isRecording={isRecording} />
           <ToneDisplay audioData={metaData} />
           <LineChart data={chartData} />

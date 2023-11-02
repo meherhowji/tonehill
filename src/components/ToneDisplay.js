@@ -30,6 +30,7 @@ const ToneDisplay = observer(({audioData}) => {
 
   return (
     <View style={styles.toneContainer}>
+      {console.log('🚀 ~ rendered: ToneDisplay.js')}
       {data.note ? (
         <View style={styles.toneText}>
           <Text style={[styles.tone, {color: stats.toneLabelColor}]} includeFontPadding>

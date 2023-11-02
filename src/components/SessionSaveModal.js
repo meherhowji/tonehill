@@ -24,6 +24,7 @@ const SessionSaveModal = React.memo(({visible, onDelete, onSave}) => {
 
   return (
     <Modal animationType="fade" transparent={true} visible={visible} onRequestClose={() => setModalVisible(false)}>
+      {console.log('🚀 ~ rendered: SessionSaveModal.js')}
       <BlurView style={styles.blurView} blurType="dark" blurAmount={3} reducedTransparencyFallbackColor="white" />
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{flex: 1}}>
         <View style={styles.centeredView}>

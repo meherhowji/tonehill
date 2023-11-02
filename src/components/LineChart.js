@@ -35,6 +35,7 @@ const LineChart = observer(({data}) => {
   const {common} = useRootStore();
   return (
     <View style={styles.container}>
+      {console.log('🚀 ~ rendered: LineChart.js')}
       <VictoryChart padding={{top: 60, bottom: 60, left: 0, right: 30}}>
         <VictoryAxis
           dependentAxis
@@ -53,7 +54,7 @@ const LineChart = observer(({data}) => {
         />
         <GradientLine />
         <VictoryLine
-				  // domain={{ x: [0, 20], y: [-50, 50] }}
+          // domain={{ x: [0, 20], y: [-50, 50] }}
           interpolation="natural"
           style={{
             axis: {stroke: '#756f6a', opacity: 0},

@@ -7,7 +7,7 @@ import RecordButton from './RecordButton';
 const InfoBar = React.memo(({onRecord, isRecording}) => {
   return (
     <View style={styles.infoBar}>
-      {console.log("🚀 ~ file: InfoBar.js:10 ~ InfoBar ~ infoBar:", ' RENDERED') }
+      {console.log('🚀 ~ rendered: InfoBar.js')}
       <View style={styles.recordBar}>
         <View style={styles.selectKeyScale}>
           <UserKey />
