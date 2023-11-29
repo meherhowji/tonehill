@@ -31,7 +31,7 @@ const LineChart: React.FC<LineChartProps> = ({data}) => {
 
   return (
     <View style={styles.container}>
-      {console.log('🚀 ~ rendered: LineChartSkiaWithD3.tsx')}
+      {/* {console.log('🚀 ~ rendered: LineChartSkiaWithD3.tsx')} */}
       <View style={{backgroundColor: 'rgba(0,0,0,0)', justifyContent: 'center'}}>
         <Text
           style={{

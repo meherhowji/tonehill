@@ -116,7 +116,7 @@ export class StatsStore implements IStore {
 
     // Iterate through all timestamps and add their corresponding days to the set
     for (const timestamp of Object.keys(this.data).map(Number)) {
-      const timestampDate = DateTime.fromMillis(timestamp).toFormat('dd-LLLL-yyyy');
+      const timestampDate = DateTime.fromMillis(timestamp).toFormat('dd-MMM-yyyy');
       timestampDate && uniqueDays.add(timestampDate);
     }
 
@@ -125,6 +125,20 @@ export class StatsStore implements IStore {
       const [day, month, year] = date.split('-');
       return {day, month, year};
     });
+  }
+
+  get dateGroupByMonthYear(): {[key: string]: string[]} {
+    const transformedData: {[key: string]: string[]} = {};
+
+    this.daysFromSession.forEach(item => {
+      const yearSuffix = String(DateTime.now().year) !== item.year ? item.year : '';
+      const dateKey = `${item.month} ${yearSuffix}`;
+
+      transformedData[dateKey] = transformedData[dateKey] || [];
+      transformedData[dateKey].push(item.day);
+    });
+
+    return transformedData;
   }
 
   /**

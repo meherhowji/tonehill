@@ -88,4 +88,5 @@ declare global {
 
   type DataArray = DataPoint[];
   type StatsData = Record<number, TimestampedNoteData[]>;
+	type InputData = {day: string; month: string; year: string}[];
 }
