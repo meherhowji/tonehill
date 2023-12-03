@@ -395,7 +395,7 @@ PODS:
     - React-Core
   - react-native-segmented-control (2.4.2):
     - React-Core
-  - react-native-skia (0.1.222):
+  - react-native-skia (0.1.225):
     - RCT-Folly (= 2021.07.22.00)
     - React
     - React-callinvoker
@@ -517,7 +517,7 @@ PODS:
     - React-Core
   - RNPermissions (3.10.1):
     - React-Core
-  - RNReanimated (3.6.0):
+  - RNReanimated (3.6.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - ReactCommon/turbomodule/core
@@ -787,7 +787,7 @@ SPEC CHECKSUMS:
   react-native-pitch-detector: c0d98b009279015d721cd1e6255e91766c1a9780
   react-native-safe-area-context: 2cd91d532de12acdb0a9cbc8d43ac72a8e4c897c
   react-native-segmented-control: 2221962f5073e2e809aa3691e8e410fc10b60578
-  react-native-skia: 495324a576f26b5fb8d0dee8cc5137c02a491656
+  react-native-skia: 0af8dd48ce9332d1dedcb1bc8a648f7d57a04b6c
   React-NativeModulesApple: b6868ee904013a7923128892ee4a032498a1024a
   React-perflogger: 31ea61077185eb1428baf60c0db6e2886f141a5a
   React-RCTActionSheet: 392090a3abc8992eb269ef0eaa561750588fc39d
@@ -808,7 +808,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: 32a01c29ecc9bb0b5bf7bc0a33547f61b4dc2741
   RNLocalize: 1ce4263770515f53d3de442ce7657b3661b16a37
   RNPermissions: f565575893aa83a8e3dcd0879bf51150bda49248
-  RNReanimated: 1dcf7602777a195cf34f1dcd658037a80a2c8af1
+  RNReanimated: fdbaa9c964bbab7fac50c90862b6cc5f041679b9
   RNScreens: 3c2d122f5e08c192e254c510b212306da97d2581
   RNSVG: 255767813dac22db1ec2062c8b7e7b856d4e5ae6
   RNVectorIcons: 23b6e11af4aaf104d169b1b0afa7e5cf96c676ce
