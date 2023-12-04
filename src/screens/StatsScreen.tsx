@@ -44,26 +44,40 @@ const StatsScreen = observer(() => {
             ))}
           </ScrollView>
 
-          <View style={css.details}>
-            <LinearGradient colors={['#1E1E1E', '#131300']} style={{borderRadius: 15}}>
-              <View style={{padding: 15, borderRadius: 15, justifyContent: 'center', alignItems: 'center'}}>
-                <Text style={{fontSize: 36, fontWeight: 'bold', color: 'white'}}>80%</Text>
-                <Text style={{fontSize: 18, color: 'white'}}>You were in-tune 80% of the time</Text>
-              </View>
-            </LinearGradient>
+          <View style={[css.details, {gap: 20}]}>
 
-            <LinearGradient colors={['#1E1E1E', '#121212']} style={{borderRadius: 15}}>
-              <View style={css.overallBox}>
-                <Text style={css.overallTitle}>Overall</Text>
-                <View style={{marginTop: 10, flexDirection: 'row', justifyContent: 'space-between'}}>
-                  {notes.map((note, index) => (
-                    <Text key={index} style={css.overallNote}>
-                      {note}
-                    </Text>
-                  ))}
+            <View style={{flexDirection: 'row', gap: 15}}>
+              <LinearGradient colors={['#625D9D', '#5B735780']} style={{borderRadius: 20, flex: 1}}>
+                <View style={{padding: 20, justifyContent: 'center', alignItems: 'center'}}>
+                  <Text style={{fontSize: 36, fontWeight: 'bold', color: 'white'}}>80%</Text>
+                  <Text style={{fontSize: 14, color: 'white', textAlign: 'center'}}>
+                    You were in-tune 80% of the time
+                  </Text>
                 </View>
-              </View>
-            </LinearGradient>
+              </LinearGradient>
+
+              <LinearGradient colors={['#625D9D', '#5B735780']} style={{borderRadius: 20, flex: 1}}>
+                <View style={{padding: 20, justifyContent: 'center', alignItems: 'center'}}>
+                  <Text style={{fontSize: 36, fontWeight: 'bold', color: 'white'}}>A#</Text>
+                  <Text style={{fontSize: 14, color: 'white', textAlign: 'center'}}>Your best note, 85% accuracy</Text>
+                </View>
+              </LinearGradient>
+            </View>
+
+            <View style={{gap: 10}}>
+              <LinearGradient colors={['#1E1E1E', '#121212']} style={{borderRadius: 15}}>
+                <View style={css.overallBox}>
+                  <Text style={css.overallTitle}>Overall</Text>
+                  <View style={{marginTop: 10, flexDirection: 'row', justifyContent: 'space-between'}}>
+                    {notes.map((note, index) => (
+                      <Text key={index} style={css.overallNote}>
+                        {note}
+                      </Text>
+                    ))}
+                  </View>
+                </View>
+              </LinearGradient>
+            </View>
           </View>
 
           {/* <StatsBar /> */}
@@ -90,7 +104,7 @@ const css = StyleSheet.create({
     width: '100%',
   },
   details: {
-    marginTop: 25,
+    marginTop: 30,
     width: '100%',
   },
   settingHeader: {
