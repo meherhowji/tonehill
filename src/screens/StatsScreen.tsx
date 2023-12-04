@@ -45,16 +45,19 @@ const StatsScreen = observer(() => {
           </ScrollView>
 
           <View style={css.details}>
-            <LinearGradient
-              colors={['#4c669f', '#3b5998', '#192f6a']}
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}
-              style={{flex: 1}}>
-              <View style={css.overallContainer}>
-                <Text style={css.monthText}>Overall</Text>
-                <View style={{marginTop: 10}}>
+            <LinearGradient colors={['#1E1E1E', '#131300']} style={{borderRadius: 15}}>
+              <View style={{padding: 15, borderRadius: 15, justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={{fontSize: 36, fontWeight: 'bold', color: 'white'}}>80%</Text>
+                <Text style={{fontSize: 18, color: 'white'}}>You were in-tune 80% of the time</Text>
+              </View>
+            </LinearGradient>
+
+            <LinearGradient colors={['#1E1E1E', '#121212']} style={{borderRadius: 15}}>
+              <View style={css.overallBox}>
+                <Text style={css.overallTitle}>Overall</Text>
+                <View style={{marginTop: 10, flexDirection: 'row', justifyContent: 'space-between'}}>
                   {notes.map((note, index) => (
-                    <Text key={index} style={css.dayText}>
+                    <Text key={index} style={css.overallNote}>
                       {note}
                     </Text>
                   ))}
@@ -72,8 +75,8 @@ const StatsScreen = observer(() => {
 
 const css = StyleSheet.create({
   safeContainer: {
-    flex: 1,
     ...screenBg,
+    flex: 1,
   },
   container: {
     padding: 20,
@@ -133,10 +136,23 @@ const css = StyleSheet.create({
     flexDirection: 'row',
     gap: 10,
   },
-  overallContainer: {
-    backgroundColor: 'gray',
-    borderRadius: 10,
-    padding: 10,
+  overallBox: {
+    padding: 15,
+  },
+  overallTitle: {
+    color: 'white',
+    fontSize: 21,
+    fontWeight: 'bold',
+    fontFamily: 'Inter-Regular',
+    opacity: 1,
+  },
+  overallNote: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+    fontFamily: 'Inter-Regular',
+    paddingLeft: 5,
+    paddingTop: 3,
   },
 });
 
