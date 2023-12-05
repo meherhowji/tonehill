@@ -9,6 +9,15 @@ import {notes} from '../utils/mappings';
 import {DateTime} from 'luxon';
 import LinearGradient from 'react-native-linear-gradient';
 
+const RenderPercentageBox: React.FC<{percentage: string; text: string}> = ({percentage, text}) => {
+  return (
+    <View style={css.percentageBox}>
+      <Text style={css.percentageText}>{percentage}</Text>
+      <Text style={css.percentageSubText}>{text}</Text>
+    </View>
+  );
+};
+
 const StatsScreen = observer(() => {
   const {stats} = useRootStore();
   const selectedOctave = 1;
@@ -22,7 +31,7 @@ const StatsScreen = observer(() => {
           <Text style={css.settingHeader}>Stats</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={css.scrollContainer}>
             {Object.keys(stats.dateGroupByMonthYear).map((dateObj, index) => (
-              <View key={index} style={css.gap5}>
+              <View key={index}>
                 <View style={css.monthItem}>
                   <Text style={[css.monthText]}>{dateObj}</Text>
                 </View>
@@ -32,7 +41,7 @@ const StatsScreen = observer(() => {
                       key={index}
                       style={({pressed}) => [
                         css.dayItem,
-                        {backgroundColor: pressed ? '#fff0' : 'rgb(45,48,57)'},
+                        {backgroundColor: pressed ? '#fff0' : '#121212'},
                         isToday === parseInt(day, 10) ? css.highlightToday : null,
                       ]}
                       onPress={() => handleOctaveSelect(dateObj)}>
@@ -44,27 +53,13 @@ const StatsScreen = observer(() => {
             ))}
           </ScrollView>
 
-          <View style={[css.details, {gap: 20}]}>
-
+          <View style={[css.details]}>
             <View style={{flexDirection: 'row', gap: 15}}>
-              <LinearGradient colors={['#625D9D', '#5B735780']} style={{borderRadius: 20, flex: 1}}>
-                <View style={{padding: 20, justifyContent: 'center', alignItems: 'center'}}>
-                  <Text style={{fontSize: 36, fontWeight: 'bold', color: 'white'}}>80%</Text>
-                  <Text style={{fontSize: 14, color: 'white', textAlign: 'center'}}>
-                    You were in-tune 80% of the time
-                  </Text>
-                </View>
-              </LinearGradient>
-
-              <LinearGradient colors={['#625D9D', '#5B735780']} style={{borderRadius: 20, flex: 1}}>
-                <View style={{padding: 20, justifyContent: 'center', alignItems: 'center'}}>
-                  <Text style={{fontSize: 36, fontWeight: 'bold', color: 'white'}}>A#</Text>
-                  <Text style={{fontSize: 14, color: 'white', textAlign: 'center'}}>Your best note, 85% accuracy</Text>
-                </View>
-              </LinearGradient>
+              <RenderPercentageBox percentage="80%" text="You were in-tune 80% of the time" />
+              <RenderPercentageBox percentage="A#" text="Best note with an accuracy of 85%" />
             </View>
 
-            <View style={{gap: 10}}>
+            {/* <View style={{gap: 10}}>
               <LinearGradient colors={['#1E1E1E', '#121212']} style={{borderRadius: 15}}>
                 <View style={css.overallBox}>
                   <Text style={css.overallTitle}>Overall</Text>
@@ -77,7 +72,7 @@ const StatsScreen = observer(() => {
                   </View>
                 </View>
               </LinearGradient>
-            </View>
+            </View> */}
           </View>
 
           {/* <StatsBar /> */}
@@ -99,11 +94,12 @@ const css = StyleSheet.create({
     flexDirection: 'column',
   },
   scrollContainer: {
-    gap: 10,
+    gap: 5,
     marginTop: 25,
     width: '100%',
   },
   details: {
+    gap: 20,
     marginTop: 30,
     width: '100%',
   },
@@ -113,9 +109,9 @@ const css = StyleSheet.create({
     fontFamily: 'Inter-Bold',
   },
   dayItem: {
-    width: 42,
-    height: 44,
-    borderRadius: 8,
+    width: 44,
+    height: 40,
+    borderRadius: 2,
     color: 'white',
     textAlign: 'center',
     justifyContent: 'center',
@@ -123,7 +119,8 @@ const css = StyleSheet.create({
   },
   highlightToday: {
     borderWidth: 1,
-    borderColor: '#fff5',
+    borderColor: '#fff3',
+    borderRadius: 2,
   },
   monthItem: {
     marginBottom: 10,
@@ -137,18 +134,15 @@ const css = StyleSheet.create({
   },
   dayText: {
     color: 'white',
-    fontSize: 21,
+    fontSize: 18,
     fontWeight: 'bold',
     fontFamily: 'Inter-Regular',
     letterSpacing: -1,
     opacity: 1,
   },
-  gap5: {
-    gap: 5,
-  },
   buttonView: {
     flexDirection: 'row',
-    gap: 10,
+    gap: 5,
   },
   overallBox: {
     padding: 15,
@@ -168,6 +162,16 @@ const css = StyleSheet.create({
     paddingLeft: 5,
     paddingTop: 3,
   },
+  percentageBox: {
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#161616',
+    flex: 1,
+    borderRadius: 5,
+  },
+  percentageText: {fontSize: 32, color: '#e6e6e6', fontFamily: 'Inter-ExtraBold'},
+  percentageSubText: {fontSize: 15, color: '#e6e6e6', textAlign: 'center', marginTop: 5},
 });
 
 export default StatsScreen;
