@@ -102,7 +102,7 @@ const css = StyleSheet.create({
     justifyContent: 'space-between',
   },
   settingHeader: {
-    fontSize: 45,
+    fontSize: 36,
     color: 'white',
     fontFamily: 'Inter-Bold',
   },
