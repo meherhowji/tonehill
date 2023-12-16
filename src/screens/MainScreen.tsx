@@ -30,7 +30,7 @@ function MainScreen() {
           borderTopWidth: 0,
           // position: 'absolute',
         },
-        // removing the blue option as there is no way to control the color/tint of the background color
+        // removing the blur option as there is no way to control the color/tint of the background color
         // tabBarBackground: () => (
         //   <BlurView
         //     style={{

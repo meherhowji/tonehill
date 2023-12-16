@@ -77,9 +77,9 @@ const css = StyleSheet.create({
     alignItems: 'center',
   },
   itemTitle: {
-    fontSize: 18,
+    fontSize: 16,
     color: 'white',
-    fontFamily: 'Inter-Medium',
+    fontFamily: 'Inter-Regular',
   },
   control: {
     width: '30%',
@@ -91,7 +91,7 @@ const css = StyleSheet.create({
   },
   header: {
     color: 'white',
-    fontSize: 24,
+    fontSize: 21,
     fontFamily: 'Inter-Bold',
     marginBottom: 10,
     marginTop: 30,
