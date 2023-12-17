@@ -127,6 +127,10 @@ export class StatsStore implements IStore {
     });
   }
 
+  /**
+   * Get list of all dates for particular month-year combination
+   * @returns An object with keys as month-year and dates
+   */
   get dateGroupByMonthYear(): {[key: string]: string[]} {
     const transformedData: {[key: string]: string[]} = {};
 
@@ -146,7 +150,7 @@ export class StatsStore implements IStore {
    * @returns An array of timestamps.
    */
   get sessions(): number[] {
-    return Object.keys(this.data).map(timestamp => parseInt(timestamp));
+    return Object.keys(this.data).map(timestamp => parseInt(timestamp, 10));
   }
 
   /**

@@ -3,11 +3,11 @@ import {View, Text, StyleSheet, ScrollView, Pressable} from 'react-native';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {screenBg} from '../styles/globals';
 import {useRootStore} from '../stores';
-import {StatsBar} from '../components/StatsBar';
+// import {StatsBar} from '../components/StatsBar';
 import {observer} from 'mobx-react-lite';
-import {notes} from '../utils/mappings';
+// import {notes} from '../utils/mappings';
 import {DateTime} from 'luxon';
-import LinearGradient from 'react-native-linear-gradient';
+// import LinearGradient from 'react-native-linear-gradient';
 
 const RenderPercentageBox: React.FC<{percentage: string; text: string}> = ({percentage, text}) => {
   return (
@@ -20,7 +20,6 @@ const RenderPercentageBox: React.FC<{percentage: string; text: string}> = ({perc
 
 const StatsScreen = observer(() => {
   const {stats} = useRootStore();
-  const selectedOctave = 1;
   const isToday = DateTime.now().day;
 
   const handleOctaveSelect = (v: any) => v;
@@ -36,9 +35,9 @@ const StatsScreen = observer(() => {
                   <Text style={[css.monthText]}>{dateObj}</Text>
                 </View>
                 <View style={css.buttonView}>
-                  {stats.dateGroupByMonthYear[dateObj].map((day, index) => (
+                  {stats.dateGroupByMonthYear[dateObj].map((day, i) => (
                     <Pressable
-                      key={index}
+                      key={i}
                       style={({pressed}) => [
                         css.dayItem,
                         {backgroundColor: pressed ? '#fff0' : '#121212'},
@@ -54,9 +53,9 @@ const StatsScreen = observer(() => {
           </ScrollView>
 
           <View style={[css.details]}>
-            <View style={{flexDirection: 'row', gap: 15}}>
-              <RenderPercentageBox percentage="80%" text="You were in-tune 80% of the time" />
-              <RenderPercentageBox percentage="A#" text="Best note with an accuracy of 85%" />
+            <View style={css.detailsRowItems}>
+              <RenderPercentageBox percentage="80%" text={`You were in-tune ${80}% of the time`} />
+              <RenderPercentageBox percentage="A#" text={`Best note with an accuracy of ${85}%`} />
             </View>
 
             {/* <View style={{gap: 10}}>
@@ -102,6 +101,10 @@ const css = StyleSheet.create({
     gap: 20,
     marginTop: 30,
     width: '100%',
+  },
+  detailsRowItems: {
+    flexDirection: 'row',
+    gap: 15,
   },
   settingHeader: {
     fontSize: 45,
@@ -166,12 +169,12 @@ const css = StyleSheet.create({
     padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#161616',
+    backgroundColor: '#1C1C1E',
     flex: 1,
-    borderRadius: 5,
+    // borderRadius: 30,
   },
-  percentageText: {fontSize: 32, color: '#e6e6e6', fontFamily: 'Inter-ExtraBold'},
-  percentageSubText: {fontSize: 15, color: '#e6e6e6', textAlign: 'center', marginTop: 5},
+  percentageText: {fontSize: 28, color: '#e6e6e6', fontFamily: 'Inter-ExtraBold'},
+  percentageSubText: {fontSize: 13, color: '#e6e6e6', textAlign: 'center', marginTop: 5},
 });
 
 export default StatsScreen;
