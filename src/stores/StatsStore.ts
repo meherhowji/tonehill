@@ -9,26 +9,6 @@ import {DateTime} from 'luxon';
 export class StatsStore implements IStore {
   data: Record<number, TimestampedNoteData[]> = {};
 
-  /**
-   * Object to store the sums of different types and notes.
-   * Example: {flats: {C: 10, D: 5}, sharps: {C: 5, D: 10}, perfect: {C: 0, D: 0}}
-   */
-  // sums: Record<string, Record<string, number>> = {
-  //   flats: {},
-  //   sharps: {},
-  //   perfect: {},
-  // };
-
-  /**
-   * Object to store the counts of different types and notes.
-   * Example: {flats: {C: 2, D: 1}, sharps: {C: 1, D: 2}, perfect: {C: 0, D: 0}}
-   */
-  // counts: Record<string, Record<string, number>> = {
-  //   flats: {},
-  //   sharps: {},
-  //   perfect: {},
-  // };
-
   // Property to store the current cent value.
   cents: number = 0;
 
@@ -111,19 +91,25 @@ export class StatsStore implements IStore {
    * Get a list of unique days from the stored timestamps.
    * @returns An array of unique Luxon DateTime objects representing days.
    */
-  get daysFromSession(): Array<{day: string; month: string; year: string}> {
-    const uniqueDays: Set<string> = new Set();
+  get daysFromSession(): Array<{day: string; month: string; year: string; timestamps: number[]}> {
+    const uniqueDays: Map<string, number[]> = new Map();
 
-    // Iterate through all timestamps and add their corresponding days to the set
+    // Iterate through all timestamps and add their corresponding days to the map
     for (const timestamp of Object.keys(this.data).map(Number)) {
       const timestampDate = DateTime.fromMillis(timestamp).toFormat('dd-MMM-yyyy');
-      timestampDate && uniqueDays.add(timestampDate);
+      if (timestampDate) {
+        if (!uniqueDays.has(timestampDate)) {
+          uniqueDays.set(timestampDate, []);
+        }
+        uniqueDays.get(timestampDate)?.push(timestamp);
+        console.log('🚀 ~ file: StatsStore.ts:105 ~ StatsStore ~ getdaysFromSession ~ uniqueDays:', uniqueDays);
+      }
     }
 
-    // Convert the set to an array of Luxon DateTime objects
-    return Array.from(uniqueDays).map(date => {
+    // Convert the map to an array of objects
+    return Array.from(uniqueDays).map(([date, timestamps]) => {
       const [day, month, year] = date.split('-');
-      return {day, month, year};
+      return {day, month, year, timestamps};
     });
   }
 
@@ -131,17 +117,19 @@ export class StatsStore implements IStore {
    * Get list of all dates for particular month-year combination
    * @returns An object with keys as month-year and dates
    */
-  get dateGroupByMonthYear(): {[key: string]: string[]} {
-    const transformedData: {[key: string]: string[]} = {};
+  get dateGroupByMonthYear(): {[key: string]: {day: string; timestamps: number[]}[]} {
+    const transformedData: {[key: string]: {day: string; timestamps: number[]}[]} = {};
 
     this.daysFromSession.forEach(item => {
       const yearSuffix = String(DateTime.now().year) !== item.year ? item.year : '';
-      const dateKey = `${item.month} ${yearSuffix}`;
+      const dateKey = `${item.month} ${yearSuffix}`.trim();
 
       transformedData[dateKey] = transformedData[dateKey] || [];
-      transformedData[dateKey].push(item.day);
+      transformedData[dateKey].push({day: item.day, timestamps: item.timestamps});
     });
-
+    console.log('----------');
+    console.log(transformedData);
+    console.log('---------');
     return transformedData;
   }
 
@@ -197,6 +185,7 @@ export class StatsStore implements IStore {
   set<T extends StoreKeysOf<StatsStore>>(what: T, value: StatsStore[T]) {
     (this as StatsStore)[what] = value;
   }
+
   setMany<T extends StoreKeysOf<StatsStore>>(obj: Record<T, StatsStore[T]>) {
     for (const [k, v] of Object.entries(obj)) {
       this.set(k as T, v as StatsStore[T]);

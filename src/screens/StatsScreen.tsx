@@ -1,12 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet, ScrollView, Pressable} from 'react-native';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {screenBg} from '../styles/globals';
 import {useRootStore} from '../stores';
-// import {StatsBar} from '../components/StatsBar';
 import {observer} from 'mobx-react-lite';
-// import {notes} from '../utils/mappings';
 import {DateTime} from 'luxon';
+// import {StatsBar} from '../components/StatsBar';
+// import {notes} from '../utils/mappings';
 // import LinearGradient from 'react-native-linear-gradient';
 
 const RenderPercentageBox: React.FC<{percentage: string; text: string}> = ({percentage, text}) => {
@@ -21,31 +21,35 @@ const RenderPercentageBox: React.FC<{percentage: string; text: string}> = ({perc
 const StatsScreen = observer(() => {
   const {stats} = useRootStore();
   const isToday = DateTime.now().day;
+  const [sessionInADay, setSessionsInADay] = useState<number[]>([]);
 
-  const handleOctaveSelect = (v: any) => v;
+  const handleOctaveSelect = (timestamps: number[]) => {
+    setSessionsInADay(timestamps);
+  };
   return (
     <SafeAreaProvider>
       <SafeAreaView style={css.safeContainer}>
         <View style={css.container}>
           <Text style={css.settingHeader}>Stats</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={css.scrollContainer}>
-            {Object.keys(stats.dateGroupByMonthYear).map((dateObj, index) => (
+            {Object.keys(stats.dateGroupByMonthYear).map((month, index) => (
               <View key={index}>
                 <View style={css.monthItem}>
-                  <Text style={[css.monthText]}>{dateObj}</Text>
+                  <Text style={[css.monthText]}>{month}</Text>
                 </View>
                 <View style={css.buttonView}>
-                  {stats.dateGroupByMonthYear[dateObj].map((day, i) => (
-                    <Pressable
-                      key={i}
-                      style={({pressed}) => [
-                        css.dayItem,
-                        {backgroundColor: pressed ? '#fff0' : '#121212'},
-                        isToday === parseInt(day, 10) ? css.highlightToday : null,
-                      ]}
-                      onPress={() => handleOctaveSelect(dateObj)}>
-                      <Text style={[css.dayText]}>{day}</Text>
-                    </Pressable>
+                  {stats.dateGroupByMonthYear[month].map(({day, timestamps}) => (
+                    <View key={day}>
+                      <Pressable
+                        style={({pressed}) => [
+                          css.dayItem,
+                          {backgroundColor: pressed ? '#fff0' : '#121212'},
+                          isToday === parseInt(day, 10) ? css.highlightToday : null,
+                        ]}
+                        onPress={() => handleOctaveSelect(timestamps)}>
+                        <Text style={[css.dayText]}>{day}</Text>
+                      </Pressable>
+                    </View>
                   ))}
                 </View>
               </View>
@@ -54,8 +58,8 @@ const StatsScreen = observer(() => {
 
           <View style={[css.details]}>
             <View style={css.detailsRowItems}>
-              <RenderPercentageBox percentage="80%" text={`You were in-tune ${80}% of the time`} />
-              <RenderPercentageBox percentage="A#" text={`Best note with an accuracy of ${85}%`} />
+              <RenderPercentageBox percentage="80%" text={`Today you were in-tune ${80}% of the time`} />
+              <RenderPercentageBox percentage="A#" text={`Your best note today, ${85}% accuracy.`} />
             </View>
 
             {/* <View style={{gap: 10}}>
@@ -72,6 +76,20 @@ const StatsScreen = observer(() => {
                 </View>
               </LinearGradient>
             </View> */}
+          </View>
+
+          {/* TODO:
+           * Make this secion show stat for the current session
+           * Also, make a common component to achieve this
+           */}
+          <View>
+            {sessionInADay.map(session => {
+              return (
+                <Text key={session} style={{color: 'white'}}>
+                  {session}
+                </Text>
+              );
+            })}
           </View>
 
           {/* <StatsBar /> */}
