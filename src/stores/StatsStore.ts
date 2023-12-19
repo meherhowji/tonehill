@@ -102,7 +102,6 @@ export class StatsStore implements IStore {
           uniqueDays.set(timestampDate, []);
         }
         uniqueDays.get(timestampDate)?.push(timestamp);
-        console.log('🚀 ~ file: StatsStore.ts:105 ~ StatsStore ~ getdaysFromSession ~ uniqueDays:', uniqueDays);
       }
     }
 
@@ -127,9 +126,6 @@ export class StatsStore implements IStore {
       transformedData[dateKey] = transformedData[dateKey] || [];
       transformedData[dateKey].push({day: item.day, timestamps: item.timestamps});
     });
-    console.log('----------');
-    console.log(transformedData);
-    console.log('---------');
     return transformedData;
   }
 

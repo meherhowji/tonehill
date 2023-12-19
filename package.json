@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "postinstall": "patch-package",
+    "postinstall": "patch-package && react-native setup-ios-permissions",
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "pod": "npx pod-install",
