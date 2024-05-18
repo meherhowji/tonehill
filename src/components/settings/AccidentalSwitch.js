@@ -3,7 +3,7 @@ import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import {SHARP, FLAT} from '../../utils/constants';
 import {StyleSheet} from 'react-native';
 import {useRootStore} from '../../stores';
-import {observer} from 'mobx-react-lite';
+import {observer} from 'mobx-react';
 
 const AccidentalSwitch = observer(() => {
   const {common} = useRootStore();

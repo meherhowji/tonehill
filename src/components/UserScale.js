@@ -2,7 +2,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import {observer} from 'mobx-react-lite';
+import {observer} from 'mobx-react';
 import {useRootStore} from '../stores';
 
 const UserScale = observer(() => {

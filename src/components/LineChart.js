@@ -4,7 +4,7 @@ import {VictoryChart, VictoryLine, VictoryAxis, VictoryLabel, LineSegment} from 
 import {Defs, LinearGradient, Stop} from 'react-native-svg';
 import {calculateGridStyle} from '../utils/utils';
 import {useRootStore} from '../stores';
-import {observer} from 'mobx-react-lite';
+import {observer} from 'mobx-react';
 
 const GradientLine = React.memo(() => (
   <Defs>

@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, ScrollView, Pressable} from 'react-native';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {screenBg} from '../styles/globals';
 import {useRootStore} from '../stores';
-import {observer} from 'mobx-react-lite';
+import {observer} from 'mobx-react';
 import {DateTime} from 'luxon';
 // import {StatsBar} from '../components/StatsBar';
 // import {notes} from '../utils/mappings';

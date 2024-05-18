@@ -30,6 +30,7 @@
 		4B1D11B07AB14EBE8161AEB8 /* README copy.txt in Resources */ = {isa = PBXBuildFile; fileRef = 49267A3A4BBC446C8796EB3C /* README copy.txt */; };
 		53F5156F6BB1450FA088F3EB /* Inter-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A7C6262FF0043D4BC991383 /* Inter-ExtraLight.ttf */; };
 		5FAAE31E032144D0897D9FC9 /* RobotoMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 16618C9C2F5B4918B3F7042A /* RobotoMono-Regular.ttf */; };
+		74D07847CD677D22E5F31419 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 2DE3F11C0DEDDA5CF7512C3B /* PrivacyInfo.xcprivacy */; };
 		7699B88040F8A987B510C191 /* libPods-tonehill-tonehillTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-tonehill-tonehillTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		95688C3484894C668A5DEA9E /* RobotoMono-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 07FAC1329E544941913EAD58 /* RobotoMono-LightItalic.ttf */; };
@@ -76,6 +77,7 @@
 		16618C9C2F5B4918B3F7042A /* RobotoMono-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "RobotoMono-Regular.ttf"; path = "../src/assets/fonts/RobotoMono-Regular.ttf"; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-tonehill-tonehillTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-tonehill-tonehillTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C985D5F272D4B0DACA439AD /* RobotoMono-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "RobotoMono-ExtraLightItalic.ttf"; path = "../src/assets/fonts/RobotoMono-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
+		2DE3F11C0DEDDA5CF7512C3B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = tonehill/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-tonehill.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tonehill.debug.xcconfig"; path = "Target Support Files/Pods-tonehill/Pods-tonehill.debug.xcconfig"; sourceTree = "<group>"; };
 		3C3E87B6F6AA4148B0580A36 /* RobotoMono-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "RobotoMono-Italic.ttf"; path = "../src/assets/fonts/RobotoMono-Italic.ttf"; sourceTree = "<group>"; };
 		3D1F35D1F4F34058B75DFC34 /* RobotoMono-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "RobotoMono-MediumItalic.ttf"; path = "../src/assets/fonts/RobotoMono-MediumItalic.ttf"; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
+				2DE3F11C0DEDDA5CF7512C3B /* PrivacyInfo.xcprivacy */,
 			);
 			name = tonehill;
 			sourceTree = "<group>";
@@ -390,6 +393,7 @@
 				4B1C5110574D45C4A19B502C /* OFL.txt in Resources */,
 				4B1D11B07AB14EBE8161AEB8 /* README copy.txt in Resources */,
 				1A6DFA29EF534F16A3FD9AB8 /* readme.txt in Resources */,
+				74D07847CD677D22E5F31419 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

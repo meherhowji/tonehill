@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import {generateScale} from '../utils/utils';
 import {useRootStore} from '../stores';
-import {observer} from 'mobx-react-lite';
+import {observer} from 'mobx-react';
 
 const StatsBar = observer(() => {
   const {common, stats} = useRootStore();
