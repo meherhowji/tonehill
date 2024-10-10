@@ -10,7 +10,7 @@ import {View, StyleSheet} from 'react-native';
 // import {LineChart} from '../components/LineChartSkiaWithMargelo';
 import {LineChart} from '../components/LineChartSkiaWithD3';
 import ToneDisplay from '../components/ToneDisplay';
-import {observer} from 'mobx-react-lite';
+import {observer} from 'mobx-react';
 import {useRootStore} from '../stores';
 import InfoBar from '../components/InfoBar';
 import {screenBg, screenMargin} from '../styles/globals';

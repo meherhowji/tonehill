@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, TouchableOpacity, Text} from 'react-native';
 import {useRootStore} from '../../stores';
-import {observer} from 'mobx-react-lite';
+import {observer} from 'mobx-react';
 
 const FrequencyDropdown = observer(() => {
   const {common} = useRootStore();

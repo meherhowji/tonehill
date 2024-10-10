@@ -4,7 +4,7 @@ import {View, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {notes} from '../utils/mappings';
 import {useRootStore} from '../stores';
-import {observer} from 'mobx-react-lite';
+import {observer} from 'mobx-react';
 
 const UserKey = observer(() => {
   const {common} = useRootStore();

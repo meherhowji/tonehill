@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import equals from 'ramda/es/equals';
-import {observer} from 'mobx-react-lite';
+import {observer} from 'mobx-react';
 import {useRootStore} from '../stores';
 import {FLAT} from '../utils/constants';
 import {isValidNumber, parseNote, mapValueToIndex} from '../utils/utils';
